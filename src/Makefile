@@ -16,6 +16,7 @@ BUILD_DEPS              = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_OBJ), $(
 LINKER_OBJS             = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_OBJ), $($(dep)_OBJ)))
 LINKER_LIBS             = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_LIB), $($(dep)_LIB)))
 
+.DEFAULT_GOAL = all
 .PHONY: compile depend all
 .PHONY: $(BUILD_DEPS)
 
@@ -24,9 +25,8 @@ compile: $(ARTIFACT_OBJ)
 all: $(ARTIFACT_LIB)
 
 $(BUILD_DEPS):
-	@echo "Building dependency $(notdir $($(@)_OBJ))"
-	@echo $(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" ARTIFACT_VARS="$(@)"
-	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" ARTIFACT_OBJ="$(@)"
+	@echo "$(MAKE) $(notdir $($(@)_OBJ))"
+	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)"
 
 $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
 	@echo "  $(LD)  $(notdir $(ARTIFACT_OBJ))"
