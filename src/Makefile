@@ -8,8 +8,9 @@ CXX_SRC                 = $(call rwildcard, main, *.cpp)
 CXX_OBJ                 = $(patsubst %.cpp, $($(ARTIFACT_VARS)_BIN)/%.o, $(CXX_SRC))
 CXX_FILE                = $(patsubst $($(ARTIFACT_VARS)_BIN)/%.o,%.cpp, $(@))
 
-ARTIFACT_LIB            = $($(ARTIFACT_VARS)_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)$(LIBRARY_EXT)
-ARTIFACT_TEST           = $($(ARTIFACT_VARS)_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)-test$(EXECUTABLE_EXT)
+ARTIFACT_BIN            = $($(ARTIFACT_VARS)_BIN)
+ARTIFACT_LIB            = $(ARTIFACT_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)$(LIBRARY_EXT)
+ARTIFACT_TEST           = $(ARTIFACT_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)-test$(EXECUTABLE_EXT)
 ARTIFACT_OBJ            = $($(ARTIFACT_VARS)_OBJ)
 
 INCLUDE_DEPS            = $(foreach dep, $(DEPENDENCIES) $(ARTIFACT_VARS), $(if $($(dep)_INC), -I$($(dep)_INC)))
@@ -30,6 +31,24 @@ endif
 compile: $(ARTIFACT_OBJ)
 
 all: $(BUILD_ALL)
+
+depend:
+	$(foreach dep,$(DEPENDENCIES) $(ARTIFACT_VARS),\
+	  $(if $($(dep)_INC), \
+	    $(eval SED_RULES += s/$(shell echo "$($(dep)_INC)" | sed "s/\\//\\\\\//g")/\$$$$\\($(dep)_INC\\)/g;)\
+	  )\
+	  $(if $($(dep)_BIN), \
+	    $(eval SED_RULES += s/$(shell echo "$($(dep)_BIN)" | sed "s/\\//\\\\\//g")/\\$$$$\\($(dep)_BIN\\)/g;)\
+	  )\
+	)
+	$(foreach dep, $(DEPENDENCIES), \
+	  $(if $($(dep)_OBJ), \
+	    $(MAKE) -s -C "$($(@)_PATH)" depend CONFIG="$(CONFIG)"\
+	  ) \
+	)
+	@$(CXX) -MM -MF "$(ARTIFACT_BIN)/Makefile.deps" $(CXX_SRC) $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
+	@sed -E "$(SED_RULES)" "$(ARTIFACT_BIN)/Makefile.deps" >Makefile.d
+	@-rm "$(ARTIFACT_BIN)/Makefile.deps"
 
 $(BUILD_DEPS):
 	@echo "$(MAKE) $(notdir $($(@)_OBJ))"
