@@ -7,8 +7,8 @@ CONFIG                 := "$(CURDIR)/.config.mk"
 
 include $(CONFIG)
 
-ARTIFACT_LIB           := $($(ARTIFACT_VARS)_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)$(LIBRARY_EXT)
-ARTIFACT_OBJ           := $($(ARTIFACT_VARS)_OBJ)
+ARTIFACT_LIB            = $($(ARTIFACT_VARS)_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)$(LIBRARY_EXT)
+ARTIFACT_OBJ            = $($(ARTIFACT_VARS)_OBJ)
 
 INCLUDE_DEPS            = $(foreach dep, $(DEPENDENCIES) $(ARTIFACT_VARS), $(if $($(dep)_INC), -I$($(dep)_INC)))
 BUILD_DEPS              = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_OBJ), $(dep)))
@@ -26,8 +26,8 @@ all: $(ARTIFACT_LIB)
 
 $(BUILD_DEPS):
 	@echo "Building dependency $(notdir $($(@)_OBJ))"
-	@echo $(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" DESTDIR="$(DESTDIR)"
-	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" DESTDIR="$(DESTDIR)" ARTIFACT_OBJ="$($(@)_OBJ)"
+	@echo $(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" ARTIFACT_VARS="$(@)"
+	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" ARTIFACT_VARS="$(@)"
 
 $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
 	@echo "  $(LD)  $(notdir $(ARTIFACT_OBJ))"
