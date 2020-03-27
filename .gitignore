@@ -12,3 +12,4 @@
 /gmon.out
 **/*.gmon
 *.core
+/.config.mk
