@@ -14,11 +14,13 @@ else
   CONFIGURED          = 1
 endif
 
+include $(BASEDIR)/project.mk
+
 # Setup paths
 CHK_CONFIG                  = test -f "$(CONFIG)" || (echo "System not properly configured. Please launch 'make config' first" && exit 1)
 
 .DEFAULT_GOAL              := all
-.PHONY: all compile install uninstall clean
+.PHONY: all compile install uninstall depend clean
 
 compile all install uninstall depend:
 	@$(CHK_CONFIG)
@@ -45,6 +47,9 @@ prune: clean
 # Configuration-related targets
 .PHONY: config help
 
+testconfig:
+	@$(MAKE) -s -f "$(BASEDIR)/make/configure.mk" $(@) CONFIG="$(CONFIG)" TEST="1" $(MAKEFLAGS)
+
 config:
 	@$(MAKE) -s -f "$(BASEDIR)/make/configure.mk" $(@) CONFIG="$(CONFIG)" $(MAKEFLAGS)
 
@@ -53,7 +58,7 @@ help:
 	@echo "  all                       Build all binaries"
 	@echo "  clean                     Clean all build files and configuration file"
 	@echo "  config                    Configure build"
-	@echo "  depend                    Update build dependencies"
+	@echo "  depend                    Update build dependencies for current project"
 	@echo "  fetch                     Fetch all source code dependencies from git"
 	@echo "  help                      Print this help message"
 	@echo "  info                      Output build configuration"

@@ -2,6 +2,7 @@
 CC                 := gcc
 CXX                := g++
 LD                 := ld
+GIT                := git
 
 # Patch flags and tools
 FLAG_RELRO          = -Wl,-z,relro,-z,now
@@ -37,7 +38,7 @@ SO_FLAGS           := $(FLAG_RELRO) -Wl,--gc-sections -shared -Llibrary -lc -fPI
 
 
 TOOL_VARS := \
-  CC CXX LD \
+  CC CXX LD GIT \
   CFLAGS CXXFLAGS LDFLAGS EXE_FLAGS SO_FLAGS \
   INCLUDE
 
@@ -54,6 +55,7 @@ toolvars:
 	@echo "  CXX                       C++ compiler execution command line"
 	@echo "  CXXFLAGS                  C++ compiler build flags"
 	@echo "  EXE_FLAGS                 Flags to link executable files"
+	@echo "  GIT                       The name of the Git version control tool"
 	@echo "  INCLUDE                   Additional paths for include files"
 	@echo "  LD                        Linker execution command line"
 	@echo "  LDFLAGS                   Linker flags for merging object files"

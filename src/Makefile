@@ -3,8 +3,10 @@ CONFIG                 := $(CURDIR)/.config.mk
 include $(CONFIG)
 include $(CURDIR)/../project.mk
 
-rwildcard				= $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
-CXX_SRC                 = $(call rwildcard, main, *.cpp)
+rwildcard               = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
+CXX_SRCMAIN             = $(call rwildcard, main, *.cpp)
+CXX_SRCTEST             = $(call rwildcard, test, *.cpp)
+CXX_SRC                 = $(CXX_SRCMAIN)
 CXX_OBJ                 = $(patsubst %.cpp, $($(ARTIFACT_VARS)_BIN)/%.o, $(CXX_SRC))
 CXX_FILE                = $(patsubst $($(ARTIFACT_VARS)_BIN)/%.o,%.cpp, $(@))
 
@@ -20,19 +22,30 @@ LINKER_LIBS             = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_LIB), $(
 BUILD_ALL               = $(ARTIFACT_LIB)
 
 ifeq ($(TEST),1)
-  CXX_SRC                += $(call rwildcard, test, *.cpp)
+  CXX_SRC                += $(CXX_SRCTEST)
   BUILD_ALL              += $(ARTIFACT_TEST)
 endif
 
+CXX_DEPS                = $(foreach src,$(CXX_SRCMAIN) $(CXX_SRCTEST),$(patsubst %.cpp,$(ARTIFACT_BIN)/%.d,$(src)))
+CXX_DEPFILE             = $(patsubst $(ARTIFACT_BIN)/%.d,%.cpp,$(@))
+CXX_DEPTARGET           = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
+
 .DEFAULT_GOAL = all
-.PHONY: compile depend all
+.PHONY: compile depend dep_clean all
 .PHONY: $(BUILD_DEPS)
 
 compile: $(ARTIFACT_OBJ)
 
 all: $(BUILD_ALL)
 
-depend:
+dep_clean:
+
+$(CXX_DEPS): dep_clean
+	@echo "  dep  $(CXX_DEPFILE)"
+	@mkdir -p $(dir $(@))
+	$(CXX) -MM -MT "\$$(ARTIFACT_BIN)/$(CXX_DEPTARGET)" -MF $(@) $(CXX_DEPFILE) $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
+
+depend: $(CXX_DEPS)
 	$(foreach dep,$(DEPENDENCIES) $(ARTIFACT_VARS),\
 	  $(if $($(dep)_INC), \
 	    $(eval SED_RULES += s/$(shell echo "$($(dep)_INC)" | sed "s/\\//\\\\\//g")/\$$$$\\($(dep)_INC\\)/g;)\
@@ -41,14 +54,7 @@ depend:
 	    $(eval SED_RULES += s/$(shell echo "$($(dep)_BIN)" | sed "s/\\//\\\\\//g")/\\$$$$\\($(dep)_BIN\\)/g;)\
 	  )\
 	)
-	$(foreach dep, $(DEPENDENCIES), \
-	  $(if $($(dep)_OBJ), \
-	    $(MAKE) -s -C "$($(@)_PATH)" depend CONFIG="$(CONFIG)"\
-	  ) \
-	)
-	@$(CXX) -MM -MF "$(ARTIFACT_BIN)/Makefile.deps" $(CXX_SRC) $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
-	@sed -E "$(SED_RULES)" "$(ARTIFACT_BIN)/Makefile.deps" >Makefile.d
-	@-rm "$(ARTIFACT_BIN)/Makefile.deps"
+	@cat $(CXX_DEPS) | sed -E "$(SED_RULES)" >Makefile.d
 
 $(BUILD_DEPS):
 	@echo "$(MAKE) $(notdir $($(@)_OBJ))"
@@ -71,3 +77,5 @@ $(CXX_OBJ):
 	@mkdir -p $(dir $@)
 	@$(CXX) -o $(@) -c $(CXX_FILE) -fPIC $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
 
+# Dependencies
+-include $(CURDIR)/Makefile.d
