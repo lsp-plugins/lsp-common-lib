@@ -37,6 +37,5 @@ $(ARTIFACT_LIB): $($(ARTIFACT_VARS)_OBJ)
 $(CXX_OBJ):
 	@echo "  $(CXX) $(CXX_FILE)"
 	@mkdir -p $(dir $@)
-	@echo $(CXX) -o $(@) -c $(CXX_FILE) -fPIC $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
 	@$(CXX) -o $(@) -c $(CXX_FILE) -fPIC $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
 
