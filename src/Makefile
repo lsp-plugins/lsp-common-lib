@@ -3,9 +3,10 @@ CXX_SRC                 = $(call rwildcard, , *.cpp)
 CXX_OBJ                 = $(patsubst %.cpp, $($(ARTIFACT_VARS)_BIN)/%.o, $(CXX_SRC))
 CXX_FILE                = $(patsubst $($(ARTIFACT_VARS)_BIN)/%.o, %.cpp, $(@))
 
-CONFIG                 := "$(CURDIR)/.config.mk"
+CONFIG                 := $(CURDIR)/.config.mk
 
 include $(CONFIG)
+include $(CURDIR)/../project.mk
 
 ARTIFACT_LIB            = $($(ARTIFACT_VARS)_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)$(LIBRARY_EXT)
 ARTIFACT_OBJ            = $($(ARTIFACT_VARS)_OBJ)
@@ -14,8 +15,6 @@ INCLUDE_DEPS            = $(foreach dep, $(DEPENDENCIES) $(ARTIFACT_VARS), $(if 
 BUILD_DEPS              = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_OBJ), $(dep)))
 LINKER_OBJS             = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_OBJ), $($(dep)_OBJ)))
 LINKER_LIBS             = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_LIB), $($(dep)_LIB)))
-
-$(info BUILD_DEPS = $(BUILD_DEPS))
 
 .PHONY: compile depend all
 .PHONY: $(BUILD_DEPS)
@@ -27,7 +26,7 @@ all: $(ARTIFACT_LIB)
 $(BUILD_DEPS):
 	@echo "Building dependency $(notdir $($(@)_OBJ))"
 	@echo $(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" ARTIFACT_VARS="$(@)"
-	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" ARTIFACT_VARS="$(@)"
+	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" ARTIFACT_OBJ="$(@)"
 
 $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
 	@echo "  $(LD)  $(notdir $(ARTIFACT_OBJ))"
@@ -36,6 +35,7 @@ $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
 $(ARTIFACT_LIB): $(ARTIFACT_OBJ)
 	@echo "  $(CXX) $(notdir $(ARTIFACT_LIB))"
 	@$(CXX) -o $(ARTIFACT_LIB) $(LINKER_OBJS) $(ARTIFACT_OBJ) $(SO_FLAGS) $(LINKER_LIBS)
+	@echo "Build OK"
 
 $(CXX_OBJ):
 	@echo "  $(CXX) $(CXX_FILE)"

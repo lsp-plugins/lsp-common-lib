@@ -96,13 +96,6 @@ CONFIG_VARS = \
 prepare:
 	@echo "Configuring build..."
 	@echo "# Project settings" > "$(CONFIG)"
-	@echo "VERSION=$(VERSION)" >> "$(CONFIG)"
-	@echo "ARTIFACT_NAME=$(ARTIFACT_NAME)" >> "$(CONFIG)"
-	@echo "ARTIFACT_VARS=$(ARTIFACT_VARS)" >> "$(CONFIG)"
-	@echo "DEPENDENCIES=$(DEPENDENCIES)" >> "$(CONFIG)"
-	@echo "" >> "$(CONFIG)"
-	@echo "# Configured variables" >> "$(CONFIG)"
-	
 
 $(CONFIG_VARS) ($TOOL_VARS): prepare
 	@echo "$(@)=$($(@))" >> "$(CONFIG)"

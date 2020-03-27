@@ -2,6 +2,7 @@ BASEDIR            := $(CURDIR)
 CONFIG             := $(CURDIR)/.config.mk
 
 include $(CONFIG)
+include $(BASEDIR)/project.mk
 
 # Tools
 GIT                := git
