@@ -95,6 +95,8 @@ ifndef TEMPDIR
   endif
 endif
 
+TEST                       := 0
+
 # Set-up list of common variables
 COMMON_VARS = \
 	PLATFORM \
@@ -102,7 +104,8 @@ COMMON_VARS = \
 	LIBRARY_EXT \
 	EXECUTABLE_EXT \
 	PREFIX \
-	TEMPDIR
+	TEMPDIR \
+	TEST
 
 .PHONY: sysvars
 
@@ -114,4 +117,5 @@ sysvars:
 	@echo "  PLATFORM                  target software platform to perform build"
 	@echo "  PREFIX                    installation prefix for binary files"
 	@echo "  TEMPDIR                   location of temporary directory"
+	@echo "  TEST                      use test build"
 

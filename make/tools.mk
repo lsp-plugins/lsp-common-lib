@@ -32,7 +32,7 @@ CXXFLAGS           := \
 
 INCLUDE            :=
 LDFLAGS            := -r
-EXE_FLAGS          := 
+EXE_FLAGS          := $(FLAG_RELRO) -Wl,--gc-sections
 SO_FLAGS           := $(FLAG_RELRO) -Wl,--gc-sections -shared -Llibrary -lc -fPIC 
 
 
@@ -40,6 +40,11 @@ TOOL_VARS := \
   CC CXX LD \
   CFLAGS CXXFLAGS LDFLAGS EXE_FLAGS SO_FLAGS \
   INCLUDE
+
+ifeq ($(TEST),1)
+  $CFLAGS            += -DLSP_TESTING
+  $CXXFLAGS          += -DLSP_TESTING
+endif
 
 .PHONY: toolvars
 toolvars:

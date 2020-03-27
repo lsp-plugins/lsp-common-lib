@@ -4,11 +4,12 @@ BASEDIR                    := $(CURDIR)
 BUILDDIR                   := ${BASEDIR}/.build
 CONFIG                     := ${BASEDIR}/.config.mk
 MODULES                    := ${BASEDIR}/modules
+TEST                       := 0
 
-include $(BASEDIR)/make/system.mk
-include $(BASEDIR)/make/tools.mk
 include $(BASEDIR)/project.mk
 include $(BASEDIR)/dependencies.mk
+include $(BASEDIR)/make/system.mk
+include $(BASEDIR)/make/tools.mk
 
 ifeq ($(findstring devel, $(VERSION)),devel)
   $(foreach dep, $(DEPENDENCIES), \
