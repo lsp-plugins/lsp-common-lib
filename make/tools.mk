@@ -3,6 +3,7 @@ CC                 := gcc
 CXX                := g++
 LD                 := ld
 GIT                := git
+INSTALL            := install
 
 # Patch flags and tools
 FLAG_RELRO          = -Wl,-z,relro,-z,now
@@ -39,7 +40,7 @@ EXE_FLAGS          := $(FLAG_RELRO) -Wl,--gc-sections
 SO_FLAGS           := $(FLAG_RELRO) -Wl,--gc-sections -shared -Llibrary $(FLAG_STDLIB) -fPIC 
 
 TOOL_VARS := \
-  CC CXX LD GIT \
+  CC CXX LD GIT INSTALL \
   CFLAGS CXXFLAGS LDFLAGS EXE_FLAGS SO_FLAGS \
   INCLUDE
 

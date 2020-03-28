@@ -9,6 +9,8 @@ CXX_SRCTEST             = $(call rwildcard, test, *.cpp)
 CXX_SRC                 = $(CXX_SRCMAIN)
 CXX_OBJ                 = $(patsubst %.cpp, $($(ARTIFACT_VARS)_BIN)/%.o, $(CXX_SRC))
 CXX_FILE                = $(patsubst $($(ARTIFACT_VARS)_BIN)/%.o,%.cpp, $(@))
+CXX_HEADERS             = $(call rwildcard, $($(ARTIFACT_VARS)_INC), *.h)
+CXX_INSTHEADERS         = $(patsubst $($(ARTIFACT_VARS)_INC)/%,$(DESTDIR)$(PREFIX)/include/%,$(CXX_HEADERS))
 
 ARTIFACT_BIN            = $($(ARTIFACT_VARS)_BIN)
 ARTIFACT_LIB            = $(ARTIFACT_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)$(LIBRARY_EXT)
@@ -32,7 +34,7 @@ CXX_DEPFILE             = $(patsubst $(ARTIFACT_BIN)/%.d,%.cpp,$(@))
 CXX_DEPTARGET           = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
 
 .DEFAULT_GOAL = all
-.PHONY: compile depend dep_clean all
+.PHONY: compile depend dep_clean all install uninstall
 .PHONY: $(BUILD_DEPS)
 
 compile: $(ARTIFACT_OBJ)
@@ -77,6 +79,24 @@ $(CXX_OBJ):
 	@echo "  $(CXX)  $(CXX_FILE)"
 	@mkdir -p $(dir $@)
 	@$(CXX) -o $(@) -c $(CXX_FILE) -fPIC $(CXXFLAGS) $(ARTIFACT_MFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
+
+install: all
+	@echo "Installing $($(ARTIFACT_VARS)_NAME)"
+	@mkdir -p "$(DESTDIR)$(PREFIX)/include"
+	@mkdir -p "$(DESTDIR)$(PREFIX)/lib"
+	@cp -r $($(ARTIFACT_VARS)_INC)/* "$(DESTDIR)$(PREFIX)/include/"
+	@echo $(INSTALL) $(ARTIFACT_LIB) -t "$(DESTDIR)$(PREFIX)/lib"
+	@$(INSTALL) $(ARTIFACT_LIB) -t "$(DESTDIR)$(PREFIX)/lib"
+	@ln -sf $(notdir $(ARTIFACT_LIB)) "$(DESTDIR)$(PREFIX)/lib/$($(ARTIFACT_VARS)_NAME)$(LIBRARY_EXT)"
+	@echo "Install OK"
+
+uninstall:
+	@echo "Unnstalling $($(ARTIFACT_VARS)_NAME)"
+	@-rm -f "$(DESTDIR)$(PREFIX)/lib/$(notdir $(ARTIFACT_LIB))"
+	@-rm -f "$(DESTDIR)$(PREFIX)/lib/$($(ARTIFACT_VARS)_NAME)$(LIBRARY_EXT)"
+	@echo rm -f $(CXX_INSTHEADERS)
+	@-rm -f $(CXX_INSTHEADERS)
+	@echo "Uninstall OK"
 
 # Dependencies
 -include $(CURDIR)/Makefile.d
