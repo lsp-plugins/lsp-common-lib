@@ -1,15 +1,15 @@
 # Definitions
 PREFIX                     := /usr/local
 BASEDIR                    := $(CURDIR)
-BUILDDIR                   := ${BASEDIR}/.build
-CONFIG                     := ${BASEDIR}/.config.mk
-MODULES                    := ${BASEDIR}/modules
+BUILDDIR                   := $(BASEDIR)/.build
+CONFIG                     := $(BASEDIR)/.config.mk
+MODULES                    := $(BASEDIR)/modules
 TEST                       := 0
 
-include $(BASEDIR)/project.mk
-include $(BASEDIR)/dependencies.mk
 include $(BASEDIR)/make/system.mk
 include $(BASEDIR)/make/tools.mk
+include $(BASEDIR)/project.mk
+include $(BASEDIR)/dependencies.mk
 
 ifeq ($(findstring -devel,$(VERSION)),-devel)
   $(foreach dep, $(DEPENDENCIES), \
@@ -39,7 +39,7 @@ endef
 
 define bldconfig =
   $(eval name = $(1))
-  $(if $($(name)_CFLAGS),,  $(eval $(name)_CFLAGS  := "-I$($(name)_INC)"$(xflags)))
+  $(if $($(name)_CFLAGS),,  $(eval $(name)_CFLAGS  := "-I\"$($(name)_INC)\""$(xflags)))
   $(if $($(name)_LDLAGS),,  $(eval $(name)_LDFLAGS :=))
   $(if $($(name)_OBJ),,     $(eval $(name)_OBJ     := "$($(name)_BIN)/$($(name)_NAME).o"))
   $(if $($(name)_MFLAGS),, \
@@ -77,7 +77,7 @@ ifndef $(ARTIFACT_VARS)_PATH
 endif
 
 OVERALL_DEPS := $(DEPENDENCIES) $(ARTIFACT_VARS)
-$(foreach dep, $(OVERALL_DEPS), $(eval $(call vardef, $(dep))))
+__tmp := $(foreach dep,$(OVERALL_DEPS),$(call vardef, $(dep)))
 
 CONFIG_VARS = \
   $(COMMON_VARS) \
@@ -106,10 +106,10 @@ prepare:
 	@echo "Configuring build..."
 	@echo "# Project settings" > "$(CONFIG)"
 
-$(CONFIG_VARS) ($TOOL_VARS): prepare
+$(CONFIG_VARS): prepare
 	@echo "$(@)=$($(@))" >> "$(CONFIG)"
 
-config: $(CONFIG_VARS) $(TOOL_VARS)
+config: $(CONFIG_VARS)
 	@echo "Configured OK"
 
 help: | toolvars sysvars

@@ -6,9 +6,13 @@ GIT                := git
 
 # Patch flags and tools
 FLAG_RELRO          = -Wl,-z,relro,-z,now
+FLAG_STDLIB         = -lc
 ifeq ($(PLATFORM),Solaris)
   FLAG_RELRO              =
   LD                      = gld
+else ifeq ($(PLATFORM),Windows)
+  FLAG_RELRO              =
+  FLAG_STDLIB             =
 endif
 
 # Define flags
@@ -32,8 +36,7 @@ CXXFLAGS           := \
 INCLUDE            :=
 LDFLAGS            := -r
 EXE_FLAGS          := $(FLAG_RELRO) -Wl,--gc-sections
-SO_FLAGS           := $(FLAG_RELRO) -Wl,--gc-sections -shared -Llibrary -lc -fPIC 
-
+SO_FLAGS           := $(FLAG_RELRO) -Wl,--gc-sections -shared -Llibrary $(FLAG_STDLIB) -fPIC 
 
 TOOL_VARS := \
   CC CXX LD GIT \
