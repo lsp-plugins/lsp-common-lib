@@ -14,6 +14,11 @@
 #include <limits.h>
 
 //-----------------------------------------------------------------------------
+// Version of headers
+#define LSP_COMMON_LIB_MAJOR            1
+#define LSP_COMMON_LIB_MINOR            0
+
+//-----------------------------------------------------------------------------
 // Detect build architecture
 #if defined(__x86_64__) || defined(__x86_64) || defined(__amd64__) || defined(__amd64) || defined(_M_AMD64)
     #define ARCH_X86_64
@@ -578,5 +583,27 @@ namespace lsp
         typedef wchar_t             lsp_utf32_t;
     #endif
 }
+
+//------------------------------------------------------------------------------
+// Library exports, for built-in modules there are no exports
+#ifndef LSP_BUILTIN_MODULE
+    #ifdef __cplusplus
+        #define LSP_CSYMBOL_EXTERN extern "C"
+    #else
+        #define LSP_CSYMBOL_EXTERN
+    #endif
+
+    #ifdef PLATFORM_WINDOWS
+        #define LSP_CSYMBOL_EXPORT      LSP_SYMBOL_EXTERN __declspec(dllexport)
+        #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
+    #else
+        #define LSP_CSYMBOL_EXPORT      LSP_SYMBOL_EXTERN __attribute__((visibility("default")))
+        #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
+    #endif
+#else
+    #define LSP_CSYMBOL_EXTERN
+    #define LSP_CSYMBOL_EXPORT
+    #define LSP_SYMBOL_EXPORT
+#endif /* LSP_BUILTIN_MODULE */
 
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */
