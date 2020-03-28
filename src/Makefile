@@ -1,7 +1,5 @@
 CONFIG                 := $(CURDIR)/.config.mk
 
-$(info config=$(CONFIG))
-
 include $(CONFIG)
 include $(CURDIR)/../project.mk
 
@@ -32,8 +30,6 @@ endif
 CXX_DEPS                = $(foreach src,$(CXX_SRCMAIN) $(CXX_SRCTEST),$(patsubst %.cpp,$(ARTIFACT_BIN)/%.d,$(src)))
 CXX_DEPFILE             = $(patsubst $(ARTIFACT_BIN)/%.d,%.cpp,$(@))
 CXX_DEPTARGET           = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
-
-$(info CXX_SRC = $(CXX_SRC))
 
 .DEFAULT_GOAL = all
 .PHONY: compile depend dep_clean all
@@ -71,7 +67,6 @@ $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
 
 $(ARTIFACT_LIB): $(ARTIFACT_OBJ)
 	@echo "  $(CXX)  $(notdir $(ARTIFACT_LIB))"
-	@echo $(CXX) -o $(ARTIFACT_LIB) $(LINKER_OBJS) $(ARTIFACT_OBJ) $(SO_FLAGS) $(LINKER_LIBS)
 	@$(CXX) -o $(ARTIFACT_LIB) $(LINKER_OBJS) $(ARTIFACT_OBJ) $(SO_FLAGS) $(LINKER_LIBS)
 
 $(ARTIFACT_TEST): $(ARTIFACT_OBJ)
