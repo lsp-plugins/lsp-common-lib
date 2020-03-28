@@ -11,10 +11,13 @@ include $(BASEDIR)/dependencies.mk
 include $(BASEDIR)/make/system.mk
 include $(BASEDIR)/make/tools.mk
 
-ifeq ($(findstring devel, $(VERSION)),devel)
+ifeq ($(findstring -devel,$(VERSION)),-devel)
   $(foreach dep, $(DEPENDENCIES), \
     $(eval $(dep)_BRANCH=devel) \
   )
+  # Strip '-devel' from version
+  tmp_version :=$(shell echo "$(VERSION)" | sed s/-devel//g)
+  VERSION=$(tmp_version)
 else
   $(foreach dep, $(DEPENDENCIES), \
     $(eval \
