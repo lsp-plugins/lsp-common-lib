@@ -36,7 +36,6 @@ endef
 
 define bldconfig =
   $(eval name = $(1))
-  $(info $(ARTIFACT_NAME) <-> $($(name)_NAME))
   $(if $($(name)_CFLAGS),,  $(eval $(name)_CFLAGS  := "-I$($(name)_INC)"$(xflags)))
   $(if $($(name)_LDLAGS),,  $(eval $(name)_LDFLAGS :=))
   $(if $($(name)_OBJ),,     $(eval $(name)_OBJ     := "$($(name)_BIN)/$($(name)_NAME).o"))
