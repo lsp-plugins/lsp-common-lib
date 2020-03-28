@@ -80,12 +80,12 @@ namespace lsp
         STATUS_SUCCESS = STATUS_OK
     };
 
-    LSP_SYMBOL_EXPORT const char *get_status(status_t code);
-    LSP_SYMBOL_EXPORT const char *get_status_lc_key(status_t code);
+    const char *get_status(status_t code);
+    const char *get_status_lc_key(status_t code);
 
-    LSP_SYMBOL_EXPORT bool        status_is_success(status_t code);
-    LSP_SYMBOL_EXPORT bool        status_is_preliminary(status_t code);
-    LSP_SYMBOL_EXPORT bool        status_is_error(status_t code);
+    bool        status_is_success(status_t code);
+    bool        status_is_preliminary(status_t code);
+    bool        status_is_error(status_t code);
 }
 
 #endif /* CORE_STATUS_H_ */

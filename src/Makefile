@@ -14,6 +14,7 @@ ARTIFACT_BIN            = $($(ARTIFACT_VARS)_BIN)
 ARTIFACT_LIB            = $(ARTIFACT_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)$(LIBRARY_EXT)
 ARTIFACT_TEST           = $(ARTIFACT_BIN)/$($(ARTIFACT_VARS)_NAME)-$($(ARTIFACT_VARS)_VERSION)-test$(EXECUTABLE_EXT)
 ARTIFACT_OBJ            = $($(ARTIFACT_VARS)_OBJ)
+ARTIFACT_MFLAGS         = $($(ARTIFACT_VARS)_MFLAGS)
 
 INCLUDE_DEPS            = $(foreach dep, $(DEPENDENCIES) $(ARTIFACT_VARS), $(if $($(dep)_INC), -I$($(dep)_INC)))
 BUILD_DEPS              = $(foreach dep, $(DEPENDENCIES), $(if $($(dep)_OBJ), $(dep)))
@@ -43,7 +44,7 @@ dep_clean:
 $(CXX_DEPS): dep_clean
 	@echo "  dep  $(CXX_DEPFILE)"
 	@mkdir -p $(dir $(@))
-	$(CXX) -MM -MT "\$$(ARTIFACT_BIN)/$(CXX_DEPTARGET)" -MF $(@) $(CXX_DEPFILE) $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
+	$(CXX) -MM -MT "\$$($(ARTIFACT_VARS)_BIN)/$(CXX_DEPTARGET)" -MF $(@) $(CXX_DEPFILE) $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
 
 depend: $(CXX_DEPS)
 	$(foreach dep,$(DEPENDENCIES) $(ARTIFACT_VARS),\
@@ -75,7 +76,7 @@ $(ARTIFACT_TEST): $(ARTIFACT_OBJ)
 $(CXX_OBJ):
 	@echo "  $(CXX)  $(CXX_FILE)"
 	@mkdir -p $(dir $@)
-	@$(CXX) -o $(@) -c $(CXX_FILE) -fPIC $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
+	@$(CXX) -o $(@) -c $(CXX_FILE) -fPIC $(CXXFLAGS) $(ARTIFACT_MFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
 
 # Dependencies
 -include $(CURDIR)/Makefile.d

@@ -16,7 +16,6 @@ CFLAGS             := \
   -fdata-sections \
   -ffunction-sections \
   -fno-asynchronous-unwind-tables \
-  -fvisibility=hidden \
   -pipe \
   -Wall
   
@@ -27,7 +26,6 @@ CXXFLAGS           := \
   -fdata-sections \
   -ffunction-sections \
   -fno-asynchronous-unwind-tables \
-  -fvisibility=hidden \
   -pipe \
   -Wall
 
