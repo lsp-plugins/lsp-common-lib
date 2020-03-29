@@ -60,7 +60,7 @@ depend: $(CXX_DEPS)
 	@cat $(CXX_DEPS) | sed -E "$(SED_RULES)" >Makefile.d
 
 $(BUILD_DEPS):
-	@echo "$(MAKE) $(notdir $($(@)_OBJ))"
+	@echo "make $(notdir $($(@)_OBJ))"
 	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)"
 
 $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
