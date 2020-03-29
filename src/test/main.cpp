@@ -7,9 +7,10 @@
 
 // This is just a stub since common library
 // currently has no tests
-int main(int argc, const char **argv)
-{
-    return 0;
-}
-
+#ifndef LSP_BUILTIN_MODULE
+    int main(int argc, const char **argv)
+    {
+        return 0;
+    }
+#endif /* LSP_BUILTIN_MODULE */
 
