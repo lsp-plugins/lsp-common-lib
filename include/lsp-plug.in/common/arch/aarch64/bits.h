@@ -8,6 +8,10 @@
 #ifndef LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_H_
 #define LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_H_
 
+#ifndef LSP_PLUG_IN_COMMON_BITS_IMPL
+    #error "This file should not be included directly"
+#endif /* LSP_PLUG_IN_COMMON_BITS_IMPL */
+
 namespace lsp
 {
     inline uint64_t reverse_bits(uint64_t src)

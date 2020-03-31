@@ -8,10 +8,14 @@
 #ifndef LSP_PLUG_IN_COMMON_ARCH_ARM_BITS_H_
 #define LSP_PLUG_IN_COMMON_ARCH_ARM_BITS_H_
 
+#ifndef LSP_PLUG_IN_COMMON_BITS_IMPL
+    #error "This file should not be included directly"
+#endif /* LSP_PLUG_IN_COMMON_BITS_IMPL */
+
 #ifdef ARCH_ARM7
-    #include <dsp/arch/arm/armv7/bits.h>
+    #include <lsp-plug.in/common/arch/arm/armv7/bits.h>
 #else
-    #include <dsp/arch/arm/armv6/bits.h>
+    #include <lsp-plug.in/common/arch/arm/armv6/bits.h>
 #endif
 
 namespace lsp

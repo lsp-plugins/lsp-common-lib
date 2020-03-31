@@ -8,6 +8,10 @@
 #ifndef LSP_PLUG_IN_COMMON_ARCH_GENERIC_ENDIAN_H_
 #define LSP_PLUG_IN_COMMON_ARCH_GENERIC_ENDIAN_H_
 
+#ifndef LSP_PLUG_IN_COMMON_ENDIAN_IMPL
+    #error "This file should not be included directly"
+#endif /* LSP_PLUG_IN_COMMON_ENDIAN_IMPL */
+
 namespace lsp
 {
     inline uint16_t __lsp_forced_inline     byte_swap(uint16_t v)

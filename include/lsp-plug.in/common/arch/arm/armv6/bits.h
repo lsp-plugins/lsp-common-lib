@@ -8,6 +8,10 @@
 #ifndef LSP_PLUG_IN_COMMON_ARCH_ARM_ARMV6_BITS_H_
 #define LSP_PLUG_IN_COMMON_ARCH_ARM_ARMV6_BITS_H_
 
+#ifndef LSP_PLUG_IN_COMMON_BITS_IMPL
+    #error "This file should not be included directly"
+#endif /* LSP_PLUG_IN_COMMON_BITS_IMPL */
+
 namespace lsp
 {
     #define LSP_ARMV6_MV_RBIT32(dst, src, msk, tmp, masks) \

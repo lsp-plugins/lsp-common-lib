@@ -8,39 +8,43 @@
 #ifndef LSP_PLUG_IN_COMMON_ARCH_GENERIC_BITS_H_
 #define LSP_PLUG_IN_COMMON_ARCH_GENERIC_BITS_H_
 
+#ifndef LSP_PLUG_IN_COMMON_BITS_IMPL
+    #error "This file should not be included directly"
+#endif /* LSP_PLUG_IN_COMMON_BITS_IMPL */
+
 namespace lsp
 {
     // Unsigned implementation
     inline uint8_t      reverse_bits(uint8_t src)
     {
-        return __rb[src];
+        return lsp_rb_data[src];
     }
 
     inline uint16_t     reverse_bits(uint16_t v)
     {
-        return (uint16_t(__rb[v & 0xff]) << 8) | (uint16_t(__rb[v >> 8]));
+        return (uint16_t(lsp_rb_data[v & 0xff]) << 8) | (uint16_t(lsp_rb_data[v >> 8]));
     }
 
     inline uint32_t     reverse_bits(uint32_t v)
     {
         return
-            (uint32_t(__rb[v >> 24])) |
-            (uint32_t(__rb[(v >> 16) & 0xff]) << 8) |
-            (uint32_t(__rb[(v >> 8) & 0xff]) << 16) |
-            (uint32_t(__rb[v & 0xff]) << 24);
+            (uint32_t(lsp_rb_data[v >> 24])) |
+            (uint32_t(lsp_rb_data[(v >> 16) & 0xff]) << 8) |
+            (uint32_t(lsp_rb_data[(v >> 8) & 0xff]) << 16) |
+            (uint32_t(lsp_rb_data[v & 0xff]) << 24);
     }
 
     inline uint64_t     reverse_bits(uint64_t v)
     {
         return
-            (uint64_t(__rb[v >> 56])) |
-            (uint64_t(__rb[(v >> 48) & 0xff]) << 8) |
-            (uint64_t(__rb[(v >> 40) & 0xff]) << 16) |
-            (uint64_t(__rb[(v >> 32) & 0xff]) << 24) |
-            (uint64_t(__rb[(v >> 24) & 0xff]) << 32) |
-            (uint64_t(__rb[(v >> 16) & 0xff]) << 40) |
-            (uint64_t(__rb[(v >> 8) & 0xff]) << 48) |
-            (uint64_t(__rb[v & 0xff]) << 56);
+            (uint64_t(lsp_rb_data[v >> 56])) |
+            (uint64_t(lsp_rb_data[(v >> 48) & 0xff]) << 8) |
+            (uint64_t(lsp_rb_data[(v >> 40) & 0xff]) << 16) |
+            (uint64_t(lsp_rb_data[(v >> 32) & 0xff]) << 24) |
+            (uint64_t(lsp_rb_data[(v >> 24) & 0xff]) << 32) |
+            (uint64_t(lsp_rb_data[(v >> 16) & 0xff]) << 40) |
+            (uint64_t(lsp_rb_data[(v >> 8) & 0xff]) << 48) |
+            (uint64_t(lsp_rb_data[v & 0xff]) << 56);
     }
 
     inline uint8_t      reverse_bits(uint8_t v, size_t count)
