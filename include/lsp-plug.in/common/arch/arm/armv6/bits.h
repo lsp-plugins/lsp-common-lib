@@ -41,7 +41,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -58,7 +58,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], $32")
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -74,7 +74,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -90,7 +90,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], $32")
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -106,7 +106,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr %[src], $16")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -123,7 +123,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], $32")
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -139,7 +139,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr %[src], $16")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -156,7 +156,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], $32")
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -172,7 +172,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr %[src], $24")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -189,7 +189,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], $32")
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -205,7 +205,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr %[src], $24")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -221,7 +221,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], $32")
-            ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
@@ -240,8 +240,8 @@ namespace lsp
 
         ARCH_ARM_ASM
         (
-            ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
-            ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
             : [lo] "+r" (lo), [hi] "+r" (hi),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -259,8 +259,8 @@ namespace lsp
 
         ARCH_ARM_ASM
         (
-            ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
-            ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
             : [lo] "+r" (lo), [hi] "+r" (hi),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -279,8 +279,8 @@ namespace lsp
         ARCH_ARM_ASM
         (
             __ASM_EMIT("rsb             %[count], %[count], $64")
-            ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
-            ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("cmp             %[count], $32")
             __ASM_EMIT("blo             2f")
 
@@ -316,8 +316,8 @@ namespace lsp
         ARCH_ARM_ASM
         (
             __ASM_EMIT("rsb             %[count], %[count], $64")
-            ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
-            ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("cmp             %[count], $32")
             __ASM_EMIT("blo             2f")
 
