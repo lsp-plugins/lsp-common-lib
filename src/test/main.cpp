@@ -5,12 +5,12 @@
  *      Author: sadko
  */
 
-// This is just a stub since common library
-// currently has no tests
+#include <lsp-plug.in/test-fw/main.h>
+
 #ifndef LSP_BUILTIN_MODULE
     int main(int argc, const char **argv)
     {
-        return 0;
+        lsp::test::main(argc, argv);
     }
-#endif /* LSP_BUILTIN_MODULE */
+#endif
 
