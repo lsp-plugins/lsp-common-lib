@@ -4,6 +4,8 @@
 
 === 1.0.1 ===
 * Added atomic functions
+* Added endianess functions
+* Added bit manipulation functions
 
 === 1.0.0 ===
 
