@@ -3,9 +3,10 @@
 *******************************************************************************
 
 === 1.0.1 ===
-* Added atomic functions
-* Added endianess functions
-* Added bit manipulation functions
+* Added some wrappers for standard C library.
+* Added atomic functions.
+* Added endianess functions.
+* Added bit manipulation functions.
 
 === 1.0.0 ===
 
