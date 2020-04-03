@@ -66,7 +66,7 @@ depend: $(CXX_DEPS)
 
 $(BUILD_DEPS):
 	@echo "make $(notdir $($(@)_OBJ))"
-	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" NO_DEPENDENCIES="1"
+	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" NO_DEPENDENCIES="1" DEMO_TEST="0"
 
 $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
 	@echo "  $(LD)   $(notdir $(ARTIFACT_OBJ))"
