@@ -57,8 +57,9 @@ namespace lsp
     {
         return fsync(fileno(fd));
     }
+#endif /* PLATFORM_UNIX_COMPATIBLE */
 
 }
 
-#endif /* PLATFORM_UNIX_COMPATIBLE */
+
 
