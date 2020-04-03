@@ -9,7 +9,7 @@ CXX_SRCTEST             = $(call rwildcard, test, *.cpp)
 CXX_SRC                 = $(CXX_SRCMAIN)
 CXX_OBJ                 = $(patsubst %.cpp, $($(ARTIFACT_VARS)_BIN)/%.o, $(CXX_SRC))
 CXX_FILE                = $(patsubst $($(ARTIFACT_VARS)_BIN)/%.o,%.cpp, $(@))
-CXX_HEADERS             = $(call rwildcard, $($(ARTIFACT_VARS)_INC), *.h)
+CXX_HEADERS             = $(foreach hdr,$(ARTIFACT_HEADERS),$(call rwildcard, $($(ARTIFACT_VARS)_INC)/$(hdr), *.h)
 CXX_INSTHEADERS         = $(patsubst $($(ARTIFACT_VARS)_INC)/%,$(DESTDIR)$(PREFIX)/include/%,$(CXX_HEADERS))
 
 ARTIFACT_BIN            = $($(ARTIFACT_VARS)_BIN)
