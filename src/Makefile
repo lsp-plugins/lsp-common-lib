@@ -51,7 +51,7 @@ all: $(BUILD_ALL)
 dep_clean:
 
 $(CXX_DEPS): dep_clean
-	@echo "  dep  $(CXX_DEPFILE)"
+	@echo "  dep  [$(ARTIFACT_NAME)] $(CXX_DEPFILE)"
 	@mkdir -p $(dir $(@))
 	$(CXX) -MM -MT "\$$($(ARTIFACT_VARS)_BIN)/$(CXX_DEPTARGET)" -MF $(@) $(CXX_DEPFILE) $(CXXFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
 
@@ -71,19 +71,19 @@ $(BUILD_DEPS):
 	@$(MAKE) -s -C "$($(@)_PATH)" compile CONFIG="$(CONFIG)" NO_DEPENDENCIES="1"
 
 $(ARTIFACT_OBJ): $(BUILD_DEPS) $(CXX_OBJ)
-	@echo "  $(LD)   $(notdir $(ARTIFACT_OBJ))"
+	@echo "  $(LD)   [$(ARTIFACT_NAME)] $(notdir $(ARTIFACT_OBJ))"
 	@$(LD) -o $(ARTIFACT_OBJ) -r $(CXX_OBJ)
 
 $(ARTIFACT_LIB): $(ARTIFACT_OBJ)
-	@echo "  $(CXX)  $(notdir $(ARTIFACT_LIB))"
+	@echo "  $(CXX)  [$(ARTIFACT_NAME)] $(notdir $(ARTIFACT_LIB))"
 	@$(CXX) -o $(ARTIFACT_LIB) $(LINKER_OBJS) $(ARTIFACT_OBJ) $(SO_FLAGS) $(LINKER_LIBS)
 
 $(ARTIFACT_TESTBIN): $(ARTIFACT_OBJ)
-	@echo "  $(CXX)  $(notdir $(ARTIFACT_TESTBIN))"
+	@echo "  $(CXX)  [$(ARTIFACT_NAME)] $(notdir $(ARTIFACT_TESTBIN))"
 	@$(CXX) -o $(ARTIFACT_TESTBIN) $(LINKER_OBJS) $(ARTIFACT_OBJ) $(EXE_FLAGS) $(LINKER_LIBS)
 
 $(CXX_OBJ):
-	@echo "  $(CXX)  $(CXX_FILE)"
+	@echo "  $(CXX)  [$(ARTIFACT_NAME)] $(CXX_FILE)"
 	@mkdir -p $(dir $@)
 	@$(CXX) -o $(@) -c $(CXX_FILE) -fPIC $(CXXFLAGS) $(ARTIFACT_MFLAGS) $(INCLUDE) $(INCLUDE_DEPS)
 
@@ -98,7 +98,7 @@ install: all
 	@echo "Install OK"
 
 uninstall:
-	@echo "Unnstalling $($(ARTIFACT_VARS)_NAME)"
+	@echo "Uninstalling $($(ARTIFACT_VARS)_NAME)"
 	@-rm -f "$(DESTDIR)$(PREFIX)/lib/$(notdir $(ARTIFACT_LIB))"
 	@-rm -f "$(DESTDIR)$(PREFIX)/lib/$($(ARTIFACT_VARS)_NAME)$(LIBRARY_EXT)"
 	@echo rm -f $(CXX_INSTHEADERS)
