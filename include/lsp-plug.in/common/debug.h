@@ -9,14 +9,8 @@
 #define LSP_PLUG_IN_COMMON_DEBUG_H_
 
 // Include <stdio.h> to perform debugging output
-#include <stdio.h>
+#include <lsp-plug.in/common/types.h>
 #include <stdarg.h>
-
-#ifdef LSP_LOG_FD
-    #undef LSP_LOG_FD
-#endif /* LSP_LOG_FD */
-
-#define LSP_LOG_FD              ::lsp::debug::log_fd
 
 // Check trace level
 #ifdef LSP_TRACE
@@ -81,11 +75,6 @@ namespace lsp
     namespace debug
     {
         /**
-         * Logging device, by default STDERR
-         */
-        extern FILE        *log_fd;
-
-        /**
          * Redirect log to the temporary file in the temporary directory
          * @param file file name (UTF-8)
          */
@@ -102,14 +91,14 @@ namespace lsp
          *
          * @param fmt format
          */
-        void                printf(const char *fmt...);
+        int                 printf(const char *fmt...);
 
         /** Output formatted string to the logging device
          *
          * @param fmt format
          * @param args additional set of arguments
          */
-        void                vprintf(const char *fmt, va_list args);
+        int                 vprintf(const char *fmt, va_list args);
 
         /**
          * Dump floating-point values
