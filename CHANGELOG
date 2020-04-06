@@ -1,0 +1,14 @@
+*******************************************************************************
+* RECENT CHANGES
+*******************************************************************************
+
+=== 1.0.1 ===
+* Added some wrappers for standard C library.
+* Added basic atomic manipulation functions.
+* Added endianess manipulation functions.
+* Added bit manipulation functions.
+* Added pointer alignment and aligned pointer allocation routines.
+
+=== 1.0.0 ===
+
+This is initial release of LSP common library for further enhancements and updates.

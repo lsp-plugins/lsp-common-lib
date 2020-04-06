@@ -23,7 +23,8 @@ Building
 To build the library, perform the following commands:
 
 ```bash
-make config
+make config # Configure the build
+make fetch # Fetch dependencies from Git repository
 make
 sudo make install
 ```

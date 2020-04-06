@@ -3,7 +3,7 @@
 # Location
 BASEDIR                    := $(CURDIR)
 MODULES                    := $(BASEDIR)/modules
-BUILDDIR                   := ${BASEDIR}/.build
+BUILDDIR                   := $(BASEDIR)/.build
 CONFIG                     := $(BASEDIR)/.config.mk
 
 # Basic initialization
