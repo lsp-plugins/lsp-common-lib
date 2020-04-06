@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.2 ===
+* Added debugging header and functions.
 
 === 1.0.1 ===
 * Added some wrappers for standard C library.
