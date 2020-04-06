@@ -607,4 +607,17 @@ namespace lsp
     #define LSP_SYMBOL_EXPORT
 #endif /* LSP_BUILTIN_MODULE */
 
+//------------------------------------------------------------------------------
+// Library exports, for built-in modules there are no exports
+namespace lsp
+{
+    template <class T>
+        inline void swap(T &a, T &b)
+        {
+            T tmp = a;
+            a = b;
+            b = tmp;
+        }
+}
+
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */
