@@ -49,7 +49,7 @@ namespace lsp
             ::fprintf(stderr, "Log data will be written to file: %s\n", path);
             ::fflush(stderr);
 
-            FILE *fd    = ::fopen(tmppath, "a");
+            fd  = ::fopen(tmppath, "a");
             if (fd != NULL)
             {
                 ::setvbuf(fd, NULL, _IONBF, BUFSIZ);
