@@ -43,6 +43,9 @@ namespace lsp
             if ((n < 0) || (tmppath == NULL))
                 return;
 
+            FILE *fd = NULL;
+
+        #ifndef PLATFORM_WINDOWS
             ::fprintf(stderr, "Log data will be written to file: %s\n", path);
             ::fflush(stderr);
 
@@ -50,11 +53,14 @@ namespace lsp
             if (fd != NULL)
             {
                 ::setvbuf(fd, NULL, _IONBF, BUFSIZ);
+                ::fclose(stderr);
                 stderr = fd;
             }
-            else
+        #endif
+
+            if (!fd)
             {
-                ::fprintf(stderr, "Failed to open file %s, continuing retirect to STDERR\n", path);
+                ::fprintf(stderr, "Failed to open file %s, continuing redirect to STDERR\n", path);
                 ::fflush(stderr);
             }
             ::free(tmppath);
