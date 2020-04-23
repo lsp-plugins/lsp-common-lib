@@ -58,7 +58,7 @@
     #define lsp_guard_assert(...)       __VA_ARGS__;
     #define lsp_assert(x)               if (!(x)) { lsp_error("Assertion failed: %s", #x); fflush(LSP_LOG_FD); }
     #define lsp_assert_msg(x, msg, ...)  \
-            if (!(x))
+            if (!(x)) \
                 ::lsp::debug::printf("[ERR][%s:%4d] %s: Assertion failed: %s, nested message: " msg "\n", \
                     __FILE__, __LINE__, __FUNCTION__, #x, ## __VA_ARGS__);
 
