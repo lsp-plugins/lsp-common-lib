@@ -634,6 +634,24 @@ namespace lsp
             a = b;
             b = tmp;
         }
+
+    template <class A, class B>
+        inline A lsp_max(A a, B b)
+        {
+            return (a > b) ? a : b;
+        }
+
+    template <class A, class B>
+        inline A lsp_min(A a, B b)
+        {
+            return (a <= b) ? a : b;
+        }
+
+    template <class T>
+        inline T lsp_abs(T a)
+        {
+            return (a < 0) ? -a : a;
+        }
 }
 
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */
