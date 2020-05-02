@@ -79,12 +79,23 @@ namespace lsp
         return byte_swap(uint64_t(v));
     }
 
-    inline void __lsp_forced_inline    byte_swap(uint8_t *v, size_t n)
+    inline void __lsp_forced_inline         byte_swap(uint8_t *v, size_t n)
     {
     }
 
-    inline void __lsp_forced_inline    byte_swap(int8_t *v, size_t n)
+    inline void __lsp_forced_inline         byte_swap(int8_t *v, size_t n)
     {
+    }
+
+    inline void __lsp_forced_inline         byte_swap(wchar_t *v, size_t n)
+    {
+    #if defined(WCHART_16BIT)
+        byte_swap(reinterpret_cast<uint16_t *>(v), n);
+    #elif defined(WCHART_32BIT)
+        byte_swap(reinterpret_cast<uint32_t *>(v), n);
+    #else
+        byte_swap(reinterpret_cast<unsigned int *>(v), n);
+    #endif
     }
 }
 

@@ -17,7 +17,7 @@
 // Version of headers
 #define LSP_COMMON_LIB_MAJOR            1
 #define LSP_COMMON_LIB_MINOR            0
-#define LSP_COMMON_LIB_MICRO            1
+#define LSP_COMMON_LIB_MICRO            2
 
 //-----------------------------------------------------------------------------
 // Detect build architecture
@@ -567,6 +567,22 @@ namespace lsp
 
 namespace lsp
 {
+    enum lsp_wrap_flags_t
+    {
+        WRAP_NONE       = 0,
+
+        WRAP_CLOSE      = 1 << 0,
+        WRAP_DELETE     = 1 << 1
+    };
+
+    enum lsp_memdrop_t
+    {
+        MEMDROP_NONE,
+        MEMDROP_FREE,
+        MEMDROP_DELETE,
+        MEMDROP_ARR_DELETE
+    };
+
     typedef uint64_t        wsize_t;
     typedef int64_t         wssize_t;
 
@@ -606,5 +622,36 @@ namespace lsp
     #define LSP_CSYMBOL_EXPORT
     #define LSP_SYMBOL_EXPORT
 #endif /* LSP_BUILTIN_MODULE */
+
+//------------------------------------------------------------------------------
+// Library exports, for built-in modules there are no exports
+namespace lsp
+{
+    template <class T>
+        inline void swap(T &a, T &b)
+        {
+            T tmp = a;
+            a = b;
+            b = tmp;
+        }
+
+    template <class A, class B>
+        inline A lsp_max(A a, B b)
+        {
+            return (a > b) ? a : b;
+        }
+
+    template <class A, class B>
+        inline A lsp_min(A a, B b)
+        {
+            return (a <= b) ? a : b;
+        }
+
+    template <class T>
+        inline T lsp_abs(T a)
+        {
+            return (a < 0) ? -a : a;
+        }
+}
 
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */
