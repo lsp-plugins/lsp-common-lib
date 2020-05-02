@@ -17,7 +17,7 @@
 // Version of headers
 #define LSP_COMMON_LIB_MAJOR            1
 #define LSP_COMMON_LIB_MINOR            0
-#define LSP_COMMON_LIB_MICRO            2
+#define LSP_COMMON_LIB_MICRO            3
 
 //-----------------------------------------------------------------------------
 // Detect build architecture
