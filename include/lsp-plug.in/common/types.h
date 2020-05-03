@@ -25,7 +25,7 @@
 
 #define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
 
-#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT version_t *lsp_module_version()
+#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT const version_t *lsp_module_version()
 #define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
     LSP_DEF_VERSION_FUNC_HEADER \
     { \
@@ -643,10 +643,10 @@ namespace lsp
     #endif
 
     #ifdef PLATFORM_WINDOWS
-        #define LSP_CSYMBOL_EXPORT      LSP_SYMBOL_EXTERN __declspec(dllexport)
+        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
         #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
     #else
-        #define LSP_CSYMBOL_EXPORT      LSP_SYMBOL_EXTERN __attribute__((visibility("default")))
+        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
         #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
     #endif
 #else
