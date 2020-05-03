@@ -25,11 +25,11 @@
 
 #define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
 
-#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT const version_t *lsp_module_version()
+#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT const ::lsp::version_t *lsp_module_version()
 #define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
     LSP_DEF_VERSION_FUNC_HEADER \
     { \
-        static const version_t v=LSP_DEF_VERSION(major, minor, macro); \
+        static const ::lsp::version_t v=LSP_DEF_VERSION(major, minor, macro); \
         return &v; \
     }
 
