@@ -86,6 +86,12 @@ namespace lsp
         int     minor;
         int     micro;
     } version_t;
+
+    /**
+     * Function that returns module version
+     * @return version structure
+     */
+    typedef const version_t *(* module_version_t)();
 }
 
 //-----------------------------------------------------------------------------
