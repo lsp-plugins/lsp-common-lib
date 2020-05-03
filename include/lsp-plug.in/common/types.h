@@ -23,6 +23,18 @@
 #define LSP_DEF_VERSION_STR(major, minor, micro)    LSP_DO_DEFINE_VERSION_STR(major, minor, micro)
 #define LSP_DEFINE_VERSION_STR(artifact)            LSP_DEF_VERSION_STR(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
 
+#define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
+
+#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT version_t *lsp_module_version()
+#define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
+    LSP_DEF_VERSION_FUNC_HEADER \
+    { \
+        static const version_t v=LSP_DEF_VERSION(major, minor, macro); \
+        return &v; \
+    }
+
+#define LSP_DEFINE_VERSION_FUNC(artifact)           LSP_DEF_VERSION_FUNC(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
+
 //-----------------------------------------------------------------------------
 // Detect build architecture
 #if defined(__x86_64__) || defined(__x86_64) || defined(__amd64__) || defined(__amd64) || defined(_M_AMD64)
