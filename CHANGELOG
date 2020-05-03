@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.3 ===
+* Added versioning support.
+
 === 1.0.2 ===
 * Added debugging header and functions.
 
