@@ -9,6 +9,7 @@
 #define LSP_PLUG_IN_COMMON_DEBUG_H_
 
 // Include <stdio.h> to perform debugging output
+#include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
 #include <stdarg.h>
 

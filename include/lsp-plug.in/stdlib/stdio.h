@@ -8,6 +8,7 @@
 #ifndef LSP_PLUG_IN_STDLIB_STDIO_H_
 #define LSP_PLUG_IN_STDLIB_STDIO_H_
 
+#include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
 #include <stdio.h>
 

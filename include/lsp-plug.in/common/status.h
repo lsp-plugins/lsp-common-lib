@@ -8,6 +8,7 @@
 #ifndef LSP_PLUG_IN_COMMON_STATUS_H_
 #define LSP_PLUG_IN_COMMON_STATUS_H_
 
+#include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
 
 #define LSP_STATUS_ASSERT(x, ...)       { status_t __res__ = (x); if (__res__ != STATUS_OK) { __VA_ARGS__; return __res__; } }

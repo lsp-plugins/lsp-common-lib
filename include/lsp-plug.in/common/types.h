@@ -8,16 +8,20 @@
 #ifndef LSP_PLUG_IN_COMMON_TYPES_H_
 #define LSP_PLUG_IN_COMMON_TYPES_H_
 
+#include <lsp-plug.in/common/version.h>
 #include <sys/types.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <limits.h>
 
 //-----------------------------------------------------------------------------
-// Version of headers
-#define LSP_COMMON_LIB_MAJOR            1
-#define LSP_COMMON_LIB_MINOR            0
-#define LSP_COMMON_LIB_MICRO            2
+// VERSION MANAGEMENT
+#define LSP_DEF_VERSION(major, minor, micro)        { major, minor, micro }
+#define LSP_DEFINE_VERSION(artifact)                LSP_DEF_VERSION(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
+
+#define LSP_DO_DEFINE_VERSION_STR(major, minor, micro) #major "." #minor "." #micro
+#define LSP_DEF_VERSION_STR(major, minor, micro)    LSP_DO_DEFINE_VERSION_STR(major, minor, micro)
+#define LSP_DEFINE_VERSION_STR(artifact)            LSP_DEF_VERSION_STR(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
 
 //-----------------------------------------------------------------------------
 // Detect build architecture
@@ -72,6 +76,22 @@ namespace lsp
     #else
         #warning "Unsupported architecture bitness"
     #endif /* __WORDSIZE, __SIZE_WIDTH__ */
+
+    /**
+     * Version of any plugin module
+     */
+    typedef struct version_t
+    {
+        int     major;
+        int     minor;
+        int     micro;
+    } version_t;
+
+    /**
+     * Function that returns module version
+     * @return version structure
+     */
+    typedef const version_t *(* module_version_t)();
 }
 
 //-----------------------------------------------------------------------------
@@ -623,6 +643,12 @@ namespace lsp
     #define LSP_SYMBOL_EXPORT
 #endif /* LSP_BUILTIN_MODULE */
 
+#ifdef PLATFORM_WINDOWS
+    #define LSP_LIBRARY_IMPORT  __declspec(dllexport)
+#else
+    #define LSP_LIBRARY_IMPORT
+#endif
+
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
 namespace lsp
@@ -652,6 +678,22 @@ namespace lsp
         {
             return (a < 0) ? -a : a;
         }
+
+    inline int version_cmp(const version_t *a, const version_t *b)
+    {
+        int diff = a->major - b->major;
+        if (diff != 0)
+            return diff;
+        diff = a->minor - b->minor;
+        if (diff != 0)
+            return diff;
+        return a->micro - b->micro;
+    }
+
+    inline int version_cmp(const version_t &a, const version_t &b)
+    {
+        return version_cmp(&a, &b);
+    }
 }
 
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */
