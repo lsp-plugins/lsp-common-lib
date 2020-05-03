@@ -23,6 +23,18 @@
 #define LSP_DEF_VERSION_STR(major, minor, micro)    LSP_DO_DEFINE_VERSION_STR(major, minor, micro)
 #define LSP_DEFINE_VERSION_STR(artifact)            LSP_DEF_VERSION_STR(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
 
+#define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
+
+#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT const ::lsp::version_t *lsp_module_version()
+#define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
+    LSP_DEF_VERSION_FUNC_HEADER \
+    { \
+        static const ::lsp::version_t v=LSP_DEF_VERSION(major, minor, macro); \
+        return &v; \
+    }
+
+#define LSP_DEFINE_VERSION_FUNC(artifact)           LSP_DEF_VERSION_FUNC(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
+
 //-----------------------------------------------------------------------------
 // Detect build architecture
 #if defined(__x86_64__) || defined(__x86_64) || defined(__amd64__) || defined(__amd64) || defined(_M_AMD64)
@@ -631,10 +643,10 @@ namespace lsp
     #endif
 
     #ifdef PLATFORM_WINDOWS
-        #define LSP_CSYMBOL_EXPORT      LSP_SYMBOL_EXTERN __declspec(dllexport)
+        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
         #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
     #else
-        #define LSP_CSYMBOL_EXPORT      LSP_SYMBOL_EXTERN __attribute__((visibility("default")))
+        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
         #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
     #endif
 #else

@@ -2,6 +2,10 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.4 ===
+* Updated build system.
+* Modified module versioning support.
+
 === 1.0.3 ===
 * Updated build scripts.
 * Added versioning support.
