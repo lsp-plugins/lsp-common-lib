@@ -623,6 +623,12 @@ namespace lsp
     #define LSP_SYMBOL_EXPORT
 #endif /* LSP_BUILTIN_MODULE */
 
+#ifdef PLATFORM_WINDOWS
+    #define LSP_LIBRARY_IMPORT  __declspec(dllexport)
+#else
+    #define LSP_LIBRARY_IMPORT
+#endif
+
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
 namespace lsp
