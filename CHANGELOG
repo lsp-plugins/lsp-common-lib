@@ -3,6 +3,8 @@
 *******************************************************************************
 
 === 1.0.5 ===
+* Additional macro definitions in types.h header.
+* Added new status constants in status.h header. 
 
 === 1.0.4 ===
 * Updated build system.
