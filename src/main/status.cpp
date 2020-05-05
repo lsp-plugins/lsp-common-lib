@@ -79,6 +79,7 @@ namespace lsp
         S("bad_token", "Bad token"),
         S("no_grab", "No grab is currently obtained"),
         S("underflow", "Underflow"),
+        S("incompatible", "Incompatible module/function"),
 
         NULL
     };
