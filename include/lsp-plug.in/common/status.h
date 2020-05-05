@@ -85,6 +85,7 @@ namespace lsp
         STATUS_BAD_TOKEN,             //!< STATUS_BAD_TOKEN
         STATUS_NO_GRAB,               //!< STATUS_NO_GRAB
         STATUS_UNDERFLOW,             //!< STATUS_UNDERFLOW
+        STATUS_INCOMPATIBLE,          //!< STATUS_INCOMPATIBLE The module/function is not compatible
 
         STATUS_TOTAL,
         STATUS_MAX = STATUS_TOTAL - 1,
