@@ -25,7 +25,7 @@
 
 #define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
 
-#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT const ::lsp::version_t *lsp_module_version()
+#define LSP_DEF_VERSION_FUNC_HEADER                 const ::lsp::version_t *lsp_module_version()
 #define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
     LSP_DEF_VERSION_FUNC_HEADER \
     { \
