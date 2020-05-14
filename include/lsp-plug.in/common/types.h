@@ -641,8 +641,10 @@ namespace lsp
 // Library exports, for built-in modules there are no exports
 #ifdef __cplusplus
     #define LSP_CSYMBOL_EXTERN      extern "C"
+    #define LSP_SYMBOL_EXTERN       extern
 #else
-    #define LSP_CSYMBOL_EXTERN
+    #define LSP_CSYMBOL_EXTERN      extern
+    #define LSP_SYMBOL_EXTERN       extern
 #endif
 
 #ifdef PLATFORM_WINDOWS
@@ -654,10 +656,10 @@ namespace lsp
 #endif
 
 #ifdef PLATFORM_WINDOWS
-    #define LSP_SYMBOL_IMPORT       __declspec(dllexport)
+    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN __declspec(dllexport)
     #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
 #else
-    #define LSP_SYMBOL_IMPORT
+    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN
     #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN
 #endif
 
