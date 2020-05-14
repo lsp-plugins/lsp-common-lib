@@ -97,6 +97,7 @@ namespace lsp
      * @param code status code
      * @return pointer to status string or NULL if the value is invalid
      */
+    LSP_COMMON_LIB_IMPORT
     const char *get_status(status_t code);
 
     /**
@@ -105,6 +106,7 @@ namespace lsp
      * @param code status code
      * @return pointer to localization key string or NULL if the value is invalid
      */
+    LSP_COMMON_LIB_IMPORT
     const char *get_status_lc_key(status_t code);
 
     /**
@@ -112,6 +114,7 @@ namespace lsp
      * @param code status code
      * @return true if status code is successful
      */
+    LSP_COMMON_LIB_IMPORT
     bool        status_is_success(status_t code);
 
     /**
@@ -119,6 +122,7 @@ namespace lsp
      * @param code status code
      * @return true if status code is preliminary
      */
+    LSP_COMMON_LIB_IMPORT
     bool        status_is_preliminary(status_t code);
 
     /**
@@ -126,6 +130,7 @@ namespace lsp
      * @param code status code
      * @return true if status code is failure
      */
+    LSP_COMMON_LIB_IMPORT
     bool        status_is_error(status_t code);
 }
 

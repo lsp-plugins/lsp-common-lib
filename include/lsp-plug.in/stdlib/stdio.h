@@ -17,18 +17,22 @@ namespace lsp
 #ifdef PLATFORM_WINDOWS
     typedef HANDLE              fhandle_t;
 
-    LSP_SYMBOL_EXPORT int vasprintf(char **strp, const char *fmt, va_list ap);
+    LSP_COMMON_LIB_IMPORT
+    int         vasprintf(char **strp, const char *fmt, va_list ap);
 
-    LSP_SYMBOL_EXPORT int asprintf(char **strp, const char *fmt, ...);
+    LSP_COMMON_LIB_IMPORT
+    int         asprintf(char **strp, const char *fmt, ...);
 
-    LSP_SYMBOL_EXPORT int fdsync(FILE *fd);
+    LSP_COMMON_LIB_IMPORT
+    int         fdsync(FILE *fd);
 
 #endif /* PLATFORM_WINDOWS */
 
 #ifdef PLATFORM_UNIX_COMPATIBLE
     typedef int                 fhandle_t;
 
-    LSP_SYMBOL_EXPORT int fdsync(FILE *fd);
+    LSP_COMMON_LIB_IMPORT
+    int         fdsync(FILE *fd);
 
 #endif /* PLATFORM_UNIX_COMPATIBLE */
 }

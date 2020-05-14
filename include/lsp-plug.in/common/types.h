@@ -639,30 +639,26 @@ namespace lsp
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
-#ifndef LSP_BUILTIN_MODULE
-    #ifdef __cplusplus
-        #define LSP_CSYMBOL_EXTERN extern "C"
-    #else
-        #define LSP_CSYMBOL_EXTERN
-    #endif
-
-    #ifdef PLATFORM_WINDOWS
-        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
-        #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
-    #else
-        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
-        #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
-    #endif
+#ifdef __cplusplus
+    #define LSP_CSYMBOL_EXTERN      extern "C"
 #else
     #define LSP_CSYMBOL_EXTERN
-    #define LSP_CSYMBOL_EXPORT
-    #define LSP_SYMBOL_EXPORT
-#endif /* LSP_BUILTIN_MODULE */
+#endif
 
 #ifdef PLATFORM_WINDOWS
-    #define LSP_LIBRARY_IMPORT  __declspec(dllexport)
+    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
+    #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
 #else
-    #define LSP_LIBRARY_IMPORT
+    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
+    #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
+#endif
+
+#ifdef PLATFORM_WINDOWS
+    #define LSP_SYMBOL_IMPORT       __declspec(dllexport)
+    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
+#else
+    #define LSP_SYMBOL_IMPORT
+    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN
 #endif
 
 //------------------------------------------------------------------------------

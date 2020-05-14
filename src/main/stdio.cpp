@@ -12,6 +12,7 @@
 namespace lsp
 {
 #ifdef PLATFORM_WINDOWS
+    LSP_COMMON_LIB_EXPORT
     int vasprintf(char **res, const char *fmt, va_list ap)
     {
         int len = vsnprintf(NULL, 0, fmt, ap);
@@ -33,6 +34,7 @@ namespace lsp
         return r;
     }
 
+    LSP_COMMON_LIB_EXPORT
     int asprintf(char **strp, const char *fmt, ...)
     {
         va_list ap;
@@ -44,6 +46,7 @@ namespace lsp
         return r;
     }
 
+    LSP_COMMON_LIB_EXPORT
     int fdsync(FILE *fd)
     {
         return (FlushFileBuffers((HANDLE)_fileno(fd))) ? 0 : -1;
@@ -53,9 +56,10 @@ namespace lsp
 
 #ifdef PLATFORM_UNIX_COMPATIBLE
 
+    LSP_COMMON_LIB_EXPORT
     int fdsync(FILE *fd)
     {
-        return fsync(fileno(fd));
+        return ::fsync(::fileno(fd));
     }
 #endif /* PLATFORM_UNIX_COMPATIBLE */
 
