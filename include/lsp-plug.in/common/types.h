@@ -687,6 +687,12 @@ namespace lsp
             return (a <= b) ? a : b;
         }
 
+    template <class A>
+        inline A lsp_limit(A a, A min, A max)
+        {
+            return (a < min) ? min : ((a > max) ? max : a);
+        }
+
     template <class T>
         inline T lsp_abs(T a)
         {
