@@ -59,7 +59,7 @@ namespace lsp
     LSP_COMMON_LIB_EXPORT
     int fdsync(FILE *fd)
     {
-        return ::fsync(::fileno(fd));
+        return ::fsync(fileno(fd));
     }
 #endif /* PLATFORM_UNIX_COMPATIBLE */
 

@@ -8,6 +8,7 @@
 #include <lsp-plug.in/common/debug.h>
 #include <lsp-plug.in/stdlib/stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 namespace lsp
 {
@@ -56,7 +57,7 @@ namespace lsp
             {
                 ::setvbuf(fd, NULL, _IONBF, BUFSIZ);
                 ::fclose(stderr);
-                stderr = fd;
+                ::dup2(fileno(fd), STDERR_FILENO);
             }
         #endif
 
