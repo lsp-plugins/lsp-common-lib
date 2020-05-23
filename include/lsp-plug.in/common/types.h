@@ -245,7 +245,17 @@ namespace lsp
     #define IF_PLATFORM_LINUX(...)      __VA_ARGS__
 #endif /* __linux__ */
 
-#if defined(__bsd__) || defined(__bsd) || defined(__FreeBSD__) || defined(freebsd) || defined(openbsd) || defined(bsdi) || defined(__darwin__)
+#if defined(__FreeBSD__)
+    #define PLATFORM_FREEBSD
+    #define IF_PLATFORM_FREEBSD(...)    __VA_ARGS__
+#endif /* __FreeBSD__ */
+
+#if defined(__OpenBSD__)
+    #define PLATFORM_OPENBSD
+    #define IF_PLATFORM_OPENBSD(...)    __VA_ARGS__
+#endif /* __FreeBSD__ */
+
+#if defined(__bsd__) || defined(__bsd) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(freebsd) || defined(openbsd) || defined(bsdi) || defined(__darwin__)
     #define PLATFORM_BSD
     #define IF_PLATFORM_BSD(...)        __VA_ARGS__
 #endif /* __bsd__ */
