@@ -13,10 +13,11 @@ Supported platforms
 ======
 
 The build and correct unit test execution has been confirmed for following platforms:
-* GNU/Linux
 * FreeBSD
-* Microsoft Windows
+* GNU/Linux
 * OpenBSD
+* Windows 32-bit
+* Windows 64-bit
 
 Requirements
 ======
