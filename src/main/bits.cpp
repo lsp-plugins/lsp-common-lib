@@ -10,7 +10,7 @@
 namespace lsp
 {
 #if (!defined(ARCH_ARM)) && (!defined(ARCH_AARCH64))
-    LSP_SYMBOL_EXPORT
+    LSP_COMMON_LIB_EXPORT
     extern const uint8_t  lsp_rb_data[] =
     {
         0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0, 0x10, 0x90, 0x50, 0xD0, 0x30, 0xB0, 0x70, 0xF0,
@@ -35,7 +35,7 @@ namespace lsp
 
 #if defined(ARCH_ARM)
     #if (!defined(ARCH_ARM7))
-        LSP_SYMBOL_EXPORT
+        LSP_COMMON_LIB_EXPORT
         extern const uint32_t lsp_rb_masks[] =
         {
             0x55555555,

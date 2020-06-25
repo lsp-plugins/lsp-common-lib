@@ -86,22 +86,26 @@ namespace lsp
 
     #undef S
 
-    LSP_SYMBOL_EXPORT const char *get_status(status_t code)
+    LSP_COMMON_LIB_EXPORT
+    const char *get_status(status_t code)
     {
         return ((code >= 0) && (code < STATUS_TOTAL)) ? statuses[code].desc: NULL;
     }
 
-    LSP_SYMBOL_EXPORT const char *get_status_lc_key(status_t code)
+    LSP_COMMON_LIB_EXPORT
+    const char *get_status_lc_key(status_t code)
     {
         return ((code >= 0) && (code < STATUS_TOTAL)) ? statuses[code].key : NULL;
     }
 
-    LSP_SYMBOL_EXPORT bool status_is_success(status_t code)
+    LSP_COMMON_LIB_EXPORT
+    bool status_is_success(status_t code)
     {
         return code == STATUS_OK;
     }
 
-    LSP_SYMBOL_EXPORT bool status_is_preliminary(status_t code)
+    LSP_COMMON_LIB_EXPORT
+    bool status_is_preliminary(status_t code)
     {
         switch (code)
         {
@@ -112,7 +116,8 @@ namespace lsp
         return false;
     }
 
-    LSP_SYMBOL_EXPORT bool status_is_error(status_t code)
+    LSP_COMMON_LIB_EXPORT
+    bool status_is_error(status_t code)
     {
         if (status_is_success(code))
             return true;

@@ -25,7 +25,7 @@
 
 #define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
 
-#define LSP_DEF_VERSION_FUNC_HEADER                 LSP_CSYMBOL_EXPORT const ::lsp::version_t *lsp_module_version()
+#define LSP_DEF_VERSION_FUNC_HEADER                 const ::lsp::version_t *lsp_module_version()
 #define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
     LSP_DEF_VERSION_FUNC_HEADER \
     { \
@@ -245,7 +245,17 @@ namespace lsp
     #define IF_PLATFORM_LINUX(...)      __VA_ARGS__
 #endif /* __linux__ */
 
-#if defined(__bsd__) || defined(__bsd) || defined(__FreeBSD__) || defined(freebsd) || defined(openbsd) || defined(bsdi) || defined(__darwin__)
+#if defined(__FreeBSD__)
+    #define PLATFORM_FREEBSD
+    #define IF_PLATFORM_FREEBSD(...)    __VA_ARGS__
+#endif /* __FreeBSD__ */
+
+#if defined(__OpenBSD__)
+    #define PLATFORM_OPENBSD
+    #define IF_PLATFORM_OPENBSD(...)    __VA_ARGS__
+#endif /* __FreeBSD__ */
+
+#if defined(__bsd__) || defined(__bsd) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(freebsd) || defined(openbsd) || defined(bsdi) || defined(__darwin__)
     #define PLATFORM_BSD
     #define IF_PLATFORM_BSD(...)        __VA_ARGS__
 #endif /* __bsd__ */
@@ -639,30 +649,28 @@ namespace lsp
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
-#ifndef LSP_BUILTIN_MODULE
-    #ifdef __cplusplus
-        #define LSP_CSYMBOL_EXTERN extern "C"
-    #else
-        #define LSP_CSYMBOL_EXTERN
-    #endif
-
-    #ifdef PLATFORM_WINDOWS
-        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
-        #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
-    #else
-        #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
-        #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
-    #endif
+#ifdef __cplusplus
+    #define LSP_CSYMBOL_EXTERN      extern "C"
+    #define LSP_SYMBOL_EXTERN       extern
 #else
-    #define LSP_CSYMBOL_EXTERN
-    #define LSP_CSYMBOL_EXPORT
-    #define LSP_SYMBOL_EXPORT
-#endif /* LSP_BUILTIN_MODULE */
+    #define LSP_CSYMBOL_EXTERN      extern
+    #define LSP_SYMBOL_EXTERN       extern
+#endif
 
 #ifdef PLATFORM_WINDOWS
-    #define LSP_LIBRARY_IMPORT  __declspec(dllexport)
+    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
+    #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
 #else
-    #define LSP_LIBRARY_IMPORT
+    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
+    #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
+#endif
+
+#ifdef PLATFORM_WINDOWS
+    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN __declspec(dllexport)
+    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
+#else
+    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN
+    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN
 #endif
 
 //------------------------------------------------------------------------------
@@ -687,6 +695,12 @@ namespace lsp
         inline A lsp_min(A a, B b)
         {
             return (a <= b) ? a : b;
+        }
+
+    template <class A, class B, class C>
+        inline A lsp_limit(A a, B min, C max)
+        {
+            return (a < min) ? min : ((a > max) ? max : a);
         }
 
     template <class T>

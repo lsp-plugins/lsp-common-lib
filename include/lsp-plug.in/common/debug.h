@@ -79,6 +79,7 @@ namespace lsp
          * Redirect log to the temporary file in the temporary directory
          * @param file file name (UTF-8)
          */
+        LSP_COMMON_LIB_IMPORT
         void                redirect(const char *file);
 
         /**
@@ -86,12 +87,14 @@ namespace lsp
          * @param path path to the temorary directory (UTF-8)
          * @param file
          */
+        LSP_COMMON_LIB_IMPORT
         void                redirect(const char *path, const char *file);
 
         /** Output formatted string to the logging device
          *
          * @param fmt format
          */
+        LSP_COMMON_LIB_IMPORT
         int                 printf(const char *fmt...);
 
         /** Output formatted string to the logging device
@@ -99,6 +102,7 @@ namespace lsp
          * @param fmt format
          * @param args additional set of arguments
          */
+        LSP_COMMON_LIB_IMPORT
         int                 vprintf(const char *fmt, va_list args);
 
         /**
@@ -108,6 +112,7 @@ namespace lsp
          * @param f array of floating-point numbers
          * @param n number of elements in array
          */
+        LSP_COMMON_LIB_IMPORT
         void                dumpf(const char *s, const char *fmt, const float *f, size_t n);
 
         /**
@@ -116,6 +121,7 @@ namespace lsp
          * @param f pointer to array of bytes
          * @param n number of bytes in array
          */
+        LSP_COMMON_LIB_IMPORT
         void                dumpb(const char *s, const void *b, size_t sz);
     }
 }

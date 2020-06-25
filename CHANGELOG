@@ -2,6 +2,11 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.6 ===
+* Added lsp_limit method.
+* Updated build system.
+* Changed exports.
+
 === 1.0.5 ===
 * Additional macro definitions in types.h header.
 * Added new status constants in status.h header. 

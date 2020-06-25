@@ -9,6 +9,16 @@ It provides:
 * Macros for architecture-dependent assembly code and compilation.
 * Error codes and functions to work with them.
 
+Supported platforms
+======
+
+The build and correct unit test execution has been confirmed for following platforms:
+* FreeBSD
+* GNU/Linux
+* OpenBSD
+* Windows 32-bit
+* Windows 64-bit
+
 Requirements
 ======
 

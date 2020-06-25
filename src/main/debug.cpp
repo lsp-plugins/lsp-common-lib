@@ -8,6 +8,7 @@
 #include <lsp-plug.in/common/debug.h>
 #include <lsp-plug.in/stdlib/stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 namespace lsp
 {
@@ -15,6 +16,7 @@ namespace lsp
     {
         static FILE *log_fd = stderr;
 
+        LSP_COMMON_LIB_EXPORT
         void redirect(const char *file)
         {
             if (log_fd != stderr)
@@ -33,6 +35,7 @@ namespace lsp
             #endif
         }
 
+        LSP_COMMON_LIB_EXPORT
         void redirect(const char *path, const char *file)
         {
             if (log_fd != stderr)
@@ -54,7 +57,7 @@ namespace lsp
             {
                 ::setvbuf(fd, NULL, _IONBF, BUFSIZ);
                 ::fclose(stderr);
-                stderr = fd;
+                ::dup2(fileno(fd), STDERR_FILENO);
             }
         #endif
 
@@ -66,6 +69,7 @@ namespace lsp
             ::free(tmppath);
         }
 
+        LSP_COMMON_LIB_EXPORT
         int vprintf(const char *fmt, va_list args)
         {
             if (log_fd == NULL)
@@ -76,6 +80,7 @@ namespace lsp
             return res;
         }
 
+        LSP_COMMON_LIB_EXPORT
         int printf(const char *fmt...)
         {
             va_list ap;
@@ -87,6 +92,7 @@ namespace lsp
             return r;
         }
 
+        LSP_COMMON_LIB_EXPORT
         void dumpf(const char *s, const char *fmt, const float *f, size_t n)
         {
             ::fputs(s, log_fd);
@@ -101,6 +107,7 @@ namespace lsp
             ::fflush(log_fd);
         }
 
+        LSP_COMMON_LIB_EXPORT
         void dumpb(const char *s, const void *b, size_t sz)
         {
             ::fputs(s, log_fd);
