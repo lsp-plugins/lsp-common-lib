@@ -709,6 +709,12 @@ namespace lsp
             return (a < 0) ? -a : a;
         }
 
+    template <class S>
+        inline S lsp_setflag(S bits, S flag, bool value)
+        {
+            return (value) ? bits | flag : bits & (~flag);
+        }
+
     inline int version_cmp(const version_t *a, const version_t *b)
     {
         int diff = a->major - b->major;
