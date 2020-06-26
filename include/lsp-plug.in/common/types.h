@@ -709,8 +709,8 @@ namespace lsp
             return (a < 0) ? -a : a;
         }
 
-    template <class S>
-        inline S lsp_setflag(S bits, S flag, bool value)
+    template <class S, class F>
+        inline S lsp_setflag(S bits, F flag, bool value)
         {
             return (value) ? bits | flag : bits & (~flag);
         }
