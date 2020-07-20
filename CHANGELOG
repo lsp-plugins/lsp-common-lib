@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.7 ===
+* Added lsp_setflag method.
+
 === 1.0.6 ===
 * Added lsp_limit method.
 * Updated build system.
