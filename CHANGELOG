@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.8 ===
+* Added range definitions for umword_t and smword_t types.
 
 === 1.0.7 ===
 * Added lsp_setflag method.
