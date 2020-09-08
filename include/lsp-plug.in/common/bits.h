@@ -28,7 +28,7 @@ namespace lsp
     #elif defined(ARCH_ARM)
         #include <lsp-plug.in/common/arch/arm/bits.h>
     #else
-        #include <lsp-plug.in/common/arch/native/bits.h>
+        #include <lsp-plug.in/common/arch/generic/bits.h>
     #endif
 #undef LSP_PLUG_IN_COMMON_BITS_IMPL
 
