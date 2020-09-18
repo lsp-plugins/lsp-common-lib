@@ -1,8 +1,22 @@
 /*
- * types.h
+ * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
- *  Created on: 10 авг. 2018 г.
- *      Author: sadko
+ * This file is part of lsp-common-lib
+ * Created on: 10 авг. 2018 г.
+ *
+ * lsp-common-lib is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * lsp-common-lib is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
 #ifndef LSP_PLUG_IN_COMMON_TYPES_H_
@@ -73,18 +87,54 @@ namespace lsp
         #define ARCH_64BIT
         typedef uint64_t            umword_t;
         typedef int64_t             smword_t;
+
+        #define UMWORD_MIN          0
+        #define UMWORD_MAX          UINT64_MAX
+        #define UMWORD_BITS         64
+
+        #define SMWORD_MIN          INT64_MIN
+        #define SMWORD_MAX          INT64_MAX
+        #define SMWORD_BITS         64
+
     #elif defined(__SIZE_WIDTH__) && (__SIZE_WIDTH__ == 64)
         #define ARCH_64BIT
         typedef uint64_t            umword_t;
         typedef int64_t             smword_t;
+
+        #define UMWORD_MIN          0
+        #define UMWORD_MAX          UINT64_MAX
+        #define UMWORD_BITS         64
+
+        #define SMWORD_MIN          INT64_MIN
+        #define SMWORD_MAX          INT64_MAX
+        #define SMWORD_BITS         64
+
     #elif defined(__WORDSIZE) && (__WORDSIZE == 32)
         #define ARCH_32BIT
         typedef uint32_t            umword_t;
         typedef int32_t             smword_t;
+
+        #define UMWORD_MIN          0
+        #define UMWORD_MAX          UINT32_MAX
+        #define UMWORD_BITS         32
+
+        #define SMWORD_MIN          INT32_MIN
+        #define SMWORD_MAX          INT32_MAX
+        #define SMWORD_BITS         32
+
     #elif defined(__SIZE_WIDTH__) && (__SIZE_WIDTH__ == 32)
         #define ARCH_32BIT
         typedef uint32_t            umword_t;
         typedef int32_t             smword_t;
+
+        #define UMWORD_MIN          0
+        #define UMWORD_MAX          UINT32_MAX
+        #define UMWORD_BITS         32
+
+        #define SMWORD_MIN          INT32_MIN
+        #define SMWORD_MAX          INT32_MAX
+        #define SMWORD_BITS         32
+
     #else
         #warning "Unsupported architecture bitness"
     #endif /* __WORDSIZE, __SIZE_WIDTH__ */
