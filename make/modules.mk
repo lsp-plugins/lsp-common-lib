@@ -41,7 +41,7 @@ ifeq ($(TREE),1)
     )
   else
     $(foreach dep, $(ALL_DEPENDENCIES), \
-      $(eval $(dep)_BRANCH="$($(dep)_NAME)-$($(dep)_VERSION)") \
+      $(eval $(dep)_BRANCH="$($(dep)_VERSION)") \
       $(eval $(dep)_PATH=$(MODULES)/$($(dep)_NAME)) \
     )
   endif
