@@ -83,61 +83,80 @@
 // Detect bitness of architecture
 namespace lsp
 {
-    #if defined(__WORDSIZE) && (__WORDSIZE == 64)
+    #if defined(__WORDSIZE) && (__WORDSIZE == 128)
+        #define ARCH_128BIT
+    #elif defined(__SIZE_WIDTH__) && (__SIZE_WIDTH__ == 128)
+        #define ARCH_128BIT
+    #elif defined(__WORDSIZE) && (__WORDSIZE == 64)
         #define ARCH_64BIT
-        typedef uint64_t            umword_t;
-        typedef int64_t             smword_t;
-
-        #define UMWORD_MIN          0
-        #define UMWORD_MAX          UINT64_MAX
-        #define UMWORD_BITS         64
-
-        #define SMWORD_MIN          INT64_MIN
-        #define SMWORD_MAX          INT64_MAX
-        #define SMWORD_BITS         64
-
     #elif defined(__SIZE_WIDTH__) && (__SIZE_WIDTH__ == 64)
         #define ARCH_64BIT
-        typedef uint64_t            umword_t;
-        typedef int64_t             smword_t;
-
-        #define UMWORD_MIN          0
-        #define UMWORD_MAX          UINT64_MAX
-        #define UMWORD_BITS         64
-
-        #define SMWORD_MIN          INT64_MIN
-        #define SMWORD_MAX          INT64_MAX
-        #define SMWORD_BITS         64
-
     #elif defined(__WORDSIZE) && (__WORDSIZE == 32)
         #define ARCH_32BIT
-        typedef uint32_t            umword_t;
-        typedef int32_t             smword_t;
-
-        #define UMWORD_MIN          0
-        #define UMWORD_MAX          UINT32_MAX
-        #define UMWORD_BITS         32
-
-        #define SMWORD_MIN          INT32_MIN
-        #define SMWORD_MAX          INT32_MAX
-        #define SMWORD_BITS         32
-
     #elif defined(__SIZE_WIDTH__) && (__SIZE_WIDTH__ == 32)
         #define ARCH_32BIT
-        typedef uint32_t            umword_t;
-        typedef int32_t             smword_t;
-
-        #define UMWORD_MIN          0
-        #define UMWORD_MAX          UINT32_MAX
-        #define UMWORD_BITS         32
-
-        #define SMWORD_MIN          INT32_MIN
-        #define SMWORD_MAX          INT32_MAX
-        #define SMWORD_BITS         32
-
     #else
         #warning "Unsupported architecture bitness"
     #endif /* __WORDSIZE, __SIZE_WIDTH__ */
+
+    #if defined(ARCH_32BIT)
+        #ifndef INT32_MIN
+            #define INT32_MIN           (-2147483647-1)
+        #endif
+
+        #ifndef INT32_MAX
+            #define INT32_MAX           (2147483647)
+        #endif
+
+        #ifndef UINT32_MAX
+            #define UINT32_MAX          (4294967295U)
+        #endif
+
+        #define UMWORD_MIN          0
+        #define UMWORD_MAX          UINT32_MAX
+        #define UMWORD_BITS         32
+
+        #define SMWORD_MIN          INT32_MIN
+        #define SMWORD_MAX          INT32_MAX
+        #define SMWORD_BITS         32
+
+        typedef uint32_t            umword_t;
+        typedef int32_t             smword_t;
+    #elif defined(ARCH_64BIT)
+        #ifndef INT64_MIN
+            #define INT64_MIN           (-9223372036854775807L-1)
+        #endif
+
+        #ifndef INT64_MAX
+            #define INT64_MAX           (9223372036854775807L)
+        #endif
+
+        #ifndef UINT64_MAX
+            #define UINT64_MAX          (18446744073709551615UL)
+        #endif
+
+        #define UMWORD_MIN          0
+        #define UMWORD_MAX          UINT64_MAX
+        #define UMWORD_BITS         64
+
+        #define SMWORD_MIN          INT64_MIN
+        #define SMWORD_MAX          INT64_MAX
+        #define SMWORD_BITS         64
+
+        typedef uint64_t            umword_t;
+        typedef int64_t             smword_t;
+    #elif defined(ARCH_128BIT)
+        #define UMWORD_MIN          0
+        #define UMWORD_MAX          UINT128_MAX
+        #define UMWORD_BITS         128
+
+        #define SMWORD_MIN          INT128_MIN
+        #define SMWORD_MAX          INT128_MAX
+        #define SMWORD_BITS         64
+
+        typedef uint128_t           umword_t;
+        typedef int128_t            smword_t;
+    #endif
 
     /**
      * Version of any plugin module
