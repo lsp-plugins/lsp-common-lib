@@ -9,7 +9,7 @@
 # the Free Software Foundation, either version 3 of the License, or
 # any later version.
 #
-# lsp-runime-lib is distributed in the hope that it will be useful,
+# lsp-common-lib is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU Lesser General Public License for more details.
@@ -23,7 +23,7 @@ ARTIFACT_NAME               = lsp-common-lib
 ARTIFACT_DESC               = Common library for basic C/C++ language definitions
 ARTIFACT_VARS               = LSP_COMMON_LIB
 ARTIFACT_HEADERS            = lsp-plug.in
-ARTIFACT_VERSION            = 1.0.8
+ARTIFACT_VERSION            = 1.0.9
 
 # List of dependencies
 TEST_DEPENDENCIES := \
