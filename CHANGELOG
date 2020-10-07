@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.10 ===
+* Added M_GOLD_RATIO and M_RGOLD_RATIO definitions to stdlib/math.h wrapper.
 
 === 1.0.9 ===
 * Updated smword_t and umword_t type definitions.

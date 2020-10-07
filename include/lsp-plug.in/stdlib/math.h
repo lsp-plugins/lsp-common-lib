@@ -84,5 +84,13 @@
     #define M_SQRT1_2   0.70710678118654752440  /* 1/sqrt(2) */
 #endif
 
+// Additional extensions
+#ifndef M_GOLD_RATIO
+    #define M_GOLD_RATIO        1.61803398875
+#endif M_GOLD_RATIO
+
+#ifndef M_RGOLD_RATIO
+    #define M_RGOLD_RATIO       0.61803398875
+#endif M_RGOLD_RATIO
 
 #endif /* LSP_PLUG_IN_STDLIB_MATH_H_ */
