@@ -742,6 +742,8 @@ namespace lsp
     #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN
 #endif
 
+#define LSP_SYMBOL_HIDDEN           __attribute__((visibility("hidden")))
+
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
 namespace lsp
