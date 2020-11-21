@@ -55,25 +55,26 @@ namespace lsp
             void *arg
     )
     {
-      #if (defined(__APPLE__) || defined(__MACH__) || defined(__DARWIN__) || \
-             defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX))
+        #if defined(PLATFORM_LINUX) || defined(_GNU_SOURCE) || defined(__GNU__)
+            ::qsort_r(data, count, szof, compar, arg);
+        #elif defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX)
 
-        bsd_qsort_r_t sort;
-        sort.arg        = arg;
-        sort.compar     = compar;
-        ::qsort_r(data, count, szof, &sort, &bsd_qsort_r_t::compare);
+            bsd_qsort_r_t sort;
+            sort.arg        = arg;
+            sort.compar     = compar;
+            ::qsort_r(data, count, szof, &sort, &bsd_qsort_r_t::compare);
 
-      #elif (defined _WIN32 || defined _WIN64 || defined __WINDOWS__)
+        #elif defined(PLATFORM_WINDOWS)
 
-        win_qsort_r_t sort;
-        sort.arg        = arg;
-        sort.compar     = compar;
+            win_qsort_r_t sort;
+            sort.arg        = arg;
+            sort.compar     = compar;
 
-        ::qsort_s(data, count, szof, &win_qsort_r_t::compare, &tmp);
+            ::qsort_s(data, count, szof, &win_qsort_r_t::compare, &tmp);
 
-      #else
-        ::qsort_r(data, count, szof, compar, arg);
-      #endif
+        #else
+            ::qsort_r(data, count, szof, compar, arg);
+        #endif
     }
 }
 
