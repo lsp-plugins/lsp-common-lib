@@ -67,7 +67,7 @@ namespace lsp
             win_qsort_r_t sort;
             sort.arg        = arg;
             sort.compar     = compar;
-            ::qsort_s(data, count, szof, &win_qsort_r_t::compare, &tmp);
+            ::qsort_s(data, count, szof, &win_qsort_r_t::compare, &sort);
         #else
             ::qsort_r(data, count, szof, compar, arg);
         #endif
