@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.11 ===
+* Added wrapper around <stdlib.h>.
 
 === 1.0.10 ===
 * Added M_GOLD_RATIO and M_RGOLD_RATIO definitions to stdlib/math.h wrapper.
