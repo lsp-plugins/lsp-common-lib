@@ -329,7 +329,7 @@ namespace lsp
     #define IF_PLATFORM_BSD(...)        __VA_ARGS__
 #endif /* __bsd__ */
 
-#if defined(__macosx__) || defined(__APPLE__) || defined(__MACH__)
+#if defined(__macosx__) || defined(__APPLE__) || defined(__MACH__) || defined(__DARWIN__)
     #define PLATFORM_MACOSX
     #define IF_PLATFORM_MACOSX(...)     __VA_ARGS__
 #endif /* __macosx__ */

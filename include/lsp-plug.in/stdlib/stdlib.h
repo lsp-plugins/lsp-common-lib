@@ -22,6 +22,59 @@
 #ifndef LSP_PLUG_IN_STDLIB_STDLIB_H_
 #define LSP_PLUG_IN_STDLIB_STDLIB_H_
 
+#include <lsp-plug.in/common/version.h>
 #include <stdlib.h>
+
+namespace lsp
+{
+    typedef int (*sort_compar_t)(const void *a, const void *ab, void *arg);
+
+    #if defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX)
+        typedef struct bsd_qsort_r_t
+        {
+            void             *arg;
+            sort_compar_t     compar;
+
+            static int        compare(void *s, const void *a, const void *b);
+        } bsd_qsort_r_t;
+    #endif /* defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX) */
+
+    #if defined(PLATFORM_WINDOWS)
+        typedef struct win_qsort_r_t
+        {
+            void             *arg;
+            sort_compar_t     compar;
+
+            static int        compare(void *s, const void *a, const void *b);
+        } win_qsort_r_t;
+    #endif /* defined(PLATFORM_WINDOWS) */
+
+    inline void qsort_r(
+            void *data, size_t count, size_t szof,
+            int (*compar)(const void *a1, const void *a2, void *data),
+            void *arg
+    )
+    {
+      #if (defined(__APPLE__) || defined(__MACH__) || defined(__DARWIN__) || \
+             defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX))
+
+        bsd_qsort_r_t sort;
+        sort.arg        = arg;
+        sort.compar     = compar;
+        ::qsort_r(data, count, szof, &sort, &bsd_qsort_r_t::compare);
+
+      #elif (defined _WIN32 || defined _WIN64 || defined __WINDOWS__)
+
+        win_qsort_r_t sort;
+        sort.arg        = arg;
+        sort.compar     = compar;
+
+        ::qsort_s(data, count, szof, &win_qsort_r_t::compare, &tmp);
+
+      #else
+        ::qsort_r(data, count, szof, compar, arg);
+      #endif
+    }
+}
 
 #endif /* LSP_PLUG_IN_STDLIB_STDLIB_H_ */
