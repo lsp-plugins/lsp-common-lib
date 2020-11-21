@@ -23,6 +23,7 @@
 #define LSP_PLUG_IN_STDLIB_STDLIB_H_
 
 #include <lsp-plug.in/common/version.h>
+#include <lsp-plug.in/common/types.h>
 #include <stdlib.h>
 
 namespace lsp
@@ -55,23 +56,18 @@ namespace lsp
             void *arg
     )
     {
-        #if defined(PLATFORM_LINUX) || defined(_GNU_SOURCE) || defined(__GNU__) || defined(COMPILER_GCC)
+        #if defined(PLATFORM_LINUX) || defined(_GNU_SOURCE) || defined(__GNU__)
             ::qsort_r(data, count, szof, compar, arg);
         #elif defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX)
-
             bsd_qsort_r_t sort;
             sort.arg        = arg;
             sort.compar     = compar;
             ::qsort_r(data, count, szof, &sort, &bsd_qsort_r_t::compare);
-
         #elif defined(PLATFORM_WINDOWS)
-
             win_qsort_r_t sort;
             sort.arg        = arg;
             sort.compar     = compar;
-
             ::qsort_s(data, count, szof, &win_qsort_r_t::compare, &tmp);
-
         #else
             ::qsort_r(data, count, szof, compar, arg);
         #endif

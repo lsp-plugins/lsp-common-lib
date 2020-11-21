@@ -27,7 +27,7 @@ namespace lsp
         int bsd_qsort_r_t::compare(void *s, const void *a, const void *b)
         {
             bsd_qsort_r_t *_this = static_cast<bsd_qsort_r_t *>(s);
-            return (_this->compar)(a, b, ss->arg);
+            return (_this->compar)(a, b, _this->arg);
         }
     #endif /* defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX) */
 
@@ -35,7 +35,7 @@ namespace lsp
         int win_qsort_r_t::compare(void *s, const void *a, const void *b)
         {
             win_qsort_r_t *_this = static_cast<win_qsort_r_t *>(s);
-            return (_this->compar)(a, b, ss->arg);
+            return (_this->compar)(a, b, _this->arg);
         }
     #endif /* defined(PLATFORM_WINDOWS) */
 }
