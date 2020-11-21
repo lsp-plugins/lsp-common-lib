@@ -55,7 +55,7 @@ namespace lsp
             void *arg
     )
     {
-        #if defined(PLATFORM_LINUX) || defined(_GNU_SOURCE) || defined(__GNU__)
+        #if defined(PLATFORM_LINUX) || defined(_GNU_SOURCE) || defined(__GNU__) || defined(COMPILER_GCC)
             ::qsort_r(data, count, szof, compar, arg);
         #elif defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX)
 

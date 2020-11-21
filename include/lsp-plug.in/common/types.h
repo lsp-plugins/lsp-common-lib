@@ -359,6 +359,15 @@ namespace lsp
     #define FILE_LIBRARY_EXT_S          ".dll"
 #endif /* */
 
+// Detect compiler
+#if defined(__clang__)
+    #define COMPILER_CLANG
+#elif defined(__GNUC__) || defined(__GNUG__)
+    #define COMPILER_GCC
+#elif defined(_MSC_VER)
+    #define COMPILER_MSC
+#endif /* __GNUC__ */
+
 //-----------------------------------------------------------------------------
 // Conditional assemblying
 #define __ASM_EMIT(code)                        code "\n\t"
