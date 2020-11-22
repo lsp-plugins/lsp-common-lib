@@ -329,7 +329,7 @@ namespace lsp
     #define IF_PLATFORM_BSD(...)        __VA_ARGS__
 #endif /* __bsd__ */
 
-#if defined(__macosx__) || defined(__APPLE__) || defined(__MACH__)
+#if defined(__macosx__) || defined(__APPLE__) || defined(__MACH__) || defined(__DARWIN__)
     #define PLATFORM_MACOSX
     #define IF_PLATFORM_MACOSX(...)     __VA_ARGS__
 #endif /* __macosx__ */
@@ -358,6 +358,15 @@ namespace lsp
     #define FILE_SYSTEM_CASE_SENSE      0
     #define FILE_LIBRARY_EXT_S          ".dll"
 #endif /* */
+
+// Detect compiler
+#if defined(__clang__)
+    #define COMPILER_CLANG
+#elif defined(__GNUC__) || defined(__GNUG__)
+    #define COMPILER_GCC
+#elif defined(_MSC_VER)
+    #define COMPILER_MSC
+#endif /* __GNUC__ */
 
 //-----------------------------------------------------------------------------
 // Conditional assemblying

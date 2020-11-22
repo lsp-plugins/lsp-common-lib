@@ -95,7 +95,7 @@ namespace lsp
         S("underflow", "Underflow"),
         S("incompatible", "Incompatible module/function"),
 
-        NULL
+        S(NULL, NULL)
     };
 
     #undef S

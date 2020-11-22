@@ -3,7 +3,7 @@
  *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
- * Created on: 3 мая 2020 г.
+ * Created on: 21 нояб. 2020 г.
  *
  * lsp-common-lib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,25 +19,25 @@
  * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LSP_PLUG_IN_COMMON_VERSION_H_
-#define LSP_PLUG_IN_COMMON_VERSION_H_
+#include <lsp-plug.in/stdlib/stdlib.h>
 
-//-----------------------------------------------------------------------------
-// Version of headers
-#define LSP_COMMON_LIB_MAJOR            1
-#define LSP_COMMON_LIB_MINOR            0
-#define LSP_COMMON_LIB_MICRO            11
+namespace lsp
+{
+    #if defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX)
+        int bsd_qsort_r_t::compare(void *s, const void *a, const void *b)
+        {
+            bsd_qsort_r_t *_this = static_cast<bsd_qsort_r_t *>(s);
+            return (_this->compar)(a, b, _this->arg);
+        }
+    #endif /* defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX) */
 
-#ifdef LSP_COMMON_LIB_BUILTIN
-    #define LSP_COMMON_LIB_EXPORT
-    #define LSP_COMMON_LIB_CEXPORT
-    #define LSP_COMMON_LIB_IMPORT       LSP_SYMBOL_IMPORT
-    #define LSP_COMMON_LIB_CIMPORT      LSP_CSYMBOL_IMPORT
-#else
-    #define LSP_COMMON_LIB_EXPORT       LSP_SYMBOL_EXPORT
-    #define LSP_COMMON_LIB_CEXPORT      LSP_CSYMBOL_EXPORT
-    #define LSP_COMMON_LIB_IMPORT       LSP_SYMBOL_IMPORT
-    #define LSP_COMMON_LIB_CIMPORT      LSP_CSYMBOL_IMPORT
-#endif
+    #if defined(PLATFORM_WINDOWS)
+        int win_qsort_r_t::compare(void *s, const void *a, const void *b)
+        {
+            win_qsort_r_t *_this = static_cast<win_qsort_r_t *>(s);
+            return (_this->compar)(a, b, _this->arg);
+        }
+    #endif /* defined(PLATFORM_WINDOWS) */
+}
 
-#endif /* LSP_PLUG_IN_COMMON_VERSION_H_ */
+
