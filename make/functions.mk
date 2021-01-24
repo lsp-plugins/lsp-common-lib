@@ -18,28 +18,11 @@
 # along with lsp-common-lib.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Package version
-ARTIFACT_NAME               = lsp-common-lib
-ARTIFACT_DESC               = Common library for basic C/C++ language definitions
-ARTIFACT_ID                 = LSP_COMMON_LIB
-ARTIFACT_HEADERS            = lsp-plug.in
-ARTIFACT_VERSION            = 1.0.12-devel
+# Deduplicates all strings in the list
+uniq                    = $(if $1,$(firstword $1) $(call uniq,$(filter-out $(firstword $1),$1)))
 
-# List of dependencies
-TEST_DEPENDENCIES = \
-  STDLIB \
-  LSP_TEST_FW
-  
-DEPENDENCIES = 
+# Recursively lookup directory for specific file pattern
+rwildcard               = $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
 
-# Platform-dependent
-ifeq ($(PLATFORM),Windows)
-  TEST_DEPENDENCIES += \
-    LIBSHLWAPI
-endif
-
-# Overall system dependencies
-ALL_DEPENDENCIES = \
-  $(DEPENDENCIES) \
-  $(TEST_DEPENDENCIES) \
-  LIBSHLWAPI
+# Fetch different flags from symbolic dependencies
+query                   = $(foreach d, $(call uniq, $2), $($(d)_$1))
