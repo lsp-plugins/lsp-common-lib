@@ -21,7 +21,7 @@
 BASEDIR                := $(CURDIR)
 DEPLIST                := $(BASEDIR)/dependencies.mk
 PROJECT                := $(BASEDIR)/project.mk
-CONFIG                 := $(CURDIR)/.config.mk
+CONFIG                 := $(BASEDIR)/.config.mk
 
 include $(BASEDIR)/make/functions.mk
 ifeq ($(TREE),1)

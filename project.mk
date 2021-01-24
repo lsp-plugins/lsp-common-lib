@@ -27,7 +27,7 @@ ARTIFACT_VERSION            = 1.0.12-devel
 
 # List of dependencies
 TEST_DEPENDENCIES = \
-  STDLIB \
+  LIBPTHREAD \
   LSP_TEST_FW
   
 DEPENDENCIES = 
