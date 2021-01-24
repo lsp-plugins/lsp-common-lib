@@ -39,12 +39,7 @@ include $(BASEDIR)/dependencies.mk
 include $(BASEDIR)/project.mk
 
 # Compute the full list of dependencies
-BUILD_DEPENDENCIES          = $(DEPENDENCIES)
-ifeq ($(TEST),1)
-  BUILD_DEPENDENCIES         += $(TEST_DEPENDENCIES)
-endif
-
-UNIQ_DEPENDENCIES          := $(call uniq, $(BUILD_DEPENDENCIES))
+UNIQ_DEPENDENCIES          := $(call uniq, $(DEPENDENCIES) $(TEST_DEPENDENCIES))
 DEPENDENCIES                = $(UNIQ_DEPENDENCIES)
 
 # Determine versions
