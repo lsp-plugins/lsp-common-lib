@@ -45,7 +45,7 @@ DISTSRC                     = $(DISTSRC_PATH)/$(ARTIFACT_NAME)
 
 compile all install uninstall depend:
 	@$(CHK_CONFIG)
-	@$(MAKE) -s -C "$(BASEDIR)/src" $(@) ARTIFACT_ID="$(ARTIFACT_ID)" CONFIG="$(CONFIG)" DESTDIR="$(DESTDIR)"
+	@$(MAKE) -s -C "$(BASEDIR)/src" $(@) CONFIG="$(CONFIG)" DESTDIR="$(DESTDIR)"
 
 clean:
 	@echo "Cleaning build directory $(BUILDDIR)"

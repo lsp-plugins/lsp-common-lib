@@ -18,11 +18,12 @@
 # along with lsp-common-lib.  If not, see <https://www.gnu.org/licenses/>.
 #
 
+BASEDIR                 = $(CURDIR)
 CONFIG                 := $(CURDIR)/.config.mk
 
+include $(BASEDIR)/../project.mk
 include $(CONFIG)
-include $($(ARTIFACT_ID)_PATH)/project.mk
-include $($(ARTIFACT_ID)_PATH)/make/functions.mk
+include $(BASEDIR)/../make/functions.mk
 
 ifeq ($(TEST),1)
   UNIQ_DEPENDENCIES      := $(call uniq, $(DEPENDENCIES) $(TEST_DEPENDENCIES))
