@@ -26,7 +26,7 @@ ARTIFACT_HEADERS            = lsp-plug.in
 ARTIFACT_VERSION            = 1.0.12-devel
 
 # List of dependencies
-DEPENDENCIES =
+DEPENDENCIES = \
   LIBPTHREAD 
 
 TEST_DEPENDENCIES = \
