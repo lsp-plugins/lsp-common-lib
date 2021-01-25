@@ -72,7 +72,7 @@ BUILD_ALL               = $(ARTIFACT_LIB) $(ARTIFACT_SLIB) $(ARTIFACT_PC)
 ifeq ($($(ARTIFACT_ID)_TESTING),1)
   CXX_SRC                += $(CXX_SRC_TEST)
   CXX_OBJ                += $(CXX_OBJ_TEST)
-  ARTIFACT_TARGETS       += $(ARTIFACT_TESTBIN)
+  ARTIFACT_TARGETS       += $(ARTIFACT_TEST_BIN)
 endif
 
 DEP_CXX                 = $(foreach src,$(CXX_SRC_MAIN) $(CXX_SRC_EXT) $(CXX_SRC_TEST),$(patsubst %.cpp,$(ARTIFACT_BIN)/%.d,$(src)))
