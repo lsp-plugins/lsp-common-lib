@@ -87,9 +87,9 @@ DEP_DEP_FILE            = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
 dep_clean:
 
 $(DEP_CXX): dep_clean
-	@echo "  dep  [$(ARTIFACT_NAME)] $(DEP_CXXFILE)"
+	@echo "  dep  [$(ARTIFACT_NAME)] $(DEP_CXX_FILE)"
 	@mkdir -p $(dir $(@))
-	$(CXX) -MM -MT "\$$($(ARTIFACT_ID)_BIN)/$(CXX_DEP_FILE)" -MF $(@) $(DEP_CXXFILE) $(CXXFLAGS) $(INCLUDE) $(ARTIFACT_CFLAGS)
+	$(CXX) -MM -MT "\$$($(ARTIFACT_ID)_BIN)/$(DEP_DEP_FILE)" -MF $(@) $(DEP_CXX_FILE) $(CXXFLAGS) $(INCLUDE) $(ARTIFACT_CFLAGS)
 
 depend: $(DEP_CXX)
 	$(foreach dep,$(DEPENDENCIES) $(ARTIFACT_ID),\
