@@ -83,9 +83,6 @@ DEP_DEP_FILE            = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
 .PHONY: compile depend dep_clean all install uninstall
 .PHONY: $(ARTIFACT_DEPS)
 
-$(info ARTIFACT_DEPS = $(ARTIFACT_DEPS))
-$(info $(ARTIFACT_LIB): $(ARTIFACT_DEPS) $(ARTIFACT_OBJ))
-
 # Dependencies
 dep_clean:
 
