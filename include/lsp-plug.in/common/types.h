@@ -30,7 +30,8 @@
 
 //-----------------------------------------------------------------------------
 // VERSION MANAGEMENT
-#define LSP_DEF_VERSION(major, minor, micro)        { major, minor, micro }
+#define LSP_DEF_VERSION(major, minor, micro)        { major, minor, micro, ""       }
+#define LSP_DEF_PACKAGE(major, minor, micro, branch){ major, minor, micro, branch   }
 #define LSP_DEFINE_VERSION(artifact)                LSP_DEF_VERSION(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
 
 #define LSP_DO_DEFINE_VERSION_STR(major, minor, micro) #major "." #minor "." #micro
@@ -163,9 +164,10 @@ namespace lsp
      */
     typedef struct version_t
     {
-        int     major;
-        int     minor;
-        int     micro;
+        int         major;      /* Major version */
+        int         minor;      /* Minor version */
+        int         micro;      /* Micro version */
+        const char *branch;     /* Branch version */
     } version_t;
 
     /**
