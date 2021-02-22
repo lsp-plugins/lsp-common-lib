@@ -19,19 +19,27 @@
 #
 
 # Package version
+ARTIFACT_ID                 = LSP_COMMON_LIB
 ARTIFACT_NAME               = lsp-common-lib
 ARTIFACT_DESC               = Common library for basic C/C++ language definitions
-ARTIFACT_VARS               = LSP_COMMON_LIB
 ARTIFACT_HEADERS            = lsp-plug.in
-ARTIFACT_VERSION            = 1.0.11
+ARTIFACT_VERSION            = 1.0.12
 
 # List of dependencies
-TEST_DEPENDENCIES := \
-  LSP_TEST_FW \
-  TEST_STDLIB
-  
-DEPENDENCIES := 
+DEPENDENCIES = \
+  LIBPTHREAD 
 
+TEST_DEPENDENCIES = \
+  LSP_TEST_FW
+
+# Platform-dependent
+ifeq ($(PLATFORM),Windows)
+  TEST_DEPENDENCIES += \
+    LIBSHLWAPI
+endif
+
+# Overall system dependencies
 ALL_DEPENDENCIES = \
   $(DEPENDENCIES) \
-  $(TEST_DEPENDENCIES)
+  $(TEST_DEPENDENCIES) \
+  LIBSHLWAPI

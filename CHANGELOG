@@ -2,6 +2,10 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.12 ===
+* Updated build system.
+* Added package versioning.
+
 === 1.0.11 ===
 * Added wrapper around <stdlib.h>.
 * Added platform-independent lsp::qsort_r function implementation that
