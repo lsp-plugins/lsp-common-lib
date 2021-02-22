@@ -23,7 +23,7 @@ ARTIFACT_ID                 = LSP_COMMON_LIB
 ARTIFACT_NAME               = lsp-common-lib
 ARTIFACT_DESC               = Common library for basic C/C++ language definitions
 ARTIFACT_HEADERS            = lsp-plug.in
-ARTIFACT_VERSION            = 1.0.12-devel
+ARTIFACT_VERSION            = 1.0.12
 
 # List of dependencies
 DEPENDENCIES = \
