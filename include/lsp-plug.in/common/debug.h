@@ -35,8 +35,12 @@
     #ifndef LSP_DEBUG
         #define LSP_DEBUG
     #endif /* LSP_DEBUG */
+
+    #define IF_TRACE(...)               __VA_ARGS__
 #else
     #define lsp_trace(msg, ...)
+
+    #define IF_TRACE(...)
 #endif /* LSP_TRACE */
 
 // Check debug level
@@ -47,6 +51,8 @@
     #define lsp_debug(msg, ...)         ::lsp::debug::printf("[DBG][%s:%4d] %s: " msg "\n", __FILE__, __LINE__, __FUNCTION__, ## __VA_ARGS__)
     #define lsp_dumpf(s, fmt, p, n)     ::lsp::debug::dumpf(s, fmt, p, n)
     #define lsp_dumpb(s, p, sz)         ::lsp::debug::dumpb(s, p, sz)
+
+    #define IF_DEBUG(...)               __VA_ARGS__
 #else
     #define lsp_nprintf(msg, ...)
     #define lsp_nvprintf(msg, va_args)
@@ -54,6 +60,8 @@
     #define lsp_debug(msg, ...)
     #define lsp_dumpf(s, fmt, p, n)
     #define lsp_dumpb(s, p, sz)
+
+    #define IF_DEBUG(...)
 #endif /* LSP_DEBUG */
 
 #ifdef LSP_DEBUG

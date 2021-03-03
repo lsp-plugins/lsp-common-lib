@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.13 ===
+* Added IF_TRACE and IF_DEBUG macros to <common/debug.h>
 
 === 1.0.12 ===
 * Updated build system.
