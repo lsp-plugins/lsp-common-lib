@@ -2,6 +2,8 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.14 ===
+
 === 1.0.13 ===
 * Added IF_TRACE and IF_DEBUG macros to <common/debug.h>.
 * Updated build.

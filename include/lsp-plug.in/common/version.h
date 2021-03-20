@@ -26,7 +26,7 @@
 // Version of headers
 #define LSP_COMMON_LIB_MAJOR            1
 #define LSP_COMMON_LIB_MINOR            0
-#define LSP_COMMON_LIB_MICRO            13
+#define LSP_COMMON_LIB_MICRO            14
 
 #ifdef LSP_COMMON_LIB_BUILTIN
     #define LSP_COMMON_LIB_EXPORT
