@@ -773,10 +773,38 @@ namespace lsp
             return (a > b) ? a : b;
         }
 
+    template <class A, class B, class C>
+        inline A lsp_max(A a, B b, C c)
+        {
+            if ((a > b) && (a > c))
+                return a;
+            return (b > c) ? b : c;
+        }
+
+    template <class A, class B, class C, class D>
+        inline A lsp_max(A a, B b, C c, D d)
+        {
+            return lsp_max(lsp_max(a, b), lsp_max(c, d));
+        }
+
     template <class A, class B>
         inline A lsp_min(A a, B b)
         {
-            return (a <= b) ? a : b;
+            return (a < b) ? a : b;
+        }
+
+    template <class A, class B, class C>
+        inline A lsp_min(A a, B b, C c)
+        {
+            if ((a < b) && (a < c))
+                return a;
+            return (b < c) ? b : c;
+        }
+
+    template <class A, class B, class C, class D>
+        inline A lsp_min(A a, B b, C c, D d)
+        {
+            return lsp_min(lsp_min(a, b), lsp_min(c, d));
         }
 
     template <class A, class B, class C>
