@@ -646,6 +646,12 @@ namespace lsp
 #endif /* IF_PLATFORM_WINDOWS */
 
 //-----------------------------------------------------------------------------
+// Detect some libraries
+#ifdef __GLIBC__
+    #define USE_GLIBC                           __GLIBC__
+#endif /* GLIBC */
+
+//-----------------------------------------------------------------------------
 // Optimizations
 #ifdef ARCH_I386
     #define DEFAULT_ALIGN                   0x10
