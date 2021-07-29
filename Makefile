@@ -120,5 +120,5 @@ help:
 	echo "                            to make source code portable between machines"
 	echo "  uninstall                 Uninstall binaries"
 	echo ""
-	$(MAKE) -f "$(BASEDIR)/make/configure.mk" VERBOSE="$(VERBOSE)" $(@)
+	$(MAKE) -f "$(BASEDIR)/make/configure.mk" $(@) VERBOSE="$(VERBOSE)"
 	echo ""
