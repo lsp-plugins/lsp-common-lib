@@ -816,14 +816,13 @@ namespace lsp
 
         inline int __lsp_forced_inline int_log2(uint8_t v)
         {
-            uint32_t res = v, tmp;
+            uint32_t res = v;
 
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
                 __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (res), [tmp] "=&r" (tmp)
-                :
+                : [res] "+r" (res)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return res;
@@ -831,14 +830,13 @@ namespace lsp
 
         inline int __lsp_forced_inline     int_log2(int8_t v)
         {
-            uint32_t res = uint8_t(v), tmp;
+            uint32_t res = uint8_t(v);
 
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
                 __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (res), [tmp] "=&r" (tmp)
-                :
+                : [res] "+r" (res)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return res;
@@ -846,14 +844,13 @@ namespace lsp
 
         inline int __lsp_forced_inline     int_log2(uint16_t v)
         {
-            uint32_t res = v, tmp;
+            uint32_t res = v;
 
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
                 __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (res), [tmp] "=&r" (tmp)
-                :
+                : [res] "+r" (res)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return res;
@@ -861,14 +858,13 @@ namespace lsp
 
         inline int __lsp_forced_inline     int_log2(int16_t v)
         {
-            uint32_t res = uint16_t(v), tmp;
+            uint32_t res = uint16_t(v);
 
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
                 __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (res), [tmp] "=&r" (tmp)
-                :
+                : [res] "+r" (res)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return res;
@@ -876,14 +872,11 @@ namespace lsp
 
         inline int __lsp_forced_inline     int_log2(uint32_t v)
         {
-            uint32_t tmp;
-
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
                 __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (v), [tmp] "=&r" (tmp)
-                :
+                : [res] "+r" (v)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return v;
@@ -891,14 +884,11 @@ namespace lsp
 
         inline int __lsp_forced_inline     int_log2(int32_t v)
         {
-            uint32_t tmp;
-
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
                 __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (v), [tmp] "=&r" (tmp)
-                :
+                : [res] "+r" (v)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return v;
@@ -907,14 +897,11 @@ namespace lsp
     #ifdef ARCH_X86_64
         inline int __lsp_forced_inline     int_log2(uint64_t v)
         {
-            uint64_t tmp;
-
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (v), [tmp] "=&r" (tmp)
-                :
+                __ASM_EMIT("cmovz   %q[tmp], %[res]")
+                : [res] "+r" (v)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return int(v);
@@ -922,14 +909,11 @@ namespace lsp
 
         inline int __lsp_forced_inline     int_log2(int64_t v)
         {
-            uint64_t tmp;
-
             ARCH_X86_ASM (
-                __ASM_EMIT("xor     %[tmp], %[tmp]")
                 __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
-                : [res] "+r" (v), [tmp] "=&r" (tmp)
-                :
+                __ASM_EMIT("cmovz   %q[tmp], %[res]")
+                : [res] "+r" (v)
+                : [tmp] "r" (0)
                 : "cc"
             );
             return int(v);
