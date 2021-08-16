@@ -3,9 +3,9 @@
 *******************************************************************************
 
 === 1.0.14 ===
-- Added lsp_xlimit function to limit ranges for both min < max and min >= max ranges.
-- Added VERBOSE flag support by the make tools.
-- Added detection of the glibc library usage.
+* Added lsp_xlimit function to limit ranges for both min < max and min >= max ranges.
+* Added VERBOSE flag support by the make tools.
+* Added detection of the glibc library usage.
 
 === 1.0.13 ===
 * Added IF_TRACE and IF_DEBUG macros to <common/debug.h>.
