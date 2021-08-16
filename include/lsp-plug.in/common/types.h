@@ -646,6 +646,12 @@ namespace lsp
 #endif /* IF_PLATFORM_WINDOWS */
 
 //-----------------------------------------------------------------------------
+// Detect some libraries
+#ifdef __GLIBC__
+    #define USE_GLIBC                           __GLIBC__
+#endif /* GLIBC */
+
+//-----------------------------------------------------------------------------
 // Optimizations
 #ifdef ARCH_I386
     #define DEFAULT_ALIGN                   0x10
@@ -773,16 +779,53 @@ namespace lsp
             return (a > b) ? a : b;
         }
 
+    template <class A, class B, class C>
+        inline A lsp_max(A a, B b, C c)
+        {
+            if ((a > b) && (a > c))
+                return a;
+            return (b > c) ? b : c;
+        }
+
+    template <class A, class B, class C, class D>
+        inline A lsp_max(A a, B b, C c, D d)
+        {
+            return lsp_max(lsp_max(a, b), lsp_max(c, d));
+        }
+
     template <class A, class B>
         inline A lsp_min(A a, B b)
         {
-            return (a <= b) ? a : b;
+            return (a < b) ? a : b;
+        }
+
+    template <class A, class B, class C>
+        inline A lsp_min(A a, B b, C c)
+        {
+            if ((a < b) && (a < c))
+                return a;
+            return (b < c) ? b : c;
+        }
+
+    template <class A, class B, class C, class D>
+        inline A lsp_min(A a, B b, C c, D d)
+        {
+            return lsp_min(lsp_min(a, b), lsp_min(c, d));
         }
 
     template <class A, class B, class C>
         inline A lsp_limit(A a, B min, C max)
         {
             return (a < min) ? min : ((a > max) ? max : a);
+        }
+
+    template <class A, class B, class C>
+        inline A lsp_xlimit(A a, B min, C max)
+        {
+            if (min < max)
+                return (a < min) ? min : ((a > max) ? max : a);
+
+            return (a < max) ? max : ((a > min) ? min : a);
         }
 
     template <class T>

@@ -100,6 +100,22 @@ namespace lsp
             ptr = NULL;
             ::free(tptr);
         }
+
+    /**
+     * Seed the address
+     * @param ptr address to seed
+     * @return seed value
+     */
+    inline uint32_t seed_addr(const void *ptr)
+    {
+    #if defined(ARCH_I386)
+        return uint32_t(ptr);
+    #elif defined(ARCH_X86_64)
+        return uint32_t(ptrdiff_t(ptr)) ^ uint32_t(ptrdiff_t(ptr) >> 32);
+    #else
+        return uint32_t(ptrdiff_t(ptr));
+    #endif
+    }
 }
 
 #endif /* LSP_PLUG_IN_COMMON_ALLOC_H_ */
