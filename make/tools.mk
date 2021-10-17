@@ -55,8 +55,8 @@ HOST_LD            := $(LD)
 HOST_PKG_CONFIG    := $(PKG_CONFIG)
 
 # Miscellaneous tools
-HOST_GIT           := $(GIT)
-HOST_INSTALL       := $(INSTALL)
+GIT                := $(X_GIT_TOOL)
+INSTALL            := $(X_INSTALL_TOOL)
 
 # Patch flags and tools for (cross) build
 FLAG_RELRO          = -Wl,-z,relro,-z,now
