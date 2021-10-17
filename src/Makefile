@@ -48,7 +48,7 @@ ARTIFACT_BIN            = $($(HOST)$(ARTIFACT_ID)_BIN)
 ARTIFACT_INC            = $($(HOST)$(ARTIFACT_ID)_INC)
 ARTIFACT_OBJ            = $($(HOST)$(ARTIFACT_ID)_OBJ)
 ARTIFACT_OBJ_TEST       = $($(HOST)$(ARTIFACT_ID)_OBJ_TEST)
-ARTIFACT_MFLAGS         = $($(HOST)$(ARTIFACT_ID)_MFLAGS) $(foreach dep,$(DEPENDENCIES),-DUSE_$(dep))
+ARTIFACT_MFLAGS         = $($(HOST)$(ARTIFACT_ID)_MFLAGS) $(foreach dep,$(ARTIFACT_DEPENDENCIES),-DUSE_$(dep))
 
 ARTIFACT_TEST_BIN       = $(ARTIFACT_BIN)/$(ARTIFACT_NAME)-test$(EXECUTABLE_EXT)
 ARTIFACT_LIB            = $(ARTIFACT_BIN)/$(LIBRARY_PREFIX)$(ARTIFACT_NAME)-$(ARTIFACT_VERSION)$(LIBRARY_EXT)
@@ -105,7 +105,7 @@ $(DEP_CXX): dep_clean
 	$(CXX) -MM -MT "\$$($(ARTIFACT_ID)_BIN)/$(DEP_DEP_FILE)" -MF $(@) $(DEP_CXX_FILE) $(CXXFLAGS) $(INCLUDE) $(ARTIFACT_CFLAGS)
 
 depend: $(DEP_CXX)
-	$(foreach dep,$(DEPENDENCIES) $(ARTIFACT_ID),\
+	$(foreach dep,$(ARTIFACT_DEPENDENCIES) $(HOST)$(ARTIFACT_ID),\
 	  $(if $($(dep)_INC), \
 	    $(eval SED_RULES += s/$(shell echo "$($(dep)_INC)" | sed "s/\\//\\\\\//g")/\$$$$\\($(dep)_INC\\)/g;)\
 	  )\
