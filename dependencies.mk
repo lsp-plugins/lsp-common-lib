@@ -22,7 +22,8 @@
 LSP_TEST_FW_VERSION        := 1.0.8
 LSP_TEST_FW_NAME           := lsp-test-fw
 LSP_TEST_FW_TYPE           := src
-LSP_TEST_FW_URL            := git@github.com:lsp-plugins/$(LSP_TEST_FW_NAME).git
+LSP_TEST_FW_URL_RO         := https://github.com/lsp-plugins/$(LSP_TEST_FW_NAME).git
+LSP_TEST_FW_URL_RW         := git@github.com:lsp-plugins/$(LSP_TEST_FW_NAME).git
 
 LIBPTHREAD_VERSION         := system
 LIBPTHREAD_NAME            := libpthread
