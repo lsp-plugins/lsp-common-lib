@@ -146,6 +146,15 @@ namespace lsp
      */
     LSP_COMMON_LIB_IMPORT
     bool        status_is_error(status_t code);
+
+    /**
+     * Update status if it is success with new status
+     * @param status the current status
+     * @param new_status the new status
+     * @return new status if current status is STATUS_OK, otherwise status
+     */
+    LSP_COMMON_LIB_IMPORT
+    status_t    update_status(status_t status, status_t new_status);
 }
 
 #endif /* CORE_STATUS_H_ */

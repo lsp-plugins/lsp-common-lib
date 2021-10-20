@@ -138,6 +138,12 @@ namespace lsp
 
         return ! status_is_preliminary(code);
     }
+
+    LSP_COMMON_LIB_EXPORT
+    status_t update_status(status_t status, status_t new_status)
+    {
+        return (status == STATUS_OK) ? new_status : status;
+    }
 }
 
 

@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.15 ===
+- Added update_status function for accumulating error code in status_t variable.
 
 === 1.0.14 ===
 * Added lsp_xlimit function to limit ranges for both min < max and min >= max ranges.
