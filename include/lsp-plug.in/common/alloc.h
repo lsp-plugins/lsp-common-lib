@@ -51,6 +51,12 @@ namespace lsp
             return !(x % align);
         }
 
+    template <class T>
+        inline T *lsp_malloc(size_t count = 1)
+        {
+            return static_cast<T *>(::malloc(sizeof(T) * count));
+        }
+
     /** Allocate aligned pointer
      *
      * @param ptr reference to pointer to store allocated pointer for future free() operation
