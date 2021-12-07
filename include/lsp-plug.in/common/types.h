@@ -50,6 +50,9 @@
 
 #define LSP_DEFINE_VERSION_FUNC(artifact)           LSP_DEF_VERSION_FUNC(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
 
+#define LSP_STRINGIFY(x)                            LSP_STRINGIFY1(x)
+#define LSP_STRINGIFY1(x)                           #x
+
 //-----------------------------------------------------------------------------
 // Detect build architecture
 #if defined(__x86_64__) || defined(__x86_64) || defined(__amd64__) || defined(__amd64) || defined(_M_AMD64)
@@ -190,6 +193,7 @@ namespace lsp
 #if defined(ARCH_X86) || defined(ARCH_X86_64)
     #define IF_ARCH_X86(...)        __VA_ARGS__
     #define ARCH_X86_ASM(...)       __asm__ __volatile__ ( __VA_ARGS__ )
+    #define LSP_UNALIGNED_MEMORY_SAFE
 #endif /* ARCH_X86 */
 
 #if defined(ARCH_I386)
@@ -713,6 +717,14 @@ namespace lsp
 #ifndef MINIMUM_ALIGN
     #define MINIMUM_ALIGN                   DEFAULT_ALIGN
 #endif /* DEFAULT_ALIGN */
+
+#ifdef LSP_UNALIGNED_MEMORY_SAFE
+    #define IF_UNALIGNED_MEMORY_SAFE(x)     x
+    #define IF_UNALIGNED_MEMORY_UNSAFE(x)
+#else
+    #define IF_UNALIGNED_MEMORY_SAFE(x)
+    #define IF_UNALIGNED_MEMORY_UNSAFE(x)   x
+#endif /* LSP_UNALIGNED_MEMORY_SAFE */
 
 #ifdef PLATFORM_LINUX
     #include <linux/limits.h>
