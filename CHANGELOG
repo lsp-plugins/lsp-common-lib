@@ -5,6 +5,7 @@
 === 1.0.15 ===
 - Added update_status function for accumulating error code in status_t variable.
 - Added lsp::lsp_malloc template function for allocating arrays.
+- Added lsp::StaticInitializer, lsp::StaticFinalizer and lsp::StaticManager classes for static data.
 
 === 1.0.14 ===
 * Added lsp_xlimit function to limit ranges for both min < max and min >= max ranges.
