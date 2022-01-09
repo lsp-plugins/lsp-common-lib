@@ -24,7 +24,7 @@ endif
 BASEDIR                := $(CURDIR)
 DEPLIST                := $(BASEDIR)/dependencies.mk
 PROJECT                := $(BASEDIR)/project.mk
-CONFIG                 := $(CURDIR)/.config.mk
+CONFIG                 := $(BASEDIR)/.config.mk
 
 include $(BASEDIR)/make/functions.mk
 ifeq ($(TREE),1)
@@ -41,10 +41,17 @@ MERGED_DEPENDENCIES        := \
 UNIQ_MERGED_DEPENDENCIES   := $(call uniq, $(MERGED_DEPENDENCIES))
 UNIQ_ALL_DEPENDENCIES      := $(call uniq, $(ALL_DEPENDENCIES) $(PLUGIN_DEPENDENCIES))
 
+$(info UNIQ_MERGED_DEPENDENCIES = $(UNIQ_MERGED_DEPENDENCIES))
+$(info UNIQ_ALL_DEPENDENCIES = $(UNIQ_ALL_DEPENDENCIES))
+
 # Find the proper branch of the GIT repository
 ifeq ($(TREE),1)
   MODULES                := $(BASEDIR)/modules
   GIT                    := git
+  
+  $(foreach dep,$(UNIQ_ALL_DEPENDENCIES), \
+    $(eval $(dep)_URL=$($(dep)_URL_RO)) \
+  )
   
   ifeq ($(findstring -devel,$(ARTIFACT_VERSION)),-devel)
     $(foreach dep, $(UNIQ_ALL_DEPENDENCIES), \
@@ -71,6 +78,7 @@ ALL_PATHS           = $(foreach dep, $(ALL_SRC_MODULES) $(ALL_HDR_MODULES), $($(
 .PHONY: fetch prune clean
 
 $(ALL_SRC_MODULES) $(ALL_HDR_MODULES):
+	echo "$(@)"
 	echo "Cloning $($(@)_URL) -> $($(@)_PATH) [$($(@)_BRANCH)]"
 	test -f "$($(@)_PATH)/.git/config" || $(GIT) clone "$($(@)_URL)" "$($(@)_PATH)"
 	$(GIT) -C "$($(@)_PATH)" reset --hard
