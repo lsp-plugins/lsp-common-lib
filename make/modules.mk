@@ -41,9 +41,6 @@ MERGED_DEPENDENCIES        := \
 UNIQ_MERGED_DEPENDENCIES   := $(call uniq, $(MERGED_DEPENDENCIES))
 UNIQ_ALL_DEPENDENCIES      := $(call uniq, $(ALL_DEPENDENCIES) $(PLUGIN_DEPENDENCIES))
 
-$(info UNIQ_MERGED_DEPENDENCIES = $(UNIQ_MERGED_DEPENDENCIES))
-$(info UNIQ_ALL_DEPENDENCIES = $(UNIQ_ALL_DEPENDENCIES))
-
 # Find the proper branch of the GIT repository
 ifeq ($(TREE),1)
   MODULES                := $(BASEDIR)/modules
@@ -78,7 +75,6 @@ ALL_PATHS           = $(foreach dep, $(ALL_SRC_MODULES) $(ALL_HDR_MODULES), $($(
 .PHONY: fetch prune clean
 
 $(ALL_SRC_MODULES) $(ALL_HDR_MODULES):
-	echo "$(@)"
 	echo "Cloning $($(@)_URL) -> $($(@)_PATH) [$($(@)_BRANCH)]"
 	test -f "$($(@)_PATH)/.git/config" || $(GIT) clone "$($(@)_URL)" "$($(@)_PATH)"
 	$(GIT) -C "$($(@)_PATH)" reset --hard
