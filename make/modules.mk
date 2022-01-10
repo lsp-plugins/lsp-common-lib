@@ -22,19 +22,16 @@ ifneq ($(VERBOSE),1)
 endif
 
 BASEDIR                := $(CURDIR)
-PROJECT                := $(BASEDIR)/project.mk
-DEPLIST                := $(BASEDIR)/modules.mk
-DEPLIST                := $(BASEDIR)/dependencies.mk
 CONFIG                 := $(BASEDIR)/.config.mk
 
+include $(BASEDIR)/project.mk
+include $(BASEDIR)/dependencies.mk
 include $(BASEDIR)/make/functions.mk
 ifeq ($(TREE),1)
-  include $(DEPLIST)
+  include $(BASEDIR)/modules.mk
 else
   -include $(CONFIG)
 endif
-
-include $(PROJECT)
 
 MERGED_DEPENDENCIES        := \
   $(DEPENDENCIES) \
