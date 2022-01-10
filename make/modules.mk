@@ -22,8 +22,9 @@ ifneq ($(VERBOSE),1)
 endif
 
 BASEDIR                := $(CURDIR)
-DEPLIST                := $(BASEDIR)/dependencies.mk
 PROJECT                := $(BASEDIR)/project.mk
+DEPLIST                := $(BASEDIR)/modules.mk
+DEPLIST                := $(BASEDIR)/dependencies.mk
 CONFIG                 := $(BASEDIR)/.config.mk
 
 include $(BASEDIR)/make/functions.mk

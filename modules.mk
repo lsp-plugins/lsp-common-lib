@@ -18,9 +18,19 @@
 # along with lsp-common-lib.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Package version
-ARTIFACT_ID                 = LSP_COMMON_LIB
-ARTIFACT_NAME               = lsp-common-lib
-ARTIFACT_DESC               = Common library for basic C/C++ language definitions
-ARTIFACT_HEADERS            = lsp-plug.in
-ARTIFACT_VERSION            = 1.0.15-devel
+# Variables that describe dependencies
+LSP_TEST_FW_VERSION        := 1.0.8
+LSP_TEST_FW_NAME           := lsp-test-fw
+LSP_TEST_FW_TYPE           := src
+LSP_TEST_FW_URL_RO         := https://github.com/lsp-plugins/$(LSP_TEST_FW_NAME).git
+LSP_TEST_FW_URL_RW         := git@github.com:lsp-plugins/$(LSP_TEST_FW_NAME).git
+
+LIBPTHREAD_VERSION         := system
+LIBPTHREAD_NAME            := libpthread
+LIBPTHREAD_TYPE            := opt
+LIBPTHREAD_LDFLAGS         := -lpthread
+
+LIBSHLWAPI_VERSION         := system
+LIBSHLWAPI_NAME            := libshlwapi
+LIBSHLWAPI_TYPE            := opt
+LIBSHLWAPI_LDFLAGS         := -lshlwapi
