@@ -27,6 +27,8 @@
 #include <lsp-plug.in/common/types.h>
 #include <stdarg.h>
 
+#define LSP_DEBUG_STUB_CALL             do {} while(0)
+
 // Check trace level
 #ifdef LSP_TRACE
     #define lsp_trace(msg, ...)         ::lsp::debug::printf("[TRC][%s:%4d] %s: " msg "\n", __FILE__, __LINE__, __FUNCTION__, ## __VA_ARGS__)
@@ -38,7 +40,7 @@
 
     #define IF_TRACE(...)               __VA_ARGS__
 #else
-    #define lsp_trace(msg, ...)
+    #define lsp_trace(msg, ...)         LSP_DEBUG_STUB_CALL
 
     #define IF_TRACE(...)
 #endif /* LSP_TRACE */
@@ -54,12 +56,12 @@
 
     #define IF_DEBUG(...)               __VA_ARGS__
 #else
-    #define lsp_nprintf(msg, ...)
-    #define lsp_nvprintf(msg, va_args)
-    #define lsp_printf(msg, ...)
-    #define lsp_debug(msg, ...)
-    #define lsp_dumpf(s, fmt, p, n)
-    #define lsp_dumpb(s, p, sz)
+    #define lsp_nprintf(msg, ...)       LSP_DEBUG_STUB_CALL
+    #define lsp_nvprintf(msg, va_args)  LSP_DEBUG_STUB_CALL
+    #define lsp_printf(msg, ...)        LSP_DEBUG_STUB_CALL
+    #define lsp_debug(msg, ...)         LSP_DEBUG_STUB_CALL
+    #define lsp_dumpf(s, fmt, p, n)     LSP_DEBUG_STUB_CALL
+    #define lsp_dumpb(s, p, sz)         LSP_DEBUG_STUB_CALL
 
     #define IF_DEBUG(...)
 #endif /* LSP_DEBUG */
@@ -76,7 +78,7 @@
 
 // Define assertions
 #ifdef LSP_DEBUG
-    #define lsp_paranoia(...)           { __VA_ARGS__; }
+    #define lsp_paranoia(...)           do { __VA_ARGS__; } while (0);
 
     #define lsp_guard_assert(...)       __VA_ARGS__;
     #define lsp_assert(x)               if (!(x)) lsp_error("Assertion failed: %s", #x);
@@ -86,11 +88,11 @@
                     __FILE__, __LINE__, __FUNCTION__, #x, ## __VA_ARGS__);
 
 #else
-    #define lsp_paranoia(...)
+    #define lsp_paranoia(...)           LSP_DEBUG_STUB_CALL
 
-    #define lsp_guard_assert(...)
-    #define lsp_assert(x)
-    #define lsp_assert_msg(x, ...)
+    #define lsp_guard_assert(...)       LSP_DEBUG_STUB_CALL
+    #define lsp_assert(x)               LSP_DEBUG_STUB_CALL
+    #define lsp_assert_msg(x, ...)      LSP_DEBUG_STUB_CALL
 #endif /* ASSERTIONS */
 
 namespace lsp
