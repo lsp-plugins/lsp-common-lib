@@ -41,10 +41,10 @@
 #define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
 
 #define LSP_DEF_VERSION_FUNC_HEADER                 const ::lsp::version_t *lsp_module_version()
-#define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
+#define LSP_DEF_VERSION_FUNC(major, minor, micro)   \
     LSP_DEF_VERSION_FUNC_HEADER \
     { \
-        static const ::lsp::version_t v=LSP_DEF_VERSION(major, minor, macro); \
+        static const ::lsp::version_t v=LSP_DEF_VERSION(major, minor, micro); \
         return &v; \
     }
 
@@ -885,21 +885,10 @@ namespace lsp
             return (value) ? bits | flag : bits & (~flag);
         }
 
-    inline int version_cmp(const version_t *a, const version_t *b)
-    {
-        int diff = a->major - b->major;
-        if (diff != 0)
-            return diff;
-        diff = a->minor - b->minor;
-        if (diff != 0)
-            return diff;
-        return a->micro - b->micro;
-    }
-
-    inline int version_cmp(const version_t &a, const version_t &b)
-    {
-        return version_cmp(&a, &b);
-    }
+    int version_cmp(const version_t *a, const version_t *b);
+    int version_cmp(const version_t &a, const version_t &b);
+    bool version_copy(version_t *dst, const version_t *src);
+    void version_destroy(version_t *version);
 }
 
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */
