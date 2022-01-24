@@ -62,4 +62,4 @@ namespace lsp
     #endif /* ARCH_X86 */
 #undef LSP_PLUG_IN_COMMON_ATOMIC_IMPL
 
-#endif /* INCLUDE_LSP_PLUG_IN_COMMON_ATOMIC_H_ */
+#endif /* LSP_PLUG_IN_COMMON_ATOMIC_H_ */

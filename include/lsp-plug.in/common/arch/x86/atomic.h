@@ -54,6 +54,8 @@ namespace lsp
     ATOMIC_XCHG_DEF(int32_t, volatile)
     ATOMIC_XCHG_DEF(uint32_t, )
     ATOMIC_XCHG_DEF(uint32_t, volatile)
+    ATOMIC_XCHG_DEF(void *, )
+    ATOMIC_XCHG_DEF(void *, volatile)
 
     #ifdef ARCH_X86_64
         ATOMIC_XCHG_DEF(int64_t, )
@@ -100,6 +102,8 @@ namespace lsp
     ATOMIC_CAS_DEF(int32_t, volatile)
     ATOMIC_CAS_DEF(uint32_t, )
     ATOMIC_CAS_DEF(uint32_t, volatile)
+    ATOMIC_CAS_DEF(void *, )
+    ATOMIC_CAS_DEF(void *, volatile)
 
     #ifdef ARCH_X86_64
         ATOMIC_CAS_DEF(int64_t, )
