@@ -8,7 +8,8 @@
 - Added lsp::StaticInitializer, lsp::StaticFinalizer and lsp::StaticManager classes for static data.
 - Added placeholders for log functions when they are not used.
 - Fixed typo in version function definition.
-- Moved some function implementation from types.h header to types.cpp. 
+- Moved some function implementation from types.h header to types.cpp.
+- Fixed bug in log redirection to file.
 
 === 1.0.14 ===
 * Added lsp_xlimit function to limit ranges for both min < max and min >= max ranges.
