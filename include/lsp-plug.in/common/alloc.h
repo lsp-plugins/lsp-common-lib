@@ -24,7 +24,7 @@
 
 #include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
-#include <stdlib.h>
+#include <lsp-plug.in/stdlib/stdlib.h>
 
 namespace lsp
 {
