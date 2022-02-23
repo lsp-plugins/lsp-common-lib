@@ -18,18 +18,21 @@
 # along with lsp-common-lib.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# Variables that describe dependencies
-LSP_TEST_FW_VERSION        := 1.0.8
-LSP_TEST_FW_NAME           := lsp-test-fw
-LSP_TEST_FW_TYPE           := src
-LSP_TEST_FW_URL            := git@github.com:lsp-plugins/$(LSP_TEST_FW_NAME).git
+# List of dependencies
+DEPENDENCIES = \
+  LIBPTHREAD 
 
-LIBPTHREAD_VERSION         := system
-LIBPTHREAD_NAME            := libpthread
-LIBPTHREAD_TYPE            := opt
-LIBPTHREAD_LDFLAGS         := -lpthread
+TEST_DEPENDENCIES = \
+  LSP_TEST_FW
 
-LIBSHLWAPI_VERSION         := system
-LIBSHLWAPI_NAME            := libshlwapi
-LIBSHLWAPI_TYPE            := opt
-LIBSHLWAPI_LDFLAGS         := -lshlwapi
+# Platform-dependent
+ifeq ($(PLATFORM),Windows)
+  TEST_DEPENDENCIES += \
+    LIBSHLWAPI
+endif
+
+# Overall system dependencies
+ALL_DEPENDENCIES = \
+  $(DEPENDENCIES) \
+  $(TEST_DEPENDENCIES) \
+  LIBSHLWAPI

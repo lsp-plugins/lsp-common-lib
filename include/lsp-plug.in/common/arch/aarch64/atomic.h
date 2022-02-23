@@ -64,6 +64,8 @@ namespace lsp
     ATOMIC_CAS_DEF(int32_t, "", "w", volatile)
     ATOMIC_CAS_DEF(uint32_t, "", "w", )
     ATOMIC_CAS_DEF(uint32_t, "", "w", volatile)
+    ATOMIC_CAS_DEF(void *, "", "w", )
+    ATOMIC_CAS_DEF(void *, "", "w", volatile)
     ATOMIC_CAS_DEF(int64_t, "", "", )
     ATOMIC_CAS_DEF(int64_t, "", "", volatile)
     ATOMIC_CAS_DEF(uint64_t, "", "", )

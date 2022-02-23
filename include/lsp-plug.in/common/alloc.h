@@ -24,7 +24,7 @@
 
 #include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
-#include <stdlib.h>
+#include <lsp-plug.in/stdlib/stdlib.h>
 
 namespace lsp
 {
@@ -49,6 +49,12 @@ namespace lsp
         {
             ptrdiff_t x     = ptrdiff_t(src);
             return !(x % align);
+        }
+
+    template <class T>
+        inline T *lsp_malloc(size_t count = 1)
+        {
+            return static_cast<T *>(::malloc(sizeof(T) * count));
         }
 
     /** Allocate aligned pointer

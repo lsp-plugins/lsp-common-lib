@@ -61,6 +61,8 @@ namespace lsp
     ATOMIC_CAS_DEF(int32_t, "ex", volatile)
     ATOMIC_CAS_DEF(uint32_t, "ex", )
     ATOMIC_CAS_DEF(uint32_t, "ex", volatile)
+    ATOMIC_CAS_DEF(void *, "ex", )
+    ATOMIC_CAS_DEF(void *, "ex", volatile)
 }
 
 #undef ATOMIC_CAS_DEF
@@ -110,7 +112,8 @@ namespace lsp
 #define ATOMIC_SWAP_DEF(type, qsz, extra) \
     inline type atomic_swap(extra type *ptr, type value) \
     {                                                   \
-        type tmp, retval; \
+        type tmp;                                       \
+        type retval;                                    \
         \
         ARCH_ARM_ASM                                    \
         (                                               \
@@ -143,6 +146,8 @@ namespace lsp
     ATOMIC_SWAP_DEF(int32_t, "ex", volatile)
     ATOMIC_SWAP_DEF(uint32_t, "ex", )
     ATOMIC_SWAP_DEF(uint32_t, "ex", volatile)
+    ATOMIC_SWAP_DEF(void *, "ex", )
+    ATOMIC_SWAP_DEF(void *, "ex", volatile)
 }
 
 #undef ATOMIC_SWAP_DEF

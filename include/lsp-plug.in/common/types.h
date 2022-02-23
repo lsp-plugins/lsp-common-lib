@@ -41,20 +41,25 @@
 #define LSP_VERSION_FUNC_NAME                       "lsp_module_version"
 
 #define LSP_DEF_VERSION_FUNC_HEADER                 const ::lsp::version_t *lsp_module_version()
-#define LSP_DEF_VERSION_FUNC(major, minor, macro)   \
+#define LSP_DEF_VERSION_FUNC(major, minor, micro)   \
     LSP_DEF_VERSION_FUNC_HEADER \
     { \
-        static const ::lsp::version_t v=LSP_DEF_VERSION(major, minor, macro); \
+        static const ::lsp::version_t v=LSP_DEF_VERSION(major, minor, micro); \
         return &v; \
     }
 
 #define LSP_DEFINE_VERSION_FUNC(artifact)           LSP_DEF_VERSION_FUNC(artifact##_MAJOR, artifact##_MINOR, artifact##_MICRO)
 
+#define LSP_STRINGIFY(x)                            LSP_STRINGIFY1(x)
+#define LSP_STRINGIFY1(x)                           #x
+
 //-----------------------------------------------------------------------------
 // Detect build architecture
 #if defined(__x86_64__) || defined(__x86_64) || defined(__amd64__) || defined(__amd64) || defined(_M_AMD64)
+    #define ARCH_X86
     #define ARCH_X86_64
 #elif defined(__i386__) || defined(__i386)
+    #define ARCH_X86
     #define ARCH_I386
 #elif defined(__aarch64__)
     #define ARCH_AARCH64
@@ -70,6 +75,18 @@
     #define ARCH_MIPS
 #elif defined(__sparc__) || defined(__sparc)
     #define ARCH_SPARC
+#elif defined(__riscv) && (__riscv_xlen == 64)
+    #define ARCH_RISCV
+    #define ARCH_RISCV64
+#elif defined(__riscv) && (__riscv_xlen == 32)
+    #define ARCH_RISCV
+    #define ARCH_RISCV32
+#elif defined(__loongarch64)
+    #define ARCH_LOONGARCH
+    #define ARCH_LOONGARCH64
+#elif defined(__loongarch32)
+    #define ARCH_LOONGARCH
+    #define ARCH_LOONGARCH32
 #endif
 
 //-----------------------------------------------------------------------------
@@ -179,28 +196,23 @@ namespace lsp
 
 //-----------------------------------------------------------------------------
 // Detect endianess and operations
-#if defined(ARCH_I386) || defined(ARCH_X86_64)
+#if defined(ARCH_X86) || defined(ARCH_X86_64)
     #define IF_ARCH_X86(...)        __VA_ARGS__
     #define ARCH_X86_ASM(...)       __asm__ __volatile__ ( __VA_ARGS__ )
+    #define LSP_UNALIGNED_MEMORY_SAFE
+#endif /* ARCH_X86 */
 
-    #ifdef ARCH_I386
-        #define ARCH_I386_ASM(...)       __asm__ __volatile__ ( __VA_ARGS__ )
-    #endif /* ARCH_I386 */
+#if defined(ARCH_I386)
+    #define IF_ARCH_I386(...)       __VA_ARGS__
+    #define ARCH_I386_ASM(...)      __asm__ __volatile__ ( __VA_ARGS__ )
+    #define ARCH_STRING             "i386"
+#endif /* ARCH_I386 */
 
-    #ifdef ARCH_X86_64
-        #define ARCH_X86_64_ASM(...)       __asm__ __volatile__ ( __VA_ARGS__ )
-    #endif /* ARCH_I386 */
-
-    #define ARCH_X86
-
-    #if defined(ARCH_I386)
-        #define ARCH_STRING             "i386"
-        #define IF_ARCH_I386(...)       __VA_ARGS__
-    #else
-        #define ARCH_STRING             "x86_64"
-        #define IF_ARCH_X86_64(...)     __VA_ARGS__
-    #endif
-#endif /* defined(ARCH_I386) || defined(ARCH_X86_64) */
+#if defined(ARCH_X86_64)
+    #define IF_ARCH_X86_64(...)     __VA_ARGS__
+    #define ARCH_X86_64_ASM(...)    __asm__ __volatile__ ( __VA_ARGS__ )
+    #define ARCH_STRING             "x86_64"
+#endif /* defined(ARCH_X86_64) */
 
 #if defined(ARCH_ARM)
     #define IF_ARCH_ARM(...)            __VA_ARGS__
@@ -275,6 +287,44 @@ namespace lsp
 
     #define ARCH_STRING                 "SPARC"
 #endif /* defined(ARCH_PPC) */
+
+#if defined(ARCH_RISCV)
+    #define IF_ARCH_RISCV(...)          __VA_ARGS__
+    #define ARCH_RISCV_ASM(...)         __asm__ __volatile__ ( __VA_ARGS__ )
+#endif /* ARCH_RISCV */
+
+#if defined(ARCH_RISCV64)
+    #define IF_ARCH_RISCV64(...)        __VA_ARGS__
+    #define ARCH_RISCV64_ASM(...)       __asm__ __volatile__ ( __VA_ARGS__ )
+
+    #define ARCH_STRING                 "RISCV64"
+#endif /* defined(ARCH_RISCV64) */
+
+#if defined(ARCH_RISCV32)
+    #define IF_ARCH_RISCV32(...)        __VA_ARGS__
+    #define ARCH_RISCV32_ASM(...)       __asm__ __volatile__ ( __VA_ARGS__ )
+
+    #define ARCH_STRING                 "RISCV32"
+#endif /* defined(ARCH_RISCV32) */
+
+#if defined(ARCH_LOONGARCH)
+    #define IF_ARCH_LOONGARCH(...)      __VA_ARGS__
+    #define ARCH_LOONGARCH_ASM(...)     __asm__ __volatile__ ( __VA_ARGS__ )
+#endif /* ARCH_LOONGARCH */
+
+#if defined(ARCH_LOONGARCH64)
+    #define IF_ARCH_LOONGARCH64(...)    __VA_ARGS__
+    #define ARCH_LOONGARCH64_ASM(...)   __asm__ __volatile__ ( __VA_ARGS__ )
+
+    #define ARCH_STRING                 "LOONGARCH64"
+#endif /* defined(ARCH_LOONGARCH64) */
+
+#if defined(ARCH_LOONGARCH32)
+    #define IF_ARCH_LOONGARCH32(...)    __VA_ARGS__
+    #define ARCH_LOONGARCH32_ASM(...)   __asm__ __volatile__ ( __VA_ARGS__ )
+
+    #define ARCH_STRING                 "LOONGARCH32"
+#endif /* defined(ARCH_LOONGARCH32) */
 
 #if defined(ARCH_LE)
     #define __IF_LEBE(le, be)   le
@@ -615,6 +665,30 @@ namespace lsp
     #define IF_ARCH_SPARC(...)
 #endif /* IF_ARCH_MIPS */
 
+#ifndef ARCH_RISCV_ASM
+    #define ARCH_RISCV_ASM(...)
+#endif /* ARCH_RISCV_ASM */
+
+#ifndef ARCH_RISCV64_ASM
+    #define ARCH_RISCV64_ASM(...)
+#endif /* ARCH_RISCV64_ASM */
+
+#ifndef ARCH_RISCV32_ASM
+    #define ARCH_RISCV32_ASM(...)
+#endif /* ARCH_RISCV32_ASM */
+
+#ifndef ARCH_LOONGARCH_ASM
+    #define ARCH_LOONGARCH_ASM(...)
+#endif /* ARCH_LOONGARCH_ASM */
+
+#ifndef ARCH_LOONGARCH32ASM
+    #define ARCH_LOONGARCH32_ASM(...)
+#endif /* ARCH_LOONGARCH32_ASM */
+
+#ifndef ARCH_LOONGARCH64ASM
+    #define ARCH_LOONGARCH64_ASM(...)
+#endif /* ARCH_LOONGARCH64_ASM */
+
 //-----------------------------------------------------------------------------
 // Default platform
 #ifndef IF_PLATFORM_UNIX
@@ -681,6 +755,14 @@ namespace lsp
     #define MINIMUM_ALIGN                   DEFAULT_ALIGN
 #endif /* DEFAULT_ALIGN */
 
+#ifdef LSP_UNALIGNED_MEMORY_SAFE
+    #define IF_UNALIGNED_MEMORY_SAFE(x)     x
+    #define IF_UNALIGNED_MEMORY_UNSAFE(x)
+#else
+    #define IF_UNALIGNED_MEMORY_SAFE(x)
+    #define IF_UNALIGNED_MEMORY_UNSAFE(x)   x
+#endif /* LSP_UNALIGNED_MEMORY_SAFE */
+
 #ifdef PLATFORM_LINUX
     #include <linux/limits.h>
 #endif /* __linux__ */
@@ -696,6 +778,14 @@ namespace lsp
 #else
     #define WCHART_16BIT
 #endif /* WCHAR_MAX */
+
+#ifndef SIZE_MAX
+    #define SIZE_MAX                        (~((size_t)(0)))
+#endif /* SIZE_MAX */
+
+#ifndef SSIZE_MAX
+    #define SSIZE_MAX                       ((ssize_t)(SIZE_MAX >> 1))
+#endif /* SIZE_MAX */
 
 namespace lsp
 {
@@ -840,21 +930,10 @@ namespace lsp
             return (value) ? bits | flag : bits & (~flag);
         }
 
-    inline int version_cmp(const version_t *a, const version_t *b)
-    {
-        int diff = a->major - b->major;
-        if (diff != 0)
-            return diff;
-        diff = a->minor - b->minor;
-        if (diff != 0)
-            return diff;
-        return a->micro - b->micro;
-    }
-
-    inline int version_cmp(const version_t &a, const version_t &b)
-    {
-        return version_cmp(&a, &b);
-    }
+    int version_cmp(const version_t *a, const version_t *b);
+    int version_cmp(const version_t &a, const version_t &b);
+    bool version_copy(version_t *dst, const version_t *src);
+    void version_destroy(version_t *version);
 }
 
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */

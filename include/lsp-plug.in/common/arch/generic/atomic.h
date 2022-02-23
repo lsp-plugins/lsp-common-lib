@@ -27,10 +27,10 @@
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_IMPL */
 
 #define ATOMIC_XCHG_DEF(type, extra) \
-    inline type atomic_swap(extra type *ptr, type value) { \
-        volatile type *xptr = ptr; \
+    inline extra type atomic_swap(extra type *ptr, type value) { \
+        extra type *xptr = ptr; \
         while (true) { \
-            type x = *xptr; \
+            extra type x = *xptr; \
             if (__sync_bool_compare_and_swap (ptr, x, value)) \
                 return x; \
         } \
@@ -50,6 +50,8 @@ namespace lsp
     ATOMIC_XCHG_DEF(int32_t, volatile)
     ATOMIC_XCHG_DEF(uint32_t, )
     ATOMIC_XCHG_DEF(uint32_t, volatile)
+    ATOMIC_XCHG_DEF(void *, )
+    ATOMIC_XCHG_DEF(void *, volatile)
 
     #ifdef ARCH_64BIT
         ATOMIC_XCHG_DEF(int64_t, )
@@ -80,6 +82,8 @@ namespace lsp
     ATOMIC_CAS_DEF(int32_t, volatile)
     ATOMIC_CAS_DEF(uint32_t, )
     ATOMIC_CAS_DEF(uint32_t, volatile)
+    ATOMIC_CAS_DEF(void *, )
+    ATOMIC_CAS_DEF(void *, volatile)
 
     #ifdef ARCH_64BIT
         ATOMIC_CAS_DEF(int64_t, )
