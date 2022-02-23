@@ -779,6 +779,14 @@ namespace lsp
     #define WCHART_16BIT
 #endif /* WCHAR_MAX */
 
+#ifndef SIZE_MAX
+    #define SIZE_MAX                        (~((size_t)(0)))
+#endif /* SIZE_MAX */
+
+#ifndef SSIZE_MAX
+    #define SSIZE_MAX                       ((ssize_t)(SIZE_MAX >> 1))
+#endif /* SIZE_MAX */
+
 namespace lsp
 {
     enum lsp_wrap_flags_t
