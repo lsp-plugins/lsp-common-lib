@@ -3,15 +3,15 @@
 *******************************************************************************
 
 === 1.0.15 ===
-- Added update_status function for accumulating error code in status_t variable.
-- Added lsp::lsp_malloc template function for allocating arrays.
-- Added lsp::StaticInitializer, lsp::StaticFinalizer and lsp::StaticManager classes for static data.
-- Added placeholders for log functions when they are not used.
-- Fixed typo in version function definition.
-- Moved some function implementation from types.h header to types.cpp.
-- Fixed bug in log redirection to file.
-- Added support of building under LoongArch32 and LoongArch64 architectures.
-- Added support of building under 32-bit and 64-bit RISC-V architectures.
+* Added update_status function for accumulating error code in status_t variable.
+* Added lsp::lsp_malloc template function for allocating arrays.
+* Added lsp::StaticInitializer, lsp::StaticFinalizer and lsp::StaticManager classes for static data.
+* Added placeholders for log functions when they are not used.
+* Fixed typo in version function definition.
+* Moved some function implementation from types.h header to types.cpp.
+* Fixed bug in log redirection to file.
+* Added support of building under LoongArch32 and LoongArch64 architectures.
+* Added support of building under 32-bit and 64-bit RISC-V architectures.
 
 === 1.0.14 ===
 * Added lsp_xlimit function to limit ranges for both min < max and min >= max ranges.
