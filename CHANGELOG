@@ -2,6 +2,8 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.16 ===
+
 === 1.0.15 ===
 * Added update_status function for accumulating error code in status_t variable.
 * Added lsp::lsp_malloc template function for allocating arrays.
