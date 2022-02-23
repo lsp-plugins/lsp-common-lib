@@ -112,7 +112,8 @@ namespace lsp
 #define ATOMIC_SWAP_DEF(type, qsz, extra) \
     inline type atomic_swap(extra type *ptr, type value) \
     {                                                   \
-        type tmp, retval; \
+        type tmp;                                       \
+        type retval;                                    \
         \
         ARCH_ARM_ASM                                    \
         (                                               \
