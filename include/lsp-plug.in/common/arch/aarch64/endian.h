@@ -31,7 +31,7 @@ namespace lsp
     inline uint16_t __lsp_forced_inline    byte_swap(uint16_t v)
     {
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rev16   %[v], %[v]")
+            __ASM_EMIT("rev16   %x[v], %x[v]")
             : [v] "+r"(v)
             : :
         );
@@ -41,7 +41,7 @@ namespace lsp
     inline uint32_t __lsp_forced_inline    byte_swap(uint32_t v)
     {
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rev32   %[v], %[v]")
+            __ASM_EMIT("rev32   %x[v], %x[v]")
             : [v] "+r"(v)
             : :
         );
@@ -61,7 +61,7 @@ namespace lsp
     inline float __lsp_forced_inline    byte_swap(float v)
     {
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rev32   %[v], %[v]")
+            __ASM_EMIT("rev32   %x[v], %x[v]")
             : [v] "+r"(v)
             : :
         );

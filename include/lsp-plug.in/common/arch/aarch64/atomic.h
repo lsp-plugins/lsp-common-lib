@@ -27,7 +27,7 @@
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_IMPL */
 
 
-#define ATOMIC_CAS_DEF(type, qsz, M, extra)                     \
+#define ATOMIC_CAS_DEF(type, qsz, mod, extra)                   \
     inline type atomic_cas(extra type *ptr, type exp, type rep) \
     { \
         type tmp; \
@@ -36,13 +36,13 @@
         ARCH_AARCH64_ASM \
         ( \
             __ASM_EMIT("dmb st") \
-            __ASM_EMIT("ldaxr" qsz "    %" M "[tmp], [%[ptr]]") \
-            __ASM_EMIT("subs            %" M "[tmp], %" M "[tmp], %" M "[exp]")    /* tmp == 0 on success */ \
-            __ASM_EMIT("b.ne            2f")                                       /* jump if failed */ \
-            __ASM_EMIT("stxr" qsz "     %w[res], %" M "[rep], [%[ptr]]")            /* try to store replacement */ \
-            __ASM_EMIT("tst             %w[res], %w[res]")                          /* ret == 0 on success */ \
+            __ASM_EMIT("ldaxr" qsz "    %" mod "[tmp], [%[ptr]]") \
+            __ASM_EMIT("subs            %" mod "[tmp], %" mod "[tmp], %" mod "[exp]")    /* tmp == 0 on success */ \
+            __ASM_EMIT("b.ne            2f")                                             /* jump if failed */ \
+            __ASM_EMIT("stxr" qsz "     %w[res], %" mod "[rep], [%[ptr]]")               /* try to store replacement */ \
+            __ASM_EMIT("tst             %w[res], %w[res]")                               /* ret == 0 on success */ \
             __ASM_EMIT("2:") \
-            __ASM_EMIT("cset            %[tmp], eq") \
+            __ASM_EMIT("cset            %" mod "[tmp], eq") \
             : [tmp] "=&r" (tmp), [res] "=&r" (res) \
             : [ptr] "r" (ptr), [exp] "r" (exp), [rep] "r" (rep) \
             : "cc", "memory" \
@@ -52,29 +52,29 @@
 
 namespace lsp
 {
-    ATOMIC_CAS_DEF(int8_t, "b", "", )
-    ATOMIC_CAS_DEF(int8_t, "b", "", volatile)
-    ATOMIC_CAS_DEF(uint8_t, "b", "", )
-    ATOMIC_CAS_DEF(uint8_t, "b", "", volatile)
-    ATOMIC_CAS_DEF(int16_t, "h", "", )
-    ATOMIC_CAS_DEF(int16_t, "h", "", volatile)
-    ATOMIC_CAS_DEF(uint16_t, "h", "", )
-    ATOMIC_CAS_DEF(uint16_t, "h", "", volatile)
+    ATOMIC_CAS_DEF(int8_t, "b", "w", )
+    ATOMIC_CAS_DEF(int8_t, "b", "w", volatile)
+    ATOMIC_CAS_DEF(uint8_t, "b", "w", )
+    ATOMIC_CAS_DEF(uint8_t, "b", "w", volatile)
+    ATOMIC_CAS_DEF(int16_t, "h", "w", )
+    ATOMIC_CAS_DEF(int16_t, "h", "w", volatile)
+    ATOMIC_CAS_DEF(uint16_t, "h", "w", )
+    ATOMIC_CAS_DEF(uint16_t, "h", "w", volatile)
     ATOMIC_CAS_DEF(int32_t, "", "w", )
     ATOMIC_CAS_DEF(int32_t, "", "w", volatile)
     ATOMIC_CAS_DEF(uint32_t, "", "w", )
     ATOMIC_CAS_DEF(uint32_t, "", "w", volatile)
-    ATOMIC_CAS_DEF(void *, "", "w", )
-    ATOMIC_CAS_DEF(void *, "", "w", volatile)
-    ATOMIC_CAS_DEF(int64_t, "", "", )
-    ATOMIC_CAS_DEF(int64_t, "", "", volatile)
-    ATOMIC_CAS_DEF(uint64_t, "", "", )
-    ATOMIC_CAS_DEF(uint64_t, "", "", volatile)
+    ATOMIC_CAS_DEF(void *, "", "x", )
+    ATOMIC_CAS_DEF(void *, "", "x", volatile)
+    ATOMIC_CAS_DEF(int64_t, "", "x", )
+    ATOMIC_CAS_DEF(int64_t, "", "x", volatile)
+    ATOMIC_CAS_DEF(uint64_t, "", "x", )
+    ATOMIC_CAS_DEF(uint64_t, "", "x", volatile)
 }
 
 #undef ATOMIC_CAS_DEF
 
-#define ATOMIC_ADD_DEF(type, qsz, M, extra) \
+#define ATOMIC_ADD_DEF(type, qsz, mod, extra) \
     inline type atomic_add(extra type *ptr, type value) \
     {                                                   \
         uint32_t tmp; \
@@ -84,9 +84,9 @@ namespace lsp
         (                                               \
             __ASM_EMIT("1:")    \
             __ASM_EMIT("dmb st") \
-            __ASM_EMIT("ldaxr" qsz "    %" M "[ret], [%[ptr]]") \
-            __ASM_EMIT("add             %" M "[sum], %" M "[ret], %" M "[src]") \
-            __ASM_EMIT("stxr" qsz "     %w[tmp], %" M "[sum], [%[ptr]]") \
+            __ASM_EMIT("ldaxr" qsz "    %" mod "[ret], [%[ptr]]") \
+            __ASM_EMIT("add             %" mod "[sum], %" mod "[ret], %" mod "[src]") \
+            __ASM_EMIT("stxr" qsz "     %w[tmp], %" mod "[sum], [%[ptr]]") \
             __ASM_EMIT("cbnz            %w[tmp], 1b") /* repeat if failed */ \
             : [tmp] "=&r" (tmp), \
               [sum] "=&r" (sum), \
@@ -100,27 +100,27 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_ADD_DEF(int8_t, "b", "", )
-    ATOMIC_ADD_DEF(int8_t, "b", "", volatile)
-    ATOMIC_ADD_DEF(uint8_t, "b", "", )
-    ATOMIC_ADD_DEF(uint8_t, "b", "", volatile)
-    ATOMIC_ADD_DEF(int16_t, "h", "", )
-    ATOMIC_ADD_DEF(int16_t, "h", "", volatile)
-    ATOMIC_ADD_DEF(uint16_t, "h", "", )
-    ATOMIC_ADD_DEF(uint16_t, "h", "", volatile)
+    ATOMIC_ADD_DEF(int8_t, "b", "w", )
+    ATOMIC_ADD_DEF(int8_t, "b", "w", volatile)
+    ATOMIC_ADD_DEF(uint8_t, "b", "w", )
+    ATOMIC_ADD_DEF(uint8_t, "b", "w", volatile)
+    ATOMIC_ADD_DEF(int16_t, "h", "w", )
+    ATOMIC_ADD_DEF(int16_t, "h", "w", volatile)
+    ATOMIC_ADD_DEF(uint16_t, "h", "w", )
+    ATOMIC_ADD_DEF(uint16_t, "h", "w", volatile)
     ATOMIC_ADD_DEF(int32_t, "", "w", )
     ATOMIC_ADD_DEF(int32_t, "", "w", volatile)
     ATOMIC_ADD_DEF(uint32_t, "", "w", )
     ATOMIC_ADD_DEF(uint32_t, "", "w", volatile)
-    ATOMIC_ADD_DEF(int64_t, "", "", )
-    ATOMIC_ADD_DEF(int64_t, "", "", volatile)
-    ATOMIC_ADD_DEF(uint64_t, "", "", )
-    ATOMIC_ADD_DEF(uint64_t, "", "", volatile)
+    ATOMIC_ADD_DEF(int64_t, "", "x", )
+    ATOMIC_ADD_DEF(int64_t, "", "x", volatile)
+    ATOMIC_ADD_DEF(uint64_t, "", "x", )
+    ATOMIC_ADD_DEF(uint64_t, "", "x", volatile)
 }
 
 #undef ATOMIC_ADD_DEF
 
-#define ATOMIC_SWAP_DEF(type, qsz, M, extra) \
+#define ATOMIC_SWAP_DEF(type, qsz, mod, extra) \
     inline type atomic_swap(extra type *ptr, type value) \
     {                                                   \
         uint32_t tmp; \
@@ -130,8 +130,8 @@ namespace lsp
         (                                               \
             __ASM_EMIT("1:")    \
             __ASM_EMIT("dmb st") \
-            __ASM_EMIT("ldaxr" qsz "    %" M "[ret], [%[ptr]]") \
-            __ASM_EMIT("stxr" qsz "     %w[tmp], %" M "[value], [%[ptr]]") \
+            __ASM_EMIT("ldaxr" qsz "    %" mod "[ret], [%[ptr]]") \
+            __ASM_EMIT("stxr" qsz "     %w[tmp], %" mod "[value], [%[ptr]]") \
             __ASM_EMIT("cbnz            %w[tmp], 1b") /* repeat if failed */ \
             : [tmp] "=&r" (tmp), \
               [ret] "=&r" (retval)  \
@@ -144,22 +144,22 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_SWAP_DEF(int8_t, "b", "", )
-    ATOMIC_SWAP_DEF(int8_t, "b", "", volatile)
-    ATOMIC_SWAP_DEF(uint8_t, "b", "", )
-    ATOMIC_SWAP_DEF(uint8_t, "b", "", volatile)
-    ATOMIC_SWAP_DEF(int16_t, "h", "", )
-    ATOMIC_SWAP_DEF(int16_t, "h", "", volatile)
-    ATOMIC_SWAP_DEF(uint16_t, "h", "", )
-    ATOMIC_SWAP_DEF(uint16_t, "h", "", volatile)
+    ATOMIC_SWAP_DEF(int8_t, "b", "w", )
+    ATOMIC_SWAP_DEF(int8_t, "b", "w", volatile)
+    ATOMIC_SWAP_DEF(uint8_t, "b", "w", )
+    ATOMIC_SWAP_DEF(uint8_t, "b", "w", volatile)
+    ATOMIC_SWAP_DEF(int16_t, "h", "w", )
+    ATOMIC_SWAP_DEF(int16_t, "h", "w", volatile)
+    ATOMIC_SWAP_DEF(uint16_t, "h", "w", )
+    ATOMIC_SWAP_DEF(uint16_t, "h", "w", volatile)
     ATOMIC_SWAP_DEF(int32_t, "", "w", )
     ATOMIC_SWAP_DEF(int32_t, "", "w", volatile)
     ATOMIC_SWAP_DEF(uint32_t, "", "w", )
     ATOMIC_SWAP_DEF(uint32_t, "", "w", volatile)
-    ATOMIC_SWAP_DEF(int64_t, "", "", )
-    ATOMIC_SWAP_DEF(int64_t, "", "", volatile)
-    ATOMIC_SWAP_DEF(uint64_t, "", "", )
-    ATOMIC_SWAP_DEF(uint64_t, "", "", volatile)
+    ATOMIC_SWAP_DEF(int64_t, "", "x", )
+    ATOMIC_SWAP_DEF(int64_t, "", "x", volatile)
+    ATOMIC_SWAP_DEF(uint64_t, "", "x", )
+    ATOMIC_SWAP_DEF(uint64_t, "", "x", volatile)
 }
 
 #undef ATOMIC_SWAP_DEF
