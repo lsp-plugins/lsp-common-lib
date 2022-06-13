@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.17 ===
+* Updated build scripts.
 
 === 1.0.16 ===
 * Updated build system.
@@ -81,3 +82,4 @@
 
 === 1.0.0 ===
 * This is initial release of LSP common library for further enhancements and updates.
+
