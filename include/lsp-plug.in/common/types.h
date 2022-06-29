@@ -23,6 +23,8 @@
 #define LSP_PLUG_IN_COMMON_TYPES_H_
 
 #include <lsp-plug.in/common/version.h>
+#include <lsp-plug.in/common/finally.h>
+
 #include <sys/types.h>
 #include <stddef.h>
 #include <stdint.h>
