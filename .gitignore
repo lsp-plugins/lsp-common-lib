@@ -2,10 +2,8 @@
 /.settings/*
 /.build/*
 /.test/*
-/Debug/*
+/Debug Linux/*
 /Release/*
-/.cproject
-/.project
 /Debug/
 /Release
 *.log
@@ -13,3 +11,4 @@
 **/*.gmon
 *.core
 /.config.mk
+/Debug Linux/
