@@ -2,6 +2,8 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.19 ===
+
 === 1.0.18 ===
 * Added lsp_finally macro definition for automatic scope finalizers.
 * Changed C++ standard support to at least C++ 11.
