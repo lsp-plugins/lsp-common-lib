@@ -3,6 +3,8 @@
 *******************************************************************************
 
 === 1.0.19 ===
+* Updated assembly code for bits.
+* Better compatibility with clang (removed 'register' keyword).
 
 === 1.0.18 ===
 * Added lsp_finally macro definition for automatic scope finalizers.
