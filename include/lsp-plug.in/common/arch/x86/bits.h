@@ -30,7 +30,7 @@ namespace lsp
 {
     inline uint8_t __lsp_forced_inline    reverse_bits(uint8_t v)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %[v], %[tmp]")
@@ -45,7 +45,7 @@ namespace lsp
 
     inline int8_t __lsp_forced_inline    reverse_bits(int8_t v)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %[v], %[tmp]")
@@ -60,7 +60,7 @@ namespace lsp
 
     inline uint8_t __lsp_forced_inline    reverse_bits(uint8_t v, size_t count)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %[v], %[tmp]")
@@ -76,7 +76,7 @@ namespace lsp
 
     inline int8_t __lsp_forced_inline    reverse_bits(int8_t v, size_t count)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %[v], %[tmp]")
@@ -92,8 +92,8 @@ namespace lsp
 
     inline uint16_t __lsp_forced_inline   reverse_bits(uint16_t v)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp]")
@@ -106,8 +106,8 @@ namespace lsp
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp1]")
@@ -118,15 +118,15 @@ namespace lsp
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline int16_t __lsp_forced_inline   reverse_bits(int16_t v)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp]")
@@ -139,8 +139,8 @@ namespace lsp
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp1]")
@@ -151,15 +151,15 @@ namespace lsp
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline uint16_t __lsp_forced_inline    reverse_bits(uint16_t v, size_t count)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp]")
@@ -173,8 +173,8 @@ namespace lsp
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp1]")
@@ -186,15 +186,15 @@ namespace lsp
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline int16_t __lsp_forced_inline    reverse_bits(int16_t v, size_t count)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp]")
@@ -208,8 +208,8 @@ namespace lsp
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
             __ASM_EMIT("movzx %%al, %[tmp1]")
@@ -221,14 +221,14 @@ namespace lsp
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline uint32_t __lsp_forced_inline    reverse_bits(uint32_t v)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("bswap %0")
@@ -261,7 +261,7 @@ namespace lsp
 
     inline int32_t __lsp_forced_inline    reverse_bits(int32_t v)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("bswap %0")
@@ -294,7 +294,7 @@ namespace lsp
 
     inline uint32_t __lsp_forced_inline    reverse_bits(uint32_t v, size_t count)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("bswap %0")
@@ -329,7 +329,7 @@ namespace lsp
 
     inline int32_t __lsp_forced_inline    reverse_bits(int32_t v, size_t count)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
             __ASM_EMIT("bswap %0")
@@ -365,7 +365,7 @@ namespace lsp
     #ifdef ARCH_I386
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
 
             ARCH_X86_ASM
             (
@@ -418,7 +418,7 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
 
             ARCH_X86_ASM
             (
@@ -471,7 +471,7 @@ namespace lsp
 
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v, size_t count)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
             count = 64 - count;
 
             if (count < 32)
@@ -565,7 +565,7 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v, size_t count)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
             count = 64 - count;
 
             if (count < 32)
@@ -659,7 +659,7 @@ namespace lsp
     #else /* ARCH_X86_64 */
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
             ARCH_X86_ASM (
                 __ASM_EMIT("bswap %0")
@@ -696,7 +696,7 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
             ARCH_X86_ASM (
                 __ASM_EMIT("bswap %0")
@@ -733,7 +733,7 @@ namespace lsp
 
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v, size_t count)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
             ARCH_X86_ASM (
                 __ASM_EMIT("bswap %0")
@@ -773,7 +773,7 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v, size_t count)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
             ARCH_X86_ASM (
                 __ASM_EMIT("bswap %0")
