@@ -30,11 +30,11 @@ namespace lsp
 {
     inline uint8_t __lsp_forced_inline    reverse_bits(uint8_t v)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %[v], %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %[v]")
+            __ASM_EMIT("movzx       %[v], %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %[v]")
             : [v] "+q"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data)
             : "cc"
@@ -45,11 +45,11 @@ namespace lsp
 
     inline int8_t __lsp_forced_inline    reverse_bits(int8_t v)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %[v], %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %[v]")
+            __ASM_EMIT("movzx       %[v], %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %[v]")
             : [v] "+q"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data)
             : "cc"
@@ -60,12 +60,12 @@ namespace lsp
 
     inline uint8_t __lsp_forced_inline    reverse_bits(uint8_t v, size_t count)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %[v], %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %[v]")
-            __ASM_EMIT("shr %%cl, %[v]")
+            __ASM_EMIT("movzx       %[v], %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %[v]")
+            __ASM_EMIT("shr         %%cl, %[v]")
             : [v] "+q"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data), "c"(8-count)
             : "cc"
@@ -76,12 +76,12 @@ namespace lsp
 
     inline int8_t __lsp_forced_inline    reverse_bits(int8_t v, size_t count)
     {
-        register size_t tmp;
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %[v], %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %[v]")
-            __ASM_EMIT("shr %%cl, %[v]")
+            __ASM_EMIT("movzx       %[v], %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %[v]")
+            __ASM_EMIT("shr         %%cl, %[v]")
             : [v] "+q"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data), "c"(8-count)
             : "cc"
@@ -92,167 +92,167 @@ namespace lsp
 
     inline uint16_t __lsp_forced_inline   reverse_bits(uint16_t v)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
-            __ASM_EMIT("ror $8, %%ax")
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("ror         $8, %%ax")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
 
             : [v] "+a"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp1]")
-            __ASM_EMIT("movzx %%ah, %[tmp2]")
-            __ASM_EMIT("mov (%[rb], %[tmp1]), %%ah")
-            __ASM_EMIT("mov (%[rb], %[tmp2]), %%al")
+            __ASM_EMIT("movzx       %%al, %[tmp1]")
+            __ASM_EMIT("movzx       %%ah, %[tmp2]")
+            __ASM_EMIT("mov         (%[rb], %[tmp1]), %%ah")
+            __ASM_EMIT("mov         (%[rb], %[tmp2]), %%al")
             : [v] "+a"(v), [tmp1] "=&r"(tmp1), [tmp2] "=&r"(tmp2)
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline int16_t __lsp_forced_inline   reverse_bits(int16_t v)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
-            __ASM_EMIT("ror $8, %%ax")
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("ror         $8, %%ax")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
 
             : [v] "+a"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp1]")
-            __ASM_EMIT("movzx %%ah, %[tmp2]")
-            __ASM_EMIT("mov (%[rb], %[tmp1]), %%ah")
-            __ASM_EMIT("mov (%[rb], %[tmp2]), %%al")
+            __ASM_EMIT("movzx       %%al, %[tmp1]")
+            __ASM_EMIT("movzx       %%ah, %[tmp2]")
+            __ASM_EMIT("mov         (%[rb], %[tmp1]), %%ah")
+            __ASM_EMIT("mov         (%[rb], %[tmp2]), %%al")
             : [v] "+a"(v), [tmp1] "=&r"(tmp1), [tmp2] "=&r"(tmp2)
             : [rb] "r"(lsp_rb_data)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline uint16_t __lsp_forced_inline    reverse_bits(uint16_t v, size_t count)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
-            __ASM_EMIT("ror $8, %%ax")
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
-            __ASM_EMIT("shr %%cl, %[v]")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("ror         $8, %%ax")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("shr         %%cl, %[v]")
 
             : [v] "+a"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp1]")
-            __ASM_EMIT("movzx %%ah, %[tmp2]")
-            __ASM_EMIT("mov (%[rb], %[tmp1]), %%ah")
-            __ASM_EMIT("mov (%[rb], %[tmp2]), %%al")
-            __ASM_EMIT("shr %%cl, %[v]")
+            __ASM_EMIT("movzx       %%al, %[tmp1]")
+            __ASM_EMIT("movzx       %%ah, %[tmp2]")
+            __ASM_EMIT("mov         (%[rb], %[tmp1]), %%ah")
+            __ASM_EMIT("mov         (%[rb], %[tmp2]), %%al")
+            __ASM_EMIT("shr         %%cl, %[v]")
             : [v] "+a"(v), [tmp1] "=&r"(tmp1), [tmp2] "=&r"(tmp2)
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline int16_t __lsp_forced_inline    reverse_bits(int16_t v, size_t count)
     {
-        #ifdef ARCH_X86_64
-        register size_t tmp;
+    #ifdef ARCH_X86_64
+        size_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
-            __ASM_EMIT("ror $8, %%ax")
-            __ASM_EMIT("movzx %%al, %[tmp]")
-            __ASM_EMIT("mov (%[rb], %[tmp]), %%al")
-            __ASM_EMIT("shr %%cl, %[v]")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("ror         $8, %%ax")
+            __ASM_EMIT("movzx       %%al, %[tmp]")
+            __ASM_EMIT("mov         (%[rb], %[tmp]), %%al")
+            __ASM_EMIT("shr         %%cl, %[v]")
 
             : [v] "+a"(v), [tmp] "=&r"(tmp)
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #else
-        register size_t tmp1, tmp2;
+    #else
+        size_t tmp1, tmp2;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("movzx %%al, %[tmp1]")
-            __ASM_EMIT("movzx %%ah, %[tmp2]")
-            __ASM_EMIT("mov (%[rb], %[tmp1]), %%ah")
-            __ASM_EMIT("mov (%[rb], %[tmp2]), %%al")
-            __ASM_EMIT("shr %%cl, %[v]")
+            __ASM_EMIT("movzx       %%al, %[tmp1]")
+            __ASM_EMIT("movzx       %%ah, %[tmp2]")
+            __ASM_EMIT("mov         (%[rb], %[tmp1]), %%ah")
+            __ASM_EMIT("mov         (%[rb], %[tmp2]), %%al")
+            __ASM_EMIT("shr         %%cl, %[v]")
             : [v] "+a"(v), [tmp1] "=&r"(tmp1), [tmp2] "=&r"(tmp2)
             : [rb] "r"(lsp_rb_data), "c"(16 - count)
             : "cc"
         );
-        #endif /* ARCH_X86_64 */
+    #endif /* ARCH_X86_64 */
 
         return v;
     }
 
     inline uint32_t __lsp_forced_inline    reverse_bits(uint32_t v)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("bswap %0")
+            __ASM_EMIT("bswap       %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xf0f0f0f0, %0")
-            __ASM_EMIT("and $0x0f0f0f0f, %1")
-            __ASM_EMIT("shr $4, %0")
-            __ASM_EMIT("shl $4, %1")
-            __ASM_EMIT("or  %1, %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xf0f0f0f0, %[v]")
+            __ASM_EMIT("and         $0x0f0f0f0f, %[tmp]")
+            __ASM_EMIT("shr         $4, %[v]")
+            __ASM_EMIT("shl         $4, %[tmp]")
+            __ASM_EMIT("or          %[tmp], %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xcccccccc, %0")
-            __ASM_EMIT("and $0x33333333, %1")
-            __ASM_EMIT("shr $2, %0")
-            __ASM_EMIT("lea (%0, %1, 4), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xcccccccc, %[v]")
+            __ASM_EMIT("and         $0x33333333, %[tmp]")
+            __ASM_EMIT("shr         $2, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 4), %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xaaaaaaaa, %0")
-            __ASM_EMIT("and $0x55555555, %1")
-            __ASM_EMIT("shr $1, %0")
-            __ASM_EMIT("lea (%0, %1, 2), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xaaaaaaaa, %[v]")
+            __ASM_EMIT("and         $0x55555555, %[tmp]")
+            __ASM_EMIT("shr         $1, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 2), %[v]")
 
-            : "+r"(v), "=&r"(tmp)
+            : [v] "+r"(v), [tmp] "=&r" (tmp)
             :
             : "cc"
         );
@@ -261,31 +261,31 @@ namespace lsp
 
     inline int32_t __lsp_forced_inline    reverse_bits(int32_t v)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("bswap %0")
+            __ASM_EMIT("bswap       %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xf0f0f0f0, %0")
-            __ASM_EMIT("and $0x0f0f0f0f, %1")
-            __ASM_EMIT("shr $4, %0")
-            __ASM_EMIT("shl $4, %1")
-            __ASM_EMIT("or  %1, %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xf0f0f0f0, %[v]")
+            __ASM_EMIT("and         $0x0f0f0f0f, %[tmp]")
+            __ASM_EMIT("shr         $4, %[v]")
+            __ASM_EMIT("shl         $4, %[tmp]")
+            __ASM_EMIT("or          %[tmp], %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xcccccccc, %0")
-            __ASM_EMIT("and $0x33333333, %1")
-            __ASM_EMIT("shr $2, %0")
-            __ASM_EMIT("lea (%0, %1, 4), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xcccccccc, %[v]")
+            __ASM_EMIT("and         $0x33333333, %[tmp]")
+            __ASM_EMIT("shr         $2, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 4), %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xaaaaaaaa, %0")
-            __ASM_EMIT("and $0x55555555, %1")
-            __ASM_EMIT("shr $1, %0")
-            __ASM_EMIT("lea (%0, %1, 2), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xaaaaaaaa, %[v]")
+            __ASM_EMIT("and         $0x55555555, %[tmp]")
+            __ASM_EMIT("shr         $1, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 2), %[v]")
 
-            : "+r"(v), "=&r"(tmp)
+            : [v] "+r"(v), [tmp] "=&r" (tmp)
             :
             : "cc"
         );
@@ -294,34 +294,34 @@ namespace lsp
 
     inline uint32_t __lsp_forced_inline    reverse_bits(uint32_t v, size_t count)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("bswap %0")
+            __ASM_EMIT("bswap       %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xf0f0f0f0, %0")
-            __ASM_EMIT("and $0x0f0f0f0f, %1")
-            __ASM_EMIT("shr $4, %0")
-            __ASM_EMIT("shl $4, %1")
-            __ASM_EMIT("or  %1, %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xf0f0f0f0, %[v]")
+            __ASM_EMIT("and         $0x0f0f0f0f, %[tmp]")
+            __ASM_EMIT("shr         $4, %[v]")
+            __ASM_EMIT("shl         $4, %[tmp]")
+            __ASM_EMIT("or          %[tmp], %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xcccccccc, %0")
-            __ASM_EMIT("and $0x33333333, %1")
-            __ASM_EMIT("shr $2, %0")
-            __ASM_EMIT("lea (%0, %1, 4), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xcccccccc, %[v]")
+            __ASM_EMIT("and         $0x33333333, %[tmp]")
+            __ASM_EMIT("shr         $2, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 4), %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xaaaaaaaa, %0")
-            __ASM_EMIT("and $0x55555555, %1")
-            __ASM_EMIT("shr $1, %0")
-            __ASM_EMIT("lea (%0, %1, 2), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xaaaaaaaa, %[v]")
+            __ASM_EMIT("and         $0x55555555, %[tmp]")
+            __ASM_EMIT("shr         $1, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 2), %[v]")
 
-            __ASM_EMIT("shr %%cl, %0")
+            __ASM_EMIT("shr         %%cl, %[v]")
 
-            : "+r"(v), "=&r"(tmp)
-            : "c"(32-count)
+            : [v] "+r"(v), [tmp] "=&r" (tmp)
+            : "c" (32-count)
             : "cc"
         );
         return v;
@@ -329,34 +329,34 @@ namespace lsp
 
     inline int32_t __lsp_forced_inline    reverse_bits(int32_t v, size_t count)
     {
-        register uint32_t tmp;
+        uint32_t tmp;
 
         ARCH_X86_ASM (
-            __ASM_EMIT("bswap %0")
+            __ASM_EMIT("bswap       %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xf0f0f0f0, %0")
-            __ASM_EMIT("and $0x0f0f0f0f, %1")
-            __ASM_EMIT("shr $4, %0")
-            __ASM_EMIT("shl $4, %1")
-            __ASM_EMIT("or  %1, %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xf0f0f0f0, %[v]")
+            __ASM_EMIT("and         $0x0f0f0f0f, %[tmp]")
+            __ASM_EMIT("shr         $4, %[v]")
+            __ASM_EMIT("shl         $4, %[tmp]")
+            __ASM_EMIT("or          %[tmp], %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xcccccccc, %0")
-            __ASM_EMIT("and $0x33333333, %1")
-            __ASM_EMIT("shr $2, %0")
-            __ASM_EMIT("lea (%0, %1, 4), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xcccccccc, %[v]")
+            __ASM_EMIT("and         $0x33333333, %[tmp]")
+            __ASM_EMIT("shr         $2, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 4), %[v]")
 
-            __ASM_EMIT("mov %0, %1")
-            __ASM_EMIT("and $0xaaaaaaaa, %0")
-            __ASM_EMIT("and $0x55555555, %1")
-            __ASM_EMIT("shr $1, %0")
-            __ASM_EMIT("lea (%0, %1, 2), %0")
+            __ASM_EMIT("mov         %[v], %[tmp]")
+            __ASM_EMIT("and         $0xaaaaaaaa, %[v]")
+            __ASM_EMIT("and         $0x55555555, %[tmp]")
+            __ASM_EMIT("shr         $1, %[v]")
+            __ASM_EMIT("lea         (%[v], %[tmp], 2), %[v]")
 
-            __ASM_EMIT("shr %%cl, %0")
+            __ASM_EMIT("shr         %%cl, %[v]")
 
-            : "+r"(v), "=&r"(tmp)
-            : "c"(32-count)
+            : [v] "+r"(v), [tmp] "=&r" (tmp)
+            : "c" (32-count)
             : "cc"
         );
         return v;
@@ -365,7 +365,7 @@ namespace lsp
     #ifdef ARCH_I386
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
 
             ARCH_X86_ASM
             (
@@ -418,7 +418,7 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
 
             ARCH_X86_ASM
             (
@@ -471,7 +471,7 @@ namespace lsp
 
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v, size_t count)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
             count = 64 - count;
 
             if (count < 32)
@@ -565,7 +565,7 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v, size_t count)
         {
-            register uint32_t tmp1, tmp2;
+            uint32_t tmp1, tmp2;
             count = 64 - count;
 
             if (count < 32)
@@ -659,35 +659,35 @@ namespace lsp
     #else /* ARCH_X86_64 */
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
-            ARCH_X86_ASM (
-                __ASM_EMIT("bswap %0")
+            ARCH_X86_64_ASM (
+                __ASM_EMIT("bswap       %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %2, %1")
-                __ASM_EMIT("shr $4, %0")
-                __ASM_EMIT("shl $4, %1")
-                __ASM_EMIT("and %2, %0")
-                __ASM_EMIT("or  %1, %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[tmp]")
+                __ASM_EMIT("shr         $4, %[v]")
+                __ASM_EMIT("shl         $4, %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[v]")
+                __ASM_EMIT("or          %[tmp], %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %3, %1")
-                __ASM_EMIT("shr $2, %0")
-                __ASM_EMIT("and %3, %0")
-                __ASM_EMIT("lea (%0,%1,4), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask2], %[tmp]")
+                __ASM_EMIT("shr         $2, %[v]")
+                __ASM_EMIT("and         %[mask2], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],4), %[v]")     // v = v | (tmp << 2)
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %4, %1")
-                __ASM_EMIT("shr $1, %0")
-                __ASM_EMIT("and %4, %0")
-                __ASM_EMIT("lea (%0,%1,2), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask3], %[tmp]")
+                __ASM_EMIT("shr         $1, %[v]")
+                __ASM_EMIT("and         %[mask3], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],2), %[v]")     // v = v | (tmp << 1)
 
-                : "+r"(v), "=&r"(tmp)
+                : [v] "+r"(v), [tmp] "=&r"(tmp)
                 :
-                "r"(0x0f0f0f0f0f0f0f0fULL),
-                "r"(0x3333333333333333ULL),
-                "r"(0x5555555555555555ULL)
+                  [mask1] "r" (0x0f0f0f0f0f0f0f0fULL),
+                  [mask2] "r" (0x3333333333333333ULL),
+                  [mask3] "r" (0x5555555555555555ULL)
                 : "cc"
             );
 
@@ -696,35 +696,35 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
-            ARCH_X86_ASM (
-                __ASM_EMIT("bswap %0")
+            ARCH_X86_64_ASM (
+                __ASM_EMIT("bswap       %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %2, %1")
-                __ASM_EMIT("shr $4, %0")
-                __ASM_EMIT("shl $4, %1")
-                __ASM_EMIT("and %2, %0")
-                __ASM_EMIT("or  %1, %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[tmp]")
+                __ASM_EMIT("shr         $4, %[v]")
+                __ASM_EMIT("shl         $4, %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[v]")
+                __ASM_EMIT("or          %[tmp], %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %3, %1")
-                __ASM_EMIT("shr $2, %0")
-                __ASM_EMIT("and %3, %0")
-                __ASM_EMIT("lea (%0,%1,4), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask2], %[tmp]")
+                __ASM_EMIT("shr         $2, %[v]")
+                __ASM_EMIT("and         %[mask2], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],4), %[v]")     // v = v | (tmp << 2)
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %4, %1")
-                __ASM_EMIT("shr $1, %0")
-                __ASM_EMIT("and %4, %0")
-                __ASM_EMIT("lea (%0,%1,2), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask3], %[tmp]")
+                __ASM_EMIT("shr         $1, %[v]")
+                __ASM_EMIT("and         %[mask3], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],2), %[v]")     // v = v | (tmp << 1)
 
-                : "+r"(v), "=&r"(tmp)
+                : [v] "+r"(v), [tmp] "=&r"(tmp)
                 :
-                "r"(0x0f0f0f0f0f0f0f0fULL),
-                "r"(0x3333333333333333ULL),
-                "r"(0x5555555555555555ULL)
+                  [mask1] "r" (0x0f0f0f0f0f0f0f0fULL),
+                  [mask2] "r" (0x3333333333333333ULL),
+                  [mask3] "r" (0x5555555555555555ULL)
                 : "cc"
             );
 
@@ -733,38 +733,38 @@ namespace lsp
 
         inline uint64_t __lsp_forced_inline    reverse_bits(uint64_t v, size_t count)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
-            ARCH_X86_ASM (
-                __ASM_EMIT("bswap %0")
+            ARCH_X86_64_ASM (
+                __ASM_EMIT("bswap       %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %2, %1")
-                __ASM_EMIT("shr $4, %0")
-                __ASM_EMIT("shl $4, %1")
-                __ASM_EMIT("and %2, %0")
-                __ASM_EMIT("or  %1, %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[tmp]")
+                __ASM_EMIT("shr         $4, %[v]")
+                __ASM_EMIT("shl         $4, %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[v]")
+                __ASM_EMIT("or          %[tmp], %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %3, %1")
-                __ASM_EMIT("shr $2, %0")
-                __ASM_EMIT("and %3, %0")
-                __ASM_EMIT("lea (%0,%1,4), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask2], %[tmp]")
+                __ASM_EMIT("shr         $2, %[v]")
+                __ASM_EMIT("and         %[mask2], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],4), %[v]")     // v = v | (tmp << 2)
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %4, %1")
-                __ASM_EMIT("shr $1, %0")
-                __ASM_EMIT("and %4, %0")
-                __ASM_EMIT("lea (%0,%1,2), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask3], %[tmp]")
+                __ASM_EMIT("shr         $1, %[v]")
+                __ASM_EMIT("and         %[mask3], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],2), %[v]")     // v = v | (tmp << 1)
 
-                __ASM_EMIT("shr %%cl, %0")
+                __ASM_EMIT("shr %%cl, %[v]")
 
-                : "+r"(v), "=&r"(tmp)
+                : [v] "+r"(v), [tmp] "=&r"(tmp)
                 :
-                "r"(0x0f0f0f0f0f0f0f0fULL),
-                "r"(0x3333333333333333ULL),
-                "r"(0x5555555555555555ULL),
-                "c"(64-count)
+                  [mask1] "r" (0x0f0f0f0f0f0f0f0fULL),
+                  [mask2] "r" (0x3333333333333333ULL),
+                  [mask3] "r" (0x5555555555555555ULL),
+                  "c" (64-count)
                 : "cc"
             );
 
@@ -773,38 +773,38 @@ namespace lsp
 
         inline int64_t __lsp_forced_inline    reverse_bits(int64_t v, size_t count)
         {
-            register uint64_t tmp;
+            uint64_t tmp;
 
-            ARCH_X86_ASM (
-                __ASM_EMIT("bswap %0")
+            ARCH_X86_64_ASM (
+                __ASM_EMIT("bswap       %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %2, %1")
-                __ASM_EMIT("shr $4, %0")
-                __ASM_EMIT("shl $4, %1")
-                __ASM_EMIT("and %2, %0")
-                __ASM_EMIT("or  %1, %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[tmp]")
+                __ASM_EMIT("shr         $4, %[v]")
+                __ASM_EMIT("shl         $4, %[tmp]")
+                __ASM_EMIT("and         %[mask1], %[v]")
+                __ASM_EMIT("or          %[tmp], %[v]")
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %3, %1")
-                __ASM_EMIT("shr $2, %0")
-                __ASM_EMIT("and %3, %0")
-                __ASM_EMIT("lea (%0,%1,4), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask2], %[tmp]")
+                __ASM_EMIT("shr         $2, %[v]")
+                __ASM_EMIT("and         %[mask2], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],4), %[v]")     // v = v | (tmp << 2)
 
-                __ASM_EMIT("mov %0, %1")
-                __ASM_EMIT("and %4, %1")
-                __ASM_EMIT("shr $1, %0")
-                __ASM_EMIT("and %4, %0")
-                __ASM_EMIT("lea (%0,%1,2), %0")
+                __ASM_EMIT("mov         %[v], %[tmp]")
+                __ASM_EMIT("and         %[mask3], %[tmp]")
+                __ASM_EMIT("shr         $1, %[v]")
+                __ASM_EMIT("and         %[mask3], %[v]")
+                __ASM_EMIT("lea         (%[v],%[tmp],2), %[v]")     // v = v | (tmp << 1)
 
-                __ASM_EMIT("shr %%cl, %0")
+                __ASM_EMIT("shr %%cl, %[v]")
 
-                : "+r"(v), "=&r"(tmp)
+                : [v] "+r"(v), [tmp] "=&r"(tmp)
                 :
-                "r"(0x0f0f0f0f0f0f0f0fULL),
-                "r"(0x3333333333333333ULL),
-                "r"(0x5555555555555555ULL),
-                "c"(64-count)
+                  [mask1] "r" (0x0f0f0f0f0f0f0f0fULL),
+                  [mask2] "r" (0x3333333333333333ULL),
+                  [mask3] "r" (0x5555555555555555ULL),
+                  "c" (64-count)
                 : "cc"
             );
 
@@ -819,8 +819,8 @@ namespace lsp
             uint32_t res = v;
 
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %[tmp], %[res]")
                 : [res] "+r" (res)
                 : [tmp] "r" (0)
                 : "cc"
@@ -833,8 +833,8 @@ namespace lsp
             uint32_t res = uint8_t(v);
 
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %[tmp], %[res]")
                 : [res] "+r" (res)
                 : [tmp] "r" (0)
                 : "cc"
@@ -847,8 +847,8 @@ namespace lsp
             uint32_t res = v;
 
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %[tmp], %[res]")
                 : [res] "+r" (res)
                 : [tmp] "r" (0)
                 : "cc"
@@ -861,8 +861,8 @@ namespace lsp
             uint32_t res = uint16_t(v);
 
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %[tmp], %[res]")
                 : [res] "+r" (res)
                 : [tmp] "r" (0)
                 : "cc"
@@ -873,8 +873,8 @@ namespace lsp
         inline int __lsp_forced_inline     int_log2(uint32_t v)
         {
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %[tmp], %[res]")
                 : [res] "+r" (v)
                 : [tmp] "r" (0)
                 : "cc"
@@ -885,8 +885,8 @@ namespace lsp
         inline int __lsp_forced_inline     int_log2(int32_t v)
         {
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %[tmp], %[res]")
                 : [res] "+r" (v)
                 : [tmp] "r" (0)
                 : "cc"
@@ -898,8 +898,8 @@ namespace lsp
         inline int __lsp_forced_inline     int_log2(uint64_t v)
         {
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %q[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %q[tmp], %[res]")
                 : [res] "+r" (v)
                 : [tmp] "r" (0)
                 : "cc"
@@ -910,8 +910,8 @@ namespace lsp
         inline int __lsp_forced_inline     int_log2(int64_t v)
         {
             ARCH_X86_ASM (
-                __ASM_EMIT("bsr     %[res], %[res]")
-                __ASM_EMIT("cmovz   %q[tmp], %[res]")
+                __ASM_EMIT("bsr         %[res], %[res]")
+                __ASM_EMIT("cmovz       %q[tmp], %[res]")
                 : [res] "+r" (v)
                 : [tmp] "r" (0)
                 : "cc"
