@@ -36,18 +36,26 @@ namespace lsp
             ~FinallyExecutor()  { sActor(); }
     };
 
+    struct FinallyExecutorInit
+    {
+        template <class T>
+            inline FinallyExecutor<T> operator + (T & actor)
+            {
+                return FinallyExecutor<T>(actor);
+            }
+        template <class T>
+            inline FinallyExecutor<T> operator + (T && actor)
+            {
+                return FinallyExecutor<T>(actor);
+            }
+    };
+
     #define lsp_impl_finally2(id, prefix) prefix ## id ## __
     #define lsp_impl_finally1(id, prefix) lsp_impl_finally2(id, prefix)
-    #define lsp_impl_finally0(id, ...) \
-        auto lsp_impl_finally1(id, lsp_finally_function) = [&]() \
-        { \
-            __VA_ARGS__ \
-        }; \
-        const ::lsp::FinallyExecutor<decltype(lsp_impl_finally1(id, lsp_finally_function))> \
-            lsp_impl_finally1(id, lsp_finally_executor)(lsp_impl_finally1(id, lsp_finally_function));
+    #define lsp_impl_finally0(id) \
+        auto lsp_impl_finally1(id, lsp_finally_function) = FinallyExecutorInit{} + [&]() -> void
 
-    #define lsp_finally(...) lsp_impl_finally0(__COUNTER__, __VA_ARGS__)
-
+    #define lsp_finally lsp_impl_finally0(__COUNTER__)
 } /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_FINALLY_H_ */
