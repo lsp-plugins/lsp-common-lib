@@ -116,7 +116,7 @@ ifneq ($(EXPORT_SYMBOLS),1)
   CXXFLAGS_EXT       += -fvisibility=hidden
 endif
 
-ifeq ($(ARTIFACT_EXPORT_HEADERS),1)
+ifneq ($(ARTIFACT_EXPORT_HEADERS),0)
   INSTALL_HEADERS    ?= 1
 else
   INSTALL_HEADERS    ?= 0

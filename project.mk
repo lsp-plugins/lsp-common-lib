@@ -24,5 +24,4 @@ ARTIFACT_NAME               = lsp-common-lib
 ARTIFACT_DESC               = Common library for basic C/C++ language definitions
 ARTIFACT_HEADERS            = lsp-plug.in
 ARTIFACT_VERSION            = 1.0.20-devel
-ARTIFACT_EXPORT_HEADERS     = 1
 
