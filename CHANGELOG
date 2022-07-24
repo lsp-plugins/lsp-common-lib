@@ -4,6 +4,7 @@
 
 === 1.0.20 ===
 * Updated implementation of lsp_finally macro. Now it became debuggable.
+* Updated build scripts.
 
 === 1.0.19 ===
 * Updated assembly code for bits.
