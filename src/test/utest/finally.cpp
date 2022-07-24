@@ -34,26 +34,26 @@ UTEST_BEGIN("common", finally)
 
         {
             strcat(buf, "A1");
-            lsp_finally (
+            lsp_finally {
                 strcat(buf, "F1");
-            );
+            };
             strcat(buf, "B1");
 
             {
                 strcat(buf, "A2");
-                lsp_finally (
+                lsp_finally {
                     strcat(buf, "F2");
-                );
+                };
                 strcat(buf, "B2");
 
                 for (size_t i=0; i<4; ++i)
                 {
                     snprintf(tmp, sizeof(tmp), "X%d", int(i));
                     strcat(buf, tmp);
-                    lsp_finally (
+                    lsp_finally {
                         snprintf(tmp, sizeof(tmp), "W%d", int(i));
                         strcat(buf, tmp);
-                    );
+                    };
                     snprintf(tmp, sizeof(tmp), "Y%d", int(i));
                     strcat(buf, tmp);
                 } // for
