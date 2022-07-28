@@ -25,6 +25,7 @@
 
 namespace lsp
 {
+    LSP_COMMON_LIB_EXPORT
     int version_cmp(const version_t *a, const version_t *b)
     {
         int diff = a->major - b->major;
@@ -36,11 +37,13 @@ namespace lsp
         return a->micro - b->micro;
     }
 
+    LSP_COMMON_LIB_EXPORT
     int version_cmp(const version_t &a, const version_t &b)
     {
         return version_cmp(&a, &b);
     }
 
+    LSP_COMMON_LIB_EXPORT
     bool version_copy(version_t *dst, const version_t *src)
     {
         dst->major  = src->major;
@@ -56,6 +59,7 @@ namespace lsp
         return dst->branch != NULL;
     }
 
+    LSP_COMMON_LIB_EXPORT
     void version_destroy(version_t *version)
     {
         if (version->branch != NULL)
