@@ -18,21 +18,57 @@
 # along with lsp-common-lib.  If not, see <https://www.gnu.org/licenses/>.
 #
 
-# List of dependencies
+#------------------------------------------------------------------------------
+# List of common dependencies
 DEPENDENCIES = \
   LIBPTHREAD 
 
 TEST_DEPENDENCIES = \
   LSP_TEST_FW
 
-# Platform-dependent
+#------------------------------------------------------------------------------
+# Linux dependencies
+LINUX_DEPENDENCIES =
+
+LINUX_TEST_DEPENDENCIES =
+
+ifeq ($(PLATFORM),Linux)
+  DEPENDENCIES             += $(LINUX_DEPENDENCIES)
+  TEST_DEPENDENCIES        += $(LINUX_TEST_DEPENDENCIES)
+endif
+
+
+#------------------------------------------------------------------------------
+# BSD dependencies
+BSD_DEPENDENCIES =
+
+BSD_TEST_DEPENDENCIES =
+
+ifeq ($(PLATFORM),BSD)
+  DEPENDENCIES             += $(BSD_DEPENDENCIES)
+  TEST_DEPENDENCIES        += $(BSD_TEST_DEPENDENCIES)
+endif
+
+#------------------------------------------------------------------------------
+# Windows dependencies
+WINDOWS_DEPENDENCIES = \
+  LIBSHLWAPI
+
+WINDOWS_TEST_DEPENDENCIES =
+
 ifeq ($(PLATFORM),Windows)
   TEST_DEPENDENCIES += \
     LIBSHLWAPI
 endif
 
+#------------------------------------------------------------------------------
 # Overall system dependencies
 ALL_DEPENDENCIES = \
   $(DEPENDENCIES) \
+  $(LINUX_DEPENDENCIES) \
+  $(BSD_DEPENDENCIES) \
+  $(WINDOWS_DEPENDENCIES) \
   $(TEST_DEPENDENCIES) \
-  LIBSHLWAPI
+  $(TEST_LINUX_DEPENDENCIES) \
+  $(TEST_WINDOWS_DEPENDENCIES) \
+  $(TEST_BSD_DEPENDENCIES)
