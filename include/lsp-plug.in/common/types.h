@@ -840,8 +840,8 @@ namespace lsp
 #endif
 
 #ifdef PLATFORM_WINDOWS
-    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN __declspec(dllexport)
-    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
+    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN __declspec(dllimport)
+    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN __declspec(dllimport)
 #else
     #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN
     #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN
