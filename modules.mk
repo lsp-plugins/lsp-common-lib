@@ -25,11 +25,6 @@ LSP_TEST_FW_TYPE           := src
 LSP_TEST_FW_URL_RO         := https://github.com/lsp-plugins/$(LSP_TEST_FW_NAME).git
 LSP_TEST_FW_URL_RW         := git@github.com:lsp-plugins/$(LSP_TEST_FW_NAME).git
 
-LIBPTHREAD_VERSION         := system
-LIBPTHREAD_NAME            := libpthread
-LIBPTHREAD_TYPE            := opt
-LIBPTHREAD_LDFLAGS         := -lpthread
-
 LIBSHLWAPI_VERSION         := system
 LIBSHLWAPI_NAME            := libshlwapi
 LIBSHLWAPI_TYPE            := opt

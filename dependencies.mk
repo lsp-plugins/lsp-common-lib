@@ -20,15 +20,14 @@
 
 #------------------------------------------------------------------------------
 # List of common dependencies
-DEPENDENCIES = \
-  LIBPTHREAD 
+DEPENDENCIES =    
 
 TEST_DEPENDENCIES = \
   LSP_TEST_FW
 
 #------------------------------------------------------------------------------
 # Linux dependencies
-LINUX_DEPENDENCIES =
+LINUX_DEPENDENCIES = 
 
 LINUX_TEST_DEPENDENCIES =
 
@@ -37,10 +36,9 @@ ifeq ($(PLATFORM),Linux)
   TEST_DEPENDENCIES        += $(LINUX_TEST_DEPENDENCIES)
 endif
 
-
 #------------------------------------------------------------------------------
 # BSD dependencies
-BSD_DEPENDENCIES =
+BSD_DEPENDENCIES = 
 
 BSD_TEST_DEPENDENCIES =
 
@@ -51,14 +49,14 @@ endif
 
 #------------------------------------------------------------------------------
 # Windows dependencies
-WINDOWS_DEPENDENCIES = \
+WINDOWS_DEPENDENCIES =
+
+WINDOWS_TEST_DEPENDENCIES = \
   LIBSHLWAPI
 
-WINDOWS_TEST_DEPENDENCIES =
-
 ifeq ($(PLATFORM),Windows)
-  TEST_DEPENDENCIES += \
-    LIBSHLWAPI
+  DEPENDENCIES             += $(WINDOWS_DEPENDENCIES)
+  TEST_DEPENDENCIES        += $(WINDOWS_TEST_DEPENDENCIES)
 endif
 
 #------------------------------------------------------------------------------
@@ -69,6 +67,7 @@ ALL_DEPENDENCIES = \
   $(BSD_DEPENDENCIES) \
   $(WINDOWS_DEPENDENCIES) \
   $(TEST_DEPENDENCIES) \
-  $(TEST_LINUX_DEPENDENCIES) \
-  $(TEST_WINDOWS_DEPENDENCIES) \
-  $(TEST_BSD_DEPENDENCIES)
+  $(LINUX_TEST_DEPENDENCIES) \
+  $(BSD_TEST_DEPENDENCIES) \
+  $(WINDOWS_TEST_DEPENDENCIES) \
+  
