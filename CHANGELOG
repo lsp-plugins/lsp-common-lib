@@ -4,6 +4,7 @@
 
 === 1.0.21 ===
 * Got rid of the <windows.h> plague header in header files.
+* Updated build scripts.
 
 === 1.0.20 ===
 * Updated implementation of lsp_finally macro. Now it became debuggable.
