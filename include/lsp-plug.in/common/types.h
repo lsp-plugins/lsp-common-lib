@@ -769,10 +769,6 @@ namespace lsp
     #include <linux/limits.h>
 #endif /* __linux__ */
 
-#if defined(PLATFORM_WINDOWS)
-    #include <windows.h>
-#endif /* PLATFORM_WINDOWS */
-
 //-----------------------------------------------------------------------------
 // Character type sizes
 #if (WCHAR_MAX >= 0x10000ul)
@@ -817,7 +813,7 @@ namespace lsp
     typedef int32_t         lsp_swchar_t;
 
     #if defined(WCHART_16BIT)
-        typedef WCHAR               lsp_utf16_t;
+        typedef wchar_t             lsp_utf16_t;
         typedef uint32_t            lsp_utf32_t;
     #else
         typedef uint16_t            lsp_utf16_t;

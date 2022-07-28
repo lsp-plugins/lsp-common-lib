@@ -21,7 +21,12 @@
 
 #include <lsp-plug.in/stdlib/stdio.h>
 
+#include <stdlib.h>
 #include <unistd.h>
+
+#ifdef PLATFORM_WINDOWS
+    #include <windows.h>
+#endif /* PLATFORM_WINDOWS */
 
 namespace lsp
 {

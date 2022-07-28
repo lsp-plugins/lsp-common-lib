@@ -29,7 +29,7 @@
 namespace lsp
 {
 #ifdef PLATFORM_WINDOWS
-    typedef HANDLE              fhandle_t;
+    typedef void                   *fhandle_t;
 
     LSP_COMMON_LIB_IMPORT
     int         vasprintf(char **strp, const char *fmt, va_list ap);
@@ -43,7 +43,7 @@ namespace lsp
 #endif /* PLATFORM_WINDOWS */
 
 #ifdef PLATFORM_UNIX_COMPATIBLE
-    typedef int                 fhandle_t;
+    typedef int                     fhandle_t;
 
     LSP_COMMON_LIB_IMPORT
     int         fdsync(FILE *fd);
