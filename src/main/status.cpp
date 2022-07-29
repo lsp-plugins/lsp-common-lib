@@ -100,25 +100,25 @@ namespace lsp
 
     #undef S
 
-    LSP_COMMON_LIB_EXPORT
+    LSP_COMMON_LIB_PUBLIC
     const char *get_status(status_t code)
     {
         return ((code >= 0) && (code < STATUS_TOTAL)) ? statuses[code].desc: NULL;
     }
 
-    LSP_COMMON_LIB_EXPORT
+    LSP_COMMON_LIB_PUBLIC
     const char *get_status_lc_key(status_t code)
     {
         return ((code >= 0) && (code < STATUS_TOTAL)) ? statuses[code].key : NULL;
     }
 
-    LSP_COMMON_LIB_EXPORT
+    LSP_COMMON_LIB_PUBLIC
     bool status_is_success(status_t code)
     {
         return code == STATUS_OK;
     }
 
-    LSP_COMMON_LIB_EXPORT
+    LSP_COMMON_LIB_PUBLIC
     bool status_is_preliminary(status_t code)
     {
         switch (code)
@@ -130,7 +130,7 @@ namespace lsp
         return false;
     }
 
-    LSP_COMMON_LIB_EXPORT
+    LSP_COMMON_LIB_PUBLIC
     bool status_is_error(status_t code)
     {
         if (status_is_success(code))
@@ -139,7 +139,7 @@ namespace lsp
         return ! status_is_preliminary(code);
     }
 
-    LSP_COMMON_LIB_EXPORT
+    LSP_COMMON_LIB_PUBLIC
     status_t update_status(status_t status, status_t new_status)
     {
         return (status == STATUS_OK) ? new_status : status;

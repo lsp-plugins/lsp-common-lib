@@ -920,16 +920,16 @@ namespace lsp
             return (value) ? bits | flag : bits & (~flag);
         }
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     int version_cmp(const version_t *a, const version_t *b);
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     int version_cmp(const version_t &a, const version_t &b);
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     bool version_copy(version_t *dst, const version_t *src);
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     void version_destroy(version_t *version);
 }
 

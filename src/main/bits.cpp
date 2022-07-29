@@ -24,8 +24,8 @@
 namespace lsp
 {
 #if (!defined(ARCH_ARM)) && (!defined(ARCH_AARCH64))
-    LSP_COMMON_LIB_EXPORT
-    extern const uint8_t  lsp_rb_data[] =
+    LSP_COMMON_LIB_PUBLIC
+    const uint8_t  lsp_rb_data[] =
     {
         0x00, 0x80, 0x40, 0xC0, 0x20, 0xA0, 0x60, 0xE0, 0x10, 0x90, 0x50, 0xD0, 0x30, 0xB0, 0x70, 0xF0,
         0x08, 0x88, 0x48, 0xC8, 0x28, 0xA8, 0x68, 0xE8, 0x18, 0x98, 0x58, 0xD8, 0x38, 0xB8, 0x78, 0xF8,
@@ -49,8 +49,8 @@ namespace lsp
 
 #if defined(ARCH_ARM)
     #if (!defined(ARCH_ARM7))
-        LSP_COMMON_LIB_EXPORT
-        extern const uint32_t lsp_rb_masks[] =
+        LSP_COMMON_LIB_PUBLIC
+        const uint32_t lsp_rb_masks[] =
         {
             0x55555555,
             0x33333333,

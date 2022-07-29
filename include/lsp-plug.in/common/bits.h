@@ -29,6 +29,7 @@
 #if (!defined(ARCH_ARM)) && (!defined(ARCH_AARCH64))
 namespace lsp
 {
+    LSP_COMMON_LIB_PUBLIC
     extern const uint8_t    lsp_rb_data[];
 }
 #endif

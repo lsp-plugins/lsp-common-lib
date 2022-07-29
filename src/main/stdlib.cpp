@@ -54,7 +54,7 @@ namespace lsp
     #endif /* defined(PLATFORM_WINDOWS) */
     } /* namespace */
 
-    LSP_COMMON_LIB_EXPORT
+    LSP_COMMON_LIB_PUBLIC
     void qsort_r(
         void *data, size_t count, size_t szof,
         int (*compar)(const void *a1, const void *a2, void *data),

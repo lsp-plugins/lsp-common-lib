@@ -39,7 +39,7 @@ namespace lsp
      * @param compar comparison function
      * @param arg argument passed to the comparison function
      */
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     void qsort_r(
         void *data, size_t count, size_t szof,
         int (*compar)(const void *a1, const void *a2, void *data),

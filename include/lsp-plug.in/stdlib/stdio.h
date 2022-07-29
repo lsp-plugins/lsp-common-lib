@@ -31,13 +31,13 @@ namespace lsp
 #ifdef PLATFORM_WINDOWS
     typedef void                   *fhandle_t;
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     int         vasprintf(char **strp, const char *fmt, va_list ap);
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     int         asprintf(char **strp, const char *fmt, ...);
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     int         fdsync(FILE *fd);
 
 #endif /* PLATFORM_WINDOWS */
@@ -45,7 +45,7 @@ namespace lsp
 #ifdef PLATFORM_UNIX_COMPATIBLE
     typedef int                     fhandle_t;
 
-    LSP_COMMON_LIB_IMPORT
+    LSP_COMMON_LIB_PUBLIC
     int         fdsync(FILE *fd);
 
 #endif /* PLATFORM_UNIX_COMPATIBLE */
