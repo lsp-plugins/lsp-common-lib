@@ -823,31 +823,28 @@ namespace lsp
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
+#ifdef PLATFORM_WINDOWS
+    #define LSP_IMPORT_MODIFIER     __declspec(dllimport)
+    #define LSP_EXPORT_MODIFIER     __declspec(dllexport)
+    #define LSP_HIDDEN_MODIFIER     __attribute__((visibility("hidden")))
+#else
+    #define LSP_IMPORT_MODIFIER
+    #define LSP_EXPORT_MODIFIER     __attribute__((visibility("default")))
+    #define LSP_HIDDEN_MODIFIER     __attribute__((visibility("hidden")))
+#endif /* PLATFORM_WINDOWS */
+
 #ifdef __cplusplus
     #define LSP_CSYMBOL_EXTERN      extern "C"
-    #define LSP_SYMBOL_EXTERN       extern
 #else
-    #define LSP_CSYMBOL_EXTERN      extern
-    #define LSP_SYMBOL_EXTERN       extern
-#endif
+    #define LSP_CSYMBOL_EXTERN
+#endif /* __cplusplus */
 
-#ifdef PLATFORM_WINDOWS
-    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
-    #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
-#else
-    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
-    #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
-#endif
-
-#ifdef PLATFORM_WINDOWS
-    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN __declspec(dllimport)
-    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN __declspec(dllimport)
-#else
-    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN
-    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN
-#endif
-
-#define LSP_SYMBOL_HIDDEN           __attribute__((visibility("hidden")))
+#define LSP_SYMBOL_EXPORT       LSP_EXPORT_MODIFIER
+#define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN LSP_EXPORT_MODIFIER
+#define LSP_SYMBOL_IMPORT       extern LSP_IMPORT_MODIFIER
+#define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN extern LSP_IMPORT_MODIFIER
+#define LSP_SYMBOL_HIDDEN       LSP_HIDDEN_MODIFIER
+#define LSP_CSYMBOL_HIDDEN      LSP_HIDDEN_MODIFIER
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
