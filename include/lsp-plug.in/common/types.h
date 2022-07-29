@@ -834,17 +834,12 @@ namespace lsp
 #endif /* PLATFORM_WINDOWS */
 
 #ifdef __cplusplus
+    #define LSP_SYMBOL_EXTERN       extern
     #define LSP_CSYMBOL_EXTERN      extern "C"
 #else
+    #define LSP_SYMBOL_EXTERN       extern
     #define LSP_CSYMBOL_EXTERN
 #endif /* __cplusplus */
-
-#define LSP_SYMBOL_EXPORT       LSP_EXPORT_MODIFIER
-#define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN LSP_EXPORT_MODIFIER
-#define LSP_SYMBOL_IMPORT       extern LSP_IMPORT_MODIFIER
-#define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN extern LSP_IMPORT_MODIFIER
-#define LSP_SYMBOL_HIDDEN       LSP_HIDDEN_MODIFIER
-#define LSP_CSYMBOL_HIDDEN      LSP_HIDDEN_MODIFIER
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
