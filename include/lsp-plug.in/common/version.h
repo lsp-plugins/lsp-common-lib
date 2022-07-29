@@ -28,7 +28,7 @@
 #define LSP_COMMON_LIB_MINOR            0
 #define LSP_COMMON_LIB_MICRO            21
 
-#if defined(LSP_COMMON_LIB_PUBLISHER)
+#if !defined(LSP_COMMON_LIB_PUBLISHER)
     #define LSP_COMMON_LIB_PUBLIC       LSP_EXPORT_MODIFIER
 #elif defined(LSP_COMMON_LIB_BUILTIN) || defined(LSP_IDE_DEBUG)
     #define LSP_COMMON_LIB_PUBLIC
