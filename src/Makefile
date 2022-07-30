@@ -104,8 +104,6 @@ DEP_DEP_FILE            = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
 # Dependencies
 dep_clean:
 
-$(info ARTIFACT_DEP_LIST = $(ARTIFACT_DEP_LIST))
-
 $(DEP_CXX): dep_clean
 	echo "  dep  [$(ARTIFACT_NAME)] $(DEP_CXX_FILE)"
 	mkdir -p $(dir $(@))
