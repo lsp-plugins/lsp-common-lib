@@ -21,6 +21,7 @@
 
 #include <lsp-plug.in/stdlib/stdio.h>
 
+#include <stdarg.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -34,7 +35,7 @@ namespace lsp
     LSP_COMMON_LIB_PUBLIC
     int vasprintf(char **res, const char *fmt, va_list ap)
     {
-        int len = vsnprintf(NULL, 0, fmt, ap);
+        int len = _vscprintf(fmt, ap);
         if (len < 0)
             return -1;
 

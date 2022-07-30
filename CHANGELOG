@@ -4,6 +4,7 @@
 
 === 1.0.21 ===
 * Got rid of the <windows.h> plague header in header files.
+* Better workaround for vasprintf function.
 * Updated build scripts.
 
 === 1.0.20 ===
