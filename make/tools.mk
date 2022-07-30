@@ -78,6 +78,7 @@ else ifeq ($(PLATFORM),Windows)
   FLAG_STDLIB         =
   EXE_FLAGS_EXT      += -static-libgcc -static-libstdc++
   SO_FLAGS_EXT       += -static-libgcc -static-libstdc++
+  LDFLAGS_EXT        += -T $(CURDIR)/make/ld-windows.script
 else ifeq ($(PLATFORM),BSD)
   EXE_FLAGS_EXT      += -L/usr/local/lib
   SO_FLAGS_EXT       += -L/usr/local/lib
