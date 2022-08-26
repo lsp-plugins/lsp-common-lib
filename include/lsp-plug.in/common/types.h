@@ -416,11 +416,41 @@ namespace lsp
 // Detect compiler
 #if defined(__clang__)
     #define COMPILER_CLANG
+    #define __IF_CLANG(...)             __VA_ARGS__
+    #define __IFN_CLANG(...)
 #elif defined(__GNUC__) || defined(__GNUG__)
     #define COMPILER_GCC
+    #define __IF_GCC(...)               __VA_ARGS__
+    #define __IFN_GCC(...)
 #elif defined(_MSC_VER)
     #define COMPILER_MSC
+    #define __IF_MSC(...)               __VA_ARGS__
+    #define __IFN_MSC(...)
 #endif /* __GNUC__ */
+
+#ifndef __IF_CLANG
+    #define __IF_CLANG(...)
+#endif /*__IF_CLANG */
+
+#ifndef __IFN_CLANG
+    #define __IFN_CLANG(...)            __VA_ARGS__
+#endif /*__IFN_CLANG */
+
+#ifndef __IF_GCC
+    #define __IF_GCC(...)
+#endif /*__IF_GCC */
+
+#ifndef __IFN_GCC
+    #define __IFN_GCC(...)              __VA_ARGS__
+#endif /*__IFN_GCC */
+
+#ifndef __IF_MSC
+    #define __IF_MSC(...)
+#endif /*__IF_MSC */
+
+#ifndef __IFN_MSC
+    #define __IFN_MSC(...)              __VA_ARGS__
+#endif /*__IFN_MSC */
 
 //-----------------------------------------------------------------------------
 // Conditional assemblying
