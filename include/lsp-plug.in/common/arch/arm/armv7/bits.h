@@ -42,7 +42,7 @@ namespace lsp
     inline uint32_t reverse_bits(uint32_t src, size_t count)
     {
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             __ASM_EMIT("rbit    %[src], %[src]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count)
@@ -66,7 +66,7 @@ namespace lsp
     inline int32_t reverse_bits(int32_t src, size_t count)
     {
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             __ASM_EMIT("rbit    %[src], %[src]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count)
@@ -80,7 +80,7 @@ namespace lsp
     {
         ARCH_ARM_ASM (
             __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], $16")
+            __ASM_EMIT("lsr     %[src], #16")
             : [src] "+r" (src)
             : :
         );
@@ -91,7 +91,7 @@ namespace lsp
     inline uint16_t reverse_bits(uint16_t src, size_t count)
     {
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             __ASM_EMIT("rbit    %[src], %[src]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count)
@@ -105,7 +105,7 @@ namespace lsp
     {
         ARCH_ARM_ASM (
             __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], $16")
+            __ASM_EMIT("lsr     %[src], #16")
             : [src] "+r" (src)
             : :
         );
@@ -116,7 +116,7 @@ namespace lsp
     inline int16_t reverse_bits(int16_t src, size_t count)
     {
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             __ASM_EMIT("rbit    %[src], %[src]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count)
@@ -130,7 +130,7 @@ namespace lsp
     {
         ARCH_ARM_ASM (
             __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], $24")
+            __ASM_EMIT("lsr     %[src], #24")
             : [src] "+r" (src)
             : :
         );
@@ -141,7 +141,7 @@ namespace lsp
     inline uint8_t reverse_bits(uint8_t src, size_t count)
     {
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             __ASM_EMIT("rbit    %[src], %[src]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count)
@@ -155,7 +155,7 @@ namespace lsp
     {
         ARCH_ARM_ASM (
             __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], $24")
+            __ASM_EMIT("lsr     %[src], #24")
             : [src] "+r" (src)
             : :
         );
@@ -166,7 +166,7 @@ namespace lsp
     inline int8_t reverse_bits(int8_t src, size_t count)
     {
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             __ASM_EMIT("rbit    %[src], %[src]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count)
@@ -216,20 +216,20 @@ namespace lsp
 
         ARCH_ARM_ASM
         (
-            __ASM_EMIT("rsb             %[count], %[count], $64")
+            __ASM_EMIT("rsb             %[count], %[count], #64")
             __ASM_EMIT("rbit            %[lo], %[lo]")
             __ASM_EMIT("rbit            %[hi], %[hi]")                  // [ lo, hi ]
-            __ASM_EMIT("cmp             %[count], $32")
+            __ASM_EMIT("cmp             %[count], #32")
             __ASM_EMIT("blo             2f")
 
             __ASM_EMIT("mov             %[hi], %[lo]")                  // [ lo, lo ]
-            __ASM_EMIT("sub             %[count], $32")
+            __ASM_EMIT("sub             %[count], #32")
             __ASM_EMIT("eor             %[lo], %[lo]")                  // [ 0, lo ]
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ 0, lo >> count ]
             __ASM_EMIT("b               4f")
 
             __ASM_EMIT("2:")
-            __ASM_EMIT("rsb             %[tmp], %[count], $32")         // tmp = (32 - count)
+            __ASM_EMIT("rsb             %[tmp], %[count], #32")         // tmp = (32 - count)
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ lo, hi >> count ]
             __ASM_EMIT("lsl             %[tmp], %[lo], %[tmp]")         // tmp = lo << (32 - count)
             __ASM_EMIT("lsr             %[lo], %[count]")               // lo >> (32 - count)
@@ -252,20 +252,20 @@ namespace lsp
 
         ARCH_ARM_ASM
         (
-            __ASM_EMIT("rsb             %[count], %[count], $64")
+            __ASM_EMIT("rsb             %[count], %[count], #64")
             __ASM_EMIT("rbit            %[lo], %[lo]")
             __ASM_EMIT("rbit            %[hi], %[hi]")                  // [ lo, hi ]
-            __ASM_EMIT("cmp             %[count], $32")
+            __ASM_EMIT("cmp             %[count], #32")
             __ASM_EMIT("blo             2f")
 
             __ASM_EMIT("mov             %[hi], %[lo]")                  // [ lo, lo ]
-            __ASM_EMIT("sub             %[count], $32")
+            __ASM_EMIT("sub             %[count], #32")
             __ASM_EMIT("eor             %[lo], %[lo]")                  // [ 0, lo ]
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ 0, lo >> count ]
             __ASM_EMIT("b               4f")
 
             __ASM_EMIT("2:")
-            __ASM_EMIT("rsb             %[tmp], %[count], $32")         // tmp = (32 - count)
+            __ASM_EMIT("rsb             %[tmp], %[count], #32")         // tmp = (32 - count)
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ lo, hi >> count ]
             __ASM_EMIT("lsl             %[tmp], %[lo], %[tmp]")         // tmp = lo << (32 - count)
             __ASM_EMIT("lsr             %[lo], %[count]")               // lo >> (32 - count)

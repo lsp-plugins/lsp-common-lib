@@ -71,7 +71,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
@@ -103,7 +103,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
@@ -121,7 +121,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
-            __ASM_EMIT("lsr %[src], $16")
+            __ASM_EMIT("lsr %[src], #16")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -136,7 +136,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
@@ -154,7 +154,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
-            __ASM_EMIT("lsr %[src], $16")
+            __ASM_EMIT("lsr %[src], #16")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -169,7 +169,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
@@ -187,7 +187,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
-            __ASM_EMIT("lsr %[src], $24")
+            __ASM_EMIT("lsr %[src], #24")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -202,7 +202,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
@@ -220,7 +220,7 @@ namespace lsp
 
         ARCH_ARM_ASM (
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
-            __ASM_EMIT("lsr %[src], $24")
+            __ASM_EMIT("lsr %[src], #24")
             : [src] "+r" (src),
               [msk] "=&r" (msk), [tmp] "=&r" (tmp)
             : [masks] "r" (lsp_rb_masks)
@@ -234,7 +234,7 @@ namespace lsp
         uint32_t msk, tmp;
 
         ARCH_ARM_ASM (
-            __ASM_EMIT("rsb     %[count], %[count], $32")
+            __ASM_EMIT("rsb     %[count], %[count], #32")
             LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
             : [src] "+r" (src), [count] "+r" (count),
@@ -292,20 +292,20 @@ namespace lsp
 
         ARCH_ARM_ASM
         (
-            __ASM_EMIT("rsb             %[count], %[count], $64")
+            __ASM_EMIT("rsb             %[count], %[count], #64")
             LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
             LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
-            __ASM_EMIT("cmp             %[count], $32")
+            __ASM_EMIT("cmp             %[count], #32")
             __ASM_EMIT("blo             2f")
 
             __ASM_EMIT("mov             %[hi], %[lo]")                  // [ lo, lo ]
-            __ASM_EMIT("sub             %[count], $32")
+            __ASM_EMIT("sub             %[count], #32")
             __ASM_EMIT("eor             %[lo], %[lo]")                  // [ 0, lo ]
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ 0, lo >> count ]
             __ASM_EMIT("b               4f")
 
             __ASM_EMIT("2:")
-            __ASM_EMIT("rsb             %[tmp], %[count], $32")         // tmp = (32 - count)
+            __ASM_EMIT("rsb             %[tmp], %[count], #32")         // tmp = (32 - count)
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ lo, hi >> count ]
             __ASM_EMIT("lsl             %[tmp], %[lo], %[tmp]")         // tmp = lo << (32 - count)
             __ASM_EMIT("lsr             %[lo], %[count]")               // lo >> (32 - count)
@@ -329,20 +329,20 @@ namespace lsp
 
         ARCH_ARM_ASM
         (
-            __ASM_EMIT("rsb             %[count], %[count], $64")
+            __ASM_EMIT("rsb             %[count], %[count], #64")
             LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
             LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
-            __ASM_EMIT("cmp             %[count], $32")
+            __ASM_EMIT("cmp             %[count], #32")
             __ASM_EMIT("blo             2f")
 
             __ASM_EMIT("mov             %[hi], %[lo]")                  // [ lo, lo ]
-            __ASM_EMIT("sub             %[count], $32")
+            __ASM_EMIT("sub             %[count], #32")
             __ASM_EMIT("eor             %[lo], %[lo]")                  // [ 0, lo ]
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ 0, lo >> count ]
             __ASM_EMIT("b               4f")
 
             __ASM_EMIT("2:")
-            __ASM_EMIT("rsb             %[tmp], %[count], $32")         // tmp = (32 - count)
+            __ASM_EMIT("rsb             %[tmp], %[count], #32")         // tmp = (32 - count)
             __ASM_EMIT("lsr             %[hi], %[count]")               // [ lo, hi >> count ]
             __ASM_EMIT("lsl             %[tmp], %[lo], %[tmp]")         // tmp = lo << (32 - count)
             __ASM_EMIT("lsr             %[lo], %[count]")               // lo >> (32 - count)

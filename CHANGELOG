@@ -6,6 +6,7 @@
 * Got rid of the <windows.h> plague header in header files.
 * Better workaround for vasprintf function.
 * Support for compilation with Clang under AArch64.
+* Support for compilation with Clang under ARMv6 and ARMv7.
 * Updated build scripts.
 
 === 1.0.20 ===
