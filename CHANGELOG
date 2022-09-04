@@ -2,6 +2,8 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.22 ===
+
 === 1.0.21 ===
 * Got rid of the <windows.h> plague header in header files.
 * Better workaround for vasprintf function.
