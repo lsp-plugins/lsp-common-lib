@@ -2,14 +2,12 @@
 /.settings/*
 /.build/*
 /.test/*
-/Debug Linux/*
-/Release/*
-/Debug/
-/Release
 *.log
 /gmon.out
 **/*.gmon
 *.core
 /.config.mk
-/Debug Linux/
-/Debug Win/
+/modules/
+/Release/
+/DebugWin/
+/DebugLinux/

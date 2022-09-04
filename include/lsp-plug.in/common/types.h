@@ -416,11 +416,41 @@ namespace lsp
 // Detect compiler
 #if defined(__clang__)
     #define COMPILER_CLANG
+    #define __IF_CLANG(...)             __VA_ARGS__
+    #define __IFN_CLANG(...)
 #elif defined(__GNUC__) || defined(__GNUG__)
     #define COMPILER_GCC
+    #define __IF_GCC(...)               __VA_ARGS__
+    #define __IFN_GCC(...)
 #elif defined(_MSC_VER)
     #define COMPILER_MSC
+    #define __IF_MSC(...)               __VA_ARGS__
+    #define __IFN_MSC(...)
 #endif /* __GNUC__ */
+
+#ifndef __IF_CLANG
+    #define __IF_CLANG(...)
+#endif /*__IF_CLANG */
+
+#ifndef __IFN_CLANG
+    #define __IFN_CLANG(...)            __VA_ARGS__
+#endif /*__IFN_CLANG */
+
+#ifndef __IF_GCC
+    #define __IF_GCC(...)
+#endif /*__IF_GCC */
+
+#ifndef __IFN_GCC
+    #define __IFN_GCC(...)              __VA_ARGS__
+#endif /*__IFN_GCC */
+
+#ifndef __IF_MSC
+    #define __IF_MSC(...)
+#endif /*__IF_MSC */
+
+#ifndef __IFN_MSC
+    #define __IFN_MSC(...)              __VA_ARGS__
+#endif /*__IFN_MSC */
 
 //-----------------------------------------------------------------------------
 // Conditional assemblying
@@ -769,10 +799,6 @@ namespace lsp
     #include <linux/limits.h>
 #endif /* __linux__ */
 
-#if defined(PLATFORM_WINDOWS)
-    #include <windows.h>
-#endif /* PLATFORM_WINDOWS */
-
 //-----------------------------------------------------------------------------
 // Character type sizes
 #if (WCHAR_MAX >= 0x10000ul)
@@ -817,7 +843,7 @@ namespace lsp
     typedef int32_t         lsp_swchar_t;
 
     #if defined(WCHART_16BIT)
-        typedef WCHAR               lsp_utf16_t;
+        typedef wchar_t             lsp_utf16_t;
         typedef uint32_t            lsp_utf32_t;
     #else
         typedef uint16_t            lsp_utf16_t;
@@ -827,31 +853,23 @@ namespace lsp
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
+#ifdef PLATFORM_WINDOWS
+    #define LSP_IMPORT_MODIFIER     __declspec(dllimport)
+    #define LSP_EXPORT_MODIFIER     __declspec(dllexport)
+    #define LSP_HIDDEN_MODIFIER     __attribute__((visibility("hidden")))
+#else
+    #define LSP_IMPORT_MODIFIER
+    #define LSP_EXPORT_MODIFIER     __attribute__((visibility("default")))
+    #define LSP_HIDDEN_MODIFIER     __attribute__((visibility("hidden")))
+#endif /* PLATFORM_WINDOWS */
+
 #ifdef __cplusplus
+    #define LSP_SYMBOL_EXTERN       extern
     #define LSP_CSYMBOL_EXTERN      extern "C"
+#else
     #define LSP_SYMBOL_EXTERN       extern
-#else
-    #define LSP_CSYMBOL_EXTERN      extern
-    #define LSP_SYMBOL_EXTERN       extern
-#endif
-
-#ifdef PLATFORM_WINDOWS
-    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
-    #define LSP_SYMBOL_EXPORT       __declspec(dllexport)
-#else
-    #define LSP_CSYMBOL_EXPORT      LSP_CSYMBOL_EXTERN __attribute__((visibility("default")))
-    #define LSP_SYMBOL_EXPORT       __attribute__((visibility("default")))
-#endif
-
-#ifdef PLATFORM_WINDOWS
-    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN __declspec(dllexport)
-    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN __declspec(dllexport)
-#else
-    #define LSP_SYMBOL_IMPORT       LSP_SYMBOL_EXTERN
-    #define LSP_CSYMBOL_IMPORT      LSP_CSYMBOL_EXTERN
-#endif
-
-#define LSP_SYMBOL_HIDDEN           __attribute__((visibility("hidden")))
+    #define LSP_CSYMBOL_EXTERN
+#endif /* __cplusplus */
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
@@ -932,9 +950,16 @@ namespace lsp
             return (value) ? bits | flag : bits & (~flag);
         }
 
+    LSP_COMMON_LIB_PUBLIC
     int version_cmp(const version_t *a, const version_t *b);
+
+    LSP_COMMON_LIB_PUBLIC
     int version_cmp(const version_t &a, const version_t &b);
+
+    LSP_COMMON_LIB_PUBLIC
     bool version_copy(version_t *dst, const version_t *src);
+
+    LSP_COMMON_LIB_PUBLIC
     void version_destroy(version_t *version);
 }
 

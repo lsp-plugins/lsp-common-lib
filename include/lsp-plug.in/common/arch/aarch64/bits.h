@@ -33,7 +33,7 @@ namespace lsp
         uint64_t res;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rbit    %[res], %[src]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
             : [res] "=r" (res)
             : [src] "r" (src)
             :
@@ -47,10 +47,10 @@ namespace lsp
         uint64_t res, tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :
@@ -64,7 +64,7 @@ namespace lsp
         int64_t res;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rbit    %[res], %[src]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
             : [res] "=r" (res)
             : [src] "r" (src)
             :
@@ -78,10 +78,10 @@ namespace lsp
         int64_t res, tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :
@@ -106,13 +106,14 @@ namespace lsp
 
     inline uint32_t reverse_bits(uint32_t src, size_t count)
     {
-        uint32_t res, tmp;
+        uint32_t res;
+        uint64_t tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :
@@ -137,13 +138,14 @@ namespace lsp
 
     inline int32_t reverse_bits(int32_t src, size_t count)
     {
-        int32_t res, tmp;
+        int32_t res;
+        uint64_t tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :
@@ -157,8 +159,8 @@ namespace lsp
         uint16_t res;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], #48")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("lsr     %x[res], %x[res], #48")
             : [res] "=r" (res)
             : [src] "r" (src)
             :
@@ -173,10 +175,10 @@ namespace lsp
         uint64_t tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :
@@ -190,8 +192,8 @@ namespace lsp
         int16_t res;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], #48")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("lsr     %x[res], %x[res], #48")
             : [res] "=r" (res)
             : [src] "r" (src)
             :
@@ -206,10 +208,10 @@ namespace lsp
         uint64_t tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :
@@ -223,8 +225,8 @@ namespace lsp
         uint8_t res;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], #56")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("lsr     %x[res], %x[res], #56")
             : [res] "=r" (res)
             : [src] "r" (src)
             :
@@ -239,10 +241,10 @@ namespace lsp
         uint64_t tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :
@@ -256,8 +258,8 @@ namespace lsp
         int8_t res;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], #56")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("lsr     %x[res], %x[res], #56")
             : [res] "=r" (res)
             : [src] "r" (src)
             :
@@ -272,10 +274,10 @@ namespace lsp
         uint64_t tmp;
 
         ARCH_AARCH64_ASM (
-            __ASM_EMIT("mov     %[tmp], #64")
-            __ASM_EMIT("sub     %[count], %[tmp], %[count]")
-            __ASM_EMIT("rbit    %[res], %[src]")
-            __ASM_EMIT("lsr     %[res], %[res], %[count]")
+            __ASM_EMIT("rbit    %x[res], %x[src]")
+            __ASM_EMIT("mov     %x[tmp], #64")
+            __ASM_EMIT("sub     %x[count], %x[tmp], %x[count]")
+            __ASM_EMIT("lsr     %x[res], %x[res], %x[count]")
             : [res] "=r" (res), [count] "+r" (count), [tmp] "=&r" (tmp)
             : [src] "r" (src)
             :

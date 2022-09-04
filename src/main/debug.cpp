@@ -30,7 +30,7 @@ namespace lsp
     {
         static FILE *log_fd = stderr;
 
-        LSP_COMMON_LIB_EXPORT
+        LSP_COMMON_LIB_PUBLIC
         void redirect(const char *file)
         {
             if (log_fd != stderr)
@@ -49,7 +49,7 @@ namespace lsp
             #endif
         }
 
-        LSP_COMMON_LIB_EXPORT
+        LSP_COMMON_LIB_PUBLIC
         void redirect(const char *path, const char *file)
         {
             if (log_fd != stderr)
@@ -75,7 +75,7 @@ namespace lsp
             ::free(tmppath);
         }
 
-        LSP_COMMON_LIB_EXPORT
+        LSP_COMMON_LIB_PUBLIC
         int vprintf(const char *fmt, va_list args)
         {
             if (log_fd == NULL)
@@ -86,7 +86,7 @@ namespace lsp
             return res;
         }
 
-        LSP_COMMON_LIB_EXPORT
+        LSP_COMMON_LIB_PUBLIC
         int printf(const char *fmt...)
         {
             va_list ap;
@@ -98,7 +98,7 @@ namespace lsp
             return r;
         }
 
-        LSP_COMMON_LIB_EXPORT
+        LSP_COMMON_LIB_PUBLIC
         void dumpf(const char *s, const char *fmt, const float *f, size_t n)
         {
             ::fputs(s, log_fd);
@@ -113,7 +113,7 @@ namespace lsp
             ::fflush(log_fd);
         }
 
-        LSP_COMMON_LIB_EXPORT
+        LSP_COMMON_LIB_PUBLIC
         void dumpb(const char *s, const void *b, size_t sz)
         {
             ::fputs(s, log_fd);
