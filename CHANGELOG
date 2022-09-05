@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.22 ===
+* Updated build scripts.
 
 === 1.0.21 ===
 * Got rid of the <windows.h> plague header in header files.
