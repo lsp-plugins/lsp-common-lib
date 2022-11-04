@@ -47,11 +47,24 @@ namespace lsp
             ~ singletone_t() { }
 
         public:
+            /** Check that singletone data the barrier is responsible for is not initialized
+             *
+             * @return true if singletone is initialized
+             */
+            inline bool uninitialized() const   { return state == ST_UNINITIALIZED; }
+
+
             /** Check that singletone data the barrier is responsible for is initialized
              *
              * @return true if singletone is initialized
              */
-            inline bool initialized() const { return state == ST_INITIALIZED; }
+            inline bool initialized() const     { return state == ST_INITIALIZED; }
+
+            /** Check that singletone data the barrier is responsible for is in initialization state
+             *
+             * @return true if singletone is initialized
+             */
+            inline bool initializing() const    { return state == ST_INITIALIZING; }
 
             /** Lock singletone barrier for initialization process
              *
