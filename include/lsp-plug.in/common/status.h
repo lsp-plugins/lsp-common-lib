@@ -25,9 +25,9 @@
 #include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
 
-#define LSP_STATUS_ASSERT(x, ...)       { status_t __res__ = (x); if (__res__ != STATUS_OK) { __VA_ARGS__; return __res__; } }
-#define LSP_VSTATUS_ASSERT(x, ...)      { status_t __res__ = (x); if (__res__ != STATUS_OK) { __VA_ARGS__; return; } }
-#define LSP_BOOL_ASSERT(x, res, ...)    { if (!(x)) { __VA_ARGS__; return res; } }
+#define LSP_STATUS_ASSERT(x, ...)       do { status_t __res__ = (x); if (__res__ != STATUS_OK) { __VA_ARGS__; return __res__; } } while(false)
+#define LSP_VSTATUS_ASSERT(x, ...)      do { status_t __res__ = (x); if (__res__ != STATUS_OK) { __VA_ARGS__; return; } } while(false)
+#define LSP_BOOL_ASSERT(x, res, ...)    do { if (!(x)) { __VA_ARGS__; return res; } } while(false)
 
 namespace lsp
 {
