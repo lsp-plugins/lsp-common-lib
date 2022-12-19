@@ -62,4 +62,31 @@ namespace lsp
     #endif /* ARCH_X86 */
 #undef LSP_PLUG_IN_COMMON_ATOMIC_IMPL
 
+namespace lsp
+{
+    // Common case
+    template <class T>
+    T *atomic_swap(T **ptr, T *value)
+    {
+        return static_cast<T *>(
+            atomic_swap(
+                reinterpret_cast<void **>(ptr),
+                reinterpret_cast<void *>(value)
+            )
+        );
+    }
+
+    // Special case for NULL
+    template <class T>
+    T *atomic_swap(T **ptr, decltype(nullptr) *value)
+    {
+        return static_cast<T *>(
+            atomic_swap(
+                reinterpret_cast<void **>(ptr),
+                reinterpret_cast<void *>(value)
+            )
+        );
+    }
+} /* namespace lsp */
+
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_H_ */

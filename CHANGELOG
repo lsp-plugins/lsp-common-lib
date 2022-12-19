@@ -2,6 +2,11 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.23 ===
+* Added <common/variadic.h> header for support of variadic templates.
+* Added <common/singletone.h> header for thread safe initialization of singletone data.
+* Updated build scripts.
+
 === 1.0.22 ===
 * Updated build scripts.
 

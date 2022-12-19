@@ -883,6 +883,14 @@ namespace lsp
             b = tmp;
         }
 
+    template <class T>
+        inline T *release(T * &a)
+        {
+            T *tmp = a;
+            a = NULL;
+            return tmp;
+        }
+
     template <class A, class B>
         inline A lsp_max(A a, B b)
         {
