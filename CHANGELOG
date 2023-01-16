@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.24 ===
-
+* Updated headers.
 
 === 1.0.23 ===
 * Added <common/variadic.h> header for support of variadic templates.
