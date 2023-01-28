@@ -2,25 +2,25 @@
  * Copyright (C) 2022 Linux Studio Plugins Project <https://lsp-plug.in/>
  *           (C) 2022 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
- * This file is part of lsp-plugins-sampler
+ * This file is part of lsp-common-lib
  * Created on: 4 нояб. 2022 г.
  *
- * lsp-plugins-sampler is free software: you can redistribute it and/or modify
+ * lsp-common-lib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * any later version.
  *
- * lsp-plugins-sampler is distributed in the hope that it will be useful,
+ * lsp-common-lib is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with lsp-plugins-sampler. If not, see <https://www.gnu.org/licenses/>.
+ * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LSP_COMMON_LIB_INCLUDE_LSP_PLUG_IN_COMMON_SINGLETONE_H_
-#define LSP_COMMON_LIB_INCLUDE_LSP_PLUG_IN_COMMON_SINGLETONE_H_
+#ifndef LSP_PLUG_IN_COMMON_SINGLETONE_H_
+#define LSP_PLUG_IN_COMMON_SINGLETONE_H_
 
 #include <lsp-plug.in/common/version.h>
 
@@ -115,4 +115,4 @@ namespace lsp
 } /* namespace lsp */
 
 
-#endif /* LSP_COMMON_LIB_INCLUDE_LSP_PLUG_IN_COMMON_SINGLETONE_H_ */
+#endif /* LSP_PLUG_IN_COMMON_SINGLETONE_H_ */
