@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.26 ===
-
+* Updated implementation of fdsync() for Windows.
 
 === 1.0.25 ===
 * Added Clang build for the CI.
