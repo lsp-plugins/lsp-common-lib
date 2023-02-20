@@ -856,7 +856,7 @@ namespace lsp
 #ifdef PLATFORM_WINDOWS
     #define LSP_IMPORT_MODIFIER     __declspec(dllimport)
     #define LSP_EXPORT_MODIFIER     __declspec(dllexport)
-    #define LSP_HIDDEN_MODIFIER     __attribute__((visibility("hidden")))
+    #define LSP_HIDDEN_MODIFIER
 #else
     #define LSP_IMPORT_MODIFIER
     #define LSP_EXPORT_MODIFIER     __attribute__((visibility("default")))

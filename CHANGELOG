@@ -4,6 +4,7 @@
 
 === 1.0.26 ===
 * Updated implementation of fdsync() for Windows.
+* Updated definition of LSP_HIDDEN_MODIFIER under Windows.
 
 === 1.0.25 ===
 * Added Clang build for the CI.
