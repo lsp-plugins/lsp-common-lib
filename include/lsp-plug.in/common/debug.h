@@ -100,6 +100,40 @@ namespace lsp
     namespace debug
     {
         /**
+         * Log string helper class to supply locale-aware data to logs
+         * by holding ASCII characters converted from the Unicode ones.
+         */
+        struct LSP_COMMON_LIB_PUBLIC log_string
+        {
+            private:
+                char       *text;
+
+            public:
+                log_string(const char *src);
+                log_string(const lsp_utf16_t *src);
+                log_string(const lsp_utf32_t *src);
+                log_string(const log_string & src);
+                log_string(const log_string * src);
+                log_string(log_string && src);
+                ~log_string();
+
+            public:
+                log_string & operator = (const char *src);
+                log_string & operator = (const lsp_utf16_t *src);
+                log_string & operator = (const lsp_utf32_t *src);
+                log_string & operator = (const log_string & src);
+                log_string & operator = (log_string && src);
+
+            public:
+                inline operator const char *() const { return text; }
+                inline const char *c_str() const { return text; }
+
+            public:
+                void swap(log_string &src);
+                void swap(log_string *src);
+        };
+
+        /**
          * Redirect log to the temporary file in the temporary directory
          * @param file file name (UTF-8)
          */
@@ -147,8 +181,9 @@ namespace lsp
          */
         LSP_COMMON_LIB_PUBLIC
         void                dumpb(const char *s, const void *b, size_t sz);
-    }
-}
+
+    } /* namespace debug */
+} /* namespace lsp */
 
 
 

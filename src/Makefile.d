@@ -31,7 +31,9 @@ $(LSP_COMMON_LIB_BIN)/main/debug.o: main/debug.cpp \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/version.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/types.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/finally.h \
- $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/stdio.h
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/stdio.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/stdlib.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/string.h
 $(LSP_COMMON_LIB_BIN)/main/bits.o: main/bits.cpp \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/bits.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/version.h \
@@ -83,6 +85,20 @@ $(LSP_COMMON_LIB_BIN)/test/utest/mword.o: test/utest/mword.cpp \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/types.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/version.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/finally.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/utest.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/version.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/test.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/env.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/main/config.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/main/dynarray.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/types.h \
+ $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/main/status.h
+$(LSP_COMMON_LIB_BIN)/test/utest/log_string.o: test/utest/log_string.cpp \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/debug.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/version.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/types.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/finally.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/stdlib/string.h \
  $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/utest.h \
  $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/version.h \
  $(LSP_TEST_FW_INC)/lsp-plug.in/test-fw/test.h \
