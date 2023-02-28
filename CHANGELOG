@@ -7,6 +7,7 @@
 * Updated definition of LSP_HIDDEN_MODIFIER under Windows.
 * Added debug::log_string data structure for easy logging non-char strings.
 * Added test build for Windows using MSYS2.
+* Updated build scripts.
 
 === 1.0.25 ===
 * Added Clang build for the CI.
