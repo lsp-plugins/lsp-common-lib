@@ -815,6 +815,10 @@ namespace lsp
     #define SSIZE_MAX                       ((ssize_t)(SIZE_MAX >> 1))
 #endif /* SIZE_MAX */
 
+#ifndef PATH_MAX
+    #define PATH_MAX                        4096
+#endif /* PATH_MAX */
+
 namespace lsp
 {
     enum lsp_wrap_flags_t
