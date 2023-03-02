@@ -29,6 +29,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <limits.h>
+#include <unistd.h>
 
 //-----------------------------------------------------------------------------
 // VERSION MANAGEMENT
