@@ -19,8 +19,8 @@
  * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LSP_PLUG_IN_COMMON_ARCH_GENERIC_INT_LOG2_H_
-#define LSP_PLUG_IN_COMMON_ARCH_GENERIC_INT_LOG2_H_
+#ifndef LSP_PLUG_IN_COMMON_ARCH_GENERIC_BITS_INT_LOG2_H_
+#define LSP_PLUG_IN_COMMON_ARCH_GENERIC_BITS_INT_LOG2_H_
 
 #ifndef LSP_PLUG_IN_COMMON_BITS_IMPL
     #error "This file should not be included directly"
@@ -92,4 +92,4 @@ namespace lsp
 
 } /* namespace lsp */
 
-#endif /* LSP_PLUG_IN_COMMON_ARCH_GENERIC_INT_LOG2_H_ */
+#endif /* LSP_PLUG_IN_COMMON_ARCH_GENERIC_BITS_INT_LOG2_H_ */
