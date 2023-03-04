@@ -166,4 +166,4 @@ namespace lsp
         inline type_t atomic_unlock(type_t &lk) { return atomic_swap(&lk, 1); }
 }
 
-#endif /* INCLUDE_LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_H_ */
+#endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_H_ */
