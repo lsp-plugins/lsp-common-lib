@@ -26,12 +26,6 @@
     #error "This file should not be included directly"
 #endif /* LSP_PLUG_IN_COMMON_BITS_IMPL */
 
-#ifdef ARCH_ARM7
-    #include <lsp-plug.in/common/arch/arm/armv7/bits.h>
-#else
-    #include <lsp-plug.in/common/arch/arm/armv6/bits.h>
-#endif
-
 namespace lsp
 {
     inline int __lsp_forced_inline     int_log2(uint8_t v)
@@ -167,6 +161,6 @@ namespace lsp
         );
         return lo;
     }
-}
+} /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_BITS_H_ */
