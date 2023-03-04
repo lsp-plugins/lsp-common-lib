@@ -8,6 +8,7 @@
 * Added default definition for PATH_MAX of 4096 if it is missing in <limits.h>.
 * Added debug::log_string data structure for easy logging non-char strings.
 * Added test build for Windows using MSYS2.
+* Reorganized architecture-dependend inline assembly into smaller files.
 * Updated build scripts.
 
 === 1.0.25 ===
