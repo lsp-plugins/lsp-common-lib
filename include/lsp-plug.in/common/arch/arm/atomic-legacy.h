@@ -36,7 +36,7 @@ namespace lsp
     { \
         type retval; \
         ARCH_ARM_ASM( \
-            __ASM_EMIT(cmd "        %[ret], %[value], [%[ptr]]") \
+            __ASM_EMIT(cmd "        %[ret], %[src], [%[ptr]]") \
             : [ret] "=&r" (retval) \
             : [ptr] "r" (ptr), \
               [src] "r" (value) \
@@ -49,12 +49,21 @@ namespace lsp
     inline type atomic_swap(extra type *ptr, type value) \
     { \
         while (atomic_swap(&atomic_lock_barrier, 1)) /* nothing */ ; \
-        type retval = *ptr; \
+        extra type retval = *ptr; \
         *ptr = value; \
         atomic_swap(&atomic_lock_barrier, 0); \
         return retval; \
     }
 
+#define ATOMIC_SWAP_DEF3(type, extra) \
+    inline extra type atomic_swap(extra type *ptr, type value) \
+    { \
+        while (atomic_swap(&atomic_lock_barrier, 1)) /* nothing */ ; \
+        extra type retval = *ptr; \
+        *ptr = value; \
+        atomic_swap(&atomic_lock_barrier, 0); \
+        return retval; \
+    }
 
 namespace lsp
 {
@@ -75,12 +84,13 @@ namespace lsp
     ATOMIC_SWAP_DEF2(int64_t,   volatile)
     ATOMIC_SWAP_DEF2(uint64_t,)
     ATOMIC_SWAP_DEF2(uint64_t,  volatile)
-    ATOMIC_SWAP_DEF2(void,)
-    ATOMIC_SWAP_DEF2(void,      volatile)
+    ATOMIC_SWAP_DEF3(void *,)
+    ATOMIC_SWAP_DEF3(void *,    volatile)
 } /* namespace lsp */
 
 #undef ATOMIC_SWAP_DEF
 #undef ATOMIC_SWAP_DEF2
+#undef ATOMIC_SWAP_DEF3
 
 
 #define ATOMIC_CAS_DEF(type, extra)                        \
@@ -117,17 +127,17 @@ namespace lsp
     ATOMIC_CAS_DEF(int64_t,     volatile)
     ATOMIC_CAS_DEF(uint64_t, )
     ATOMIC_CAS_DEF(uint64_t,    volatile)
-    ATOMIC_CAS_DEF(void, )
-    ATOMIC_CAS_DEF(void,        volatile)
+    ATOMIC_CAS_DEF(void *, )
+    ATOMIC_CAS_DEF(void *,      volatile)
 } /* namespace lsp */
 
 #undef ATOMIC_CAS_DEF
 
-#define ATOMIC_ADD_DEF(type, qsz, extra) \
+#define ATOMIC_ADD_DEF(type, extra) \
     inline type atomic_add(extra type *ptr, type value) \
     {                                                   \
         while (atomic_swap(&atomic_lock_barrier, 1)) /* nothing */ ; \
-        type retval = *ptr; \
+        extra type retval = *ptr; \
         *ptr = retval + value; \
         atomic_swap(&atomic_lock_barrier, 0); \
         return retval; \
@@ -151,8 +161,6 @@ namespace lsp
     ATOMIC_ADD_DEF(int64_t,     volatile)
     ATOMIC_ADD_DEF(uint64_t, )
     ATOMIC_ADD_DEF(uint64_t,    volatile)
-    ATOMIC_ADD_DEF(void, )
-    ATOMIC_ADD_DEF(void,        volatile)
 }
 
 #undef ATOMIC_ADD_DEF
