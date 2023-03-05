@@ -195,6 +195,11 @@ namespace lsp
      * @return version structure
      */
     typedef const version_t *(* module_version_t)();
+
+    /**
+     * Definition of nullptr_t
+     */
+    typedef decltype(nullptr)   nullptr_t;
 }
 
 //-----------------------------------------------------------------------------
