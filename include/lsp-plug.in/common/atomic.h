@@ -55,8 +55,10 @@ namespace lsp
         #include <lsp-plug.in/common/arch/x86/atomic.h>
     #elif defined(ARCH_AARCH64) /* ARM 64-bit implementation */
         #include <lsp-plug.in/common/arch/aarch64/atomic.h>
-    #elif defined(ARCH_ARM) /* ARM 32-bit implementation */
+    #elif defined(ARCH_ARM7) || defined(ARCH_ARM6) /* ARM 32-bit implementation */
         #include <lsp-plug.in/common/arch/arm/atomic.h>
+    #elif defined(ARCH_ARM) /* ARM 32-bit implementation */
+        #include <lsp-plug.in/common/arch/arm/atomic-legacy.h>
     #else /* Generic implementation */
         #include <lsp-plug.in/common/arch/generic/atomic.h>
     #endif /* ARCH_X86 */
@@ -78,7 +80,7 @@ namespace lsp
 
     // Special case for NULL
     template <class T>
-    T *atomic_swap(T **ptr, decltype(nullptr) *value)
+    T *atomic_swap(T **ptr, nullptr_t *value)
     {
         return static_cast<T *>(
             atomic_swap(

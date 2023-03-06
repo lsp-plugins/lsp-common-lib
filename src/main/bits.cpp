@@ -23,7 +23,11 @@
 
 namespace lsp
 {
-#if (!defined(ARCH_ARM)) && (!defined(ARCH_AARCH64))
+#if defined(ARCH_ARM7) || defined(ARCH_ARM6)
+    /* nothing */
+#elif defined(ARCH_AARCH64)
+    /* nothing */
+#else
     LSP_COMMON_LIB_PUBLIC
     extern const uint8_t  lsp_rb_data[] =
     {
@@ -45,7 +49,7 @@ namespace lsp
         0x0F, 0x8F, 0x4F, 0xCF, 0x2F, 0xAF, 0x6F, 0xEF, 0x1F, 0x9F, 0x5F, 0xDF, 0x3F, 0xBF, 0x7F, 0xFF
     };
 
-#endif /* ARCH_ARM */
+#endif
 
 #if defined(ARCH_ARM)
     #if (!defined(ARCH_ARM7))
@@ -58,4 +62,5 @@ namespace lsp
         };
     #endif /* ARCH_ARM7 */
 #endif
-}
+} /* namespace lsp */
+
