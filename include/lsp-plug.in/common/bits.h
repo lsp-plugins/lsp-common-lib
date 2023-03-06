@@ -26,24 +26,35 @@
 #include <lsp-plug.in/common/types.h>
 
 // Declare array only for specific architectures
-#if (!defined(ARCH_ARM)) && (!defined(ARCH_AARCH64))
+#if defined(ARCH_ARM7) || defined(ARCH_ARM6)
+    /* nothing */
+#elif defined(ARCH_AARCH64)
+    /* nothing */
+#else
 namespace lsp
 {
     LSP_COMMON_LIB_PUBLIC
     extern const uint8_t    lsp_rb_data[];
-}
+} /* namespace lsp */
 #endif
 
 // Include CPU-optimized code for bit reversal
 #define LSP_PLUG_IN_COMMON_BITS_IMPL
     #if defined(ARCH_X86)
-        #include <lsp-plug.in/common/arch/x86/bits.h>
+        #include <lsp-plug.in/common/arch/x86/bits/reverse.h>
+        #include <lsp-plug.in/common/arch/x86/bits/int_log2.h>
     #elif defined(ARCH_AARCH64)
-        #include <lsp-plug.in/common/arch/aarch64/bits.h>
-    #elif defined(ARCH_ARM)
-        #include <lsp-plug.in/common/arch/arm/bits.h>
+        #include <lsp-plug.in/common/arch/aarch64/bits/reverse.h>
+        #include <lsp-plug.in/common/arch/aarch64/bits/int_log2.h>
+    #elif defined(ARCH_ARM7)
+        #include <lsp-plug.in/common/arch/arm/bits/reverse-armv7.h>
+        #include <lsp-plug.in/common/arch/arm/bits/int_log2.h>
+    #elif defined(ARCH_ARM6)
+        #include <lsp-plug.in/common/arch/arm/bits/reverse-armv6.h>
+        #include <lsp-plug.in/common/arch/arm/bits/int_log2.h>
     #else
-        #include <lsp-plug.in/common/arch/generic/bits.h>
+        #include <lsp-plug.in/common/arch/generic/bits/reverse.h>
+        #include <lsp-plug.in/common/arch/generic/bits/int_log2.h>
     #endif
 #undef LSP_PLUG_IN_COMMON_BITS_IMPL
 

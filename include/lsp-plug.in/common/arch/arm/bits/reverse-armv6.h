@@ -19,8 +19,8 @@
  * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LSP_PLUG_IN_COMMON_ARCH_ARM_ARMV7_BITS_H_
-#define LSP_PLUG_IN_COMMON_ARCH_ARM_ARMV7_BITS_H_
+#ifndef LSP_PLUG_IN_COMMON_ARCH_ARM_BITS_REVERSE_ARMV6_H_
+#define LSP_PLUG_IN_COMMON_ARCH_ARM_BITS_REVERSE_ARMV6_H_
 
 #ifndef LSP_PLUG_IN_COMMON_BITS_IMPL
     #error "This file should not be included directly"
@@ -28,25 +28,56 @@
 
 namespace lsp
 {
+    #define LSP_ARMV6_MV_RBIT32(dst, src, msk, tmp, masks) \
+        __ASM_EMIT("rev     " dst ", " src ) \
+        /* round 1 */ \
+        __ASM_EMIT("ldr     " msk ", [" masks ", #0]") \
+        __ASM_EMIT("and     " tmp ", " msk ", " dst ", lsr #1") \
+        __ASM_EMIT("and     " msk ", " msk ", " dst) \
+        __ASM_EMIT("orr     " dst ", " tmp ", " msk ", lsl #1") \
+        /* round 2 */ \
+        __ASM_EMIT("ldr     " msk ", [" masks ", #4]") \
+        __ASM_EMIT("and     " tmp ", " msk ", " dst ", lsr #2") \
+        __ASM_EMIT("and     " msk ", " msk ", " dst) \
+        __ASM_EMIT("orr     " dst ", " tmp ", " msk ", lsl #2") \
+        /* round 3 */ \
+        __ASM_EMIT("ldr     " msk ", [" masks ", #8]") \
+        __ASM_EMIT("and     " tmp ", " msk ", " dst ", lsr #4") \
+        __ASM_EMIT("and     " msk ", " msk ", " dst) \
+        __ASM_EMIT("orr     " dst ", " tmp ", " msk ", lsl #4") \
+
+    #define LSP_ARMV6_RBIT32(dst, msk, tmp, masks)      LSP_ARMV6_MV_RBIT32(dst, dst, msk, tmp, masks)
+
+    extern const uint32_t lsp_rb_masks[];
+
     inline uint32_t reverse_bits(uint32_t src)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
-            __ASM_EMIT("rbit    %[src], %[src]")
-            : [src] "+r" (src)
-            : :
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            : [src] "+r" (src),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
     }
 
+
     inline uint32_t reverse_bits(uint32_t src, size_t count)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], #32")
-            __ASM_EMIT("rbit    %[src], %[src]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
-            : [src] "+r" (src), [count] "+r" (count)
-            : :
+            : [src] "+r" (src), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -54,9 +85,13 @@ namespace lsp
 
     inline int32_t reverse_bits(int32_t src)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
-            __ASM_EMIT("rbit    %[src], %[src]")
-            : [src] "+r" (src)
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            : [src] "+r" (src),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
             :
         );
 
@@ -65,12 +100,16 @@ namespace lsp
 
     inline int32_t reverse_bits(int32_t src, size_t count)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], #32")
-            __ASM_EMIT("rbit    %[src], %[src]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
-            : [src] "+r" (src), [count] "+r" (count)
-            : :
+            : [src] "+r" (src), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -78,11 +117,15 @@ namespace lsp
 
     inline uint16_t reverse_bits(uint16_t src)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
-            __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], #16")
-            : [src] "+r" (src)
-            : :
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            __ASM_EMIT("lsr %[src], #16")
+            : [src] "+r" (src),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -90,12 +133,16 @@ namespace lsp
 
     inline uint16_t reverse_bits(uint16_t src, size_t count)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], #32")
-            __ASM_EMIT("rbit    %[src], %[src]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
-            : [src] "+r" (src), [count] "+r" (count)
-            : :
+            : [src] "+r" (src), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -103,11 +150,15 @@ namespace lsp
 
     inline int16_t reverse_bits(int16_t src)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
-            __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], #16")
-            : [src] "+r" (src)
-            : :
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            __ASM_EMIT("lsr %[src], #16")
+            : [src] "+r" (src),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -115,12 +166,16 @@ namespace lsp
 
     inline int16_t reverse_bits(int16_t src, size_t count)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], #32")
-            __ASM_EMIT("rbit    %[src], %[src]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
-            : [src] "+r" (src), [count] "+r" (count)
-            : :
+            : [src] "+r" (src), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -128,11 +183,15 @@ namespace lsp
 
     inline uint8_t reverse_bits(uint8_t src)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
-            __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], #24")
-            : [src] "+r" (src)
-            : :
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            __ASM_EMIT("lsr %[src], #24")
+            : [src] "+r" (src),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -140,12 +199,16 @@ namespace lsp
 
     inline uint8_t reverse_bits(uint8_t src, size_t count)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], #32")
-            __ASM_EMIT("rbit    %[src], %[src]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
-            : [src] "+r" (src), [count] "+r" (count)
-            : :
+            : [src] "+r" (src), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -153,11 +216,14 @@ namespace lsp
 
     inline int8_t reverse_bits(int8_t src)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
-            __ASM_EMIT("rbit    %[src], %[src]")
-            __ASM_EMIT("lsr     %[src], #24")
-            : [src] "+r" (src)
-            : :
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
+            __ASM_EMIT("lsr %[src], #24")
+            : [src] "+r" (src),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
         );
 
         return src;
@@ -165,12 +231,16 @@ namespace lsp
 
     inline int8_t reverse_bits(int8_t src, size_t count)
     {
+        uint32_t msk, tmp;
+
         ARCH_ARM_ASM (
             __ASM_EMIT("rsb     %[count], %[count], #32")
-            __ASM_EMIT("rbit    %[src], %[src]")
+            LSP_ARMV6_RBIT32("%[src]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("lsr     %[src], %[count]")
-            : [src] "+r" (src), [count] "+r" (count)
-            : :
+            : [src] "+r" (src), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return src;
@@ -180,13 +250,16 @@ namespace lsp
     {
         uint32_t lo = uint32_t(v);
         uint32_t hi = uint32_t(v >> 32);
+        uint32_t msk, tmp;
 
         ARCH_ARM_ASM
         (
-            __ASM_EMIT("rbit            %[lo], %[lo]")
-            __ASM_EMIT("rbit            %[hi], %[hi]")
-            : [lo] "+r" (lo), [hi] "+r" (hi)
-            : :
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
+            : [lo] "+r" (lo), [hi] "+r" (hi),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return hi | (uint64_t(lo) << 32);
@@ -196,13 +269,16 @@ namespace lsp
     {
         uint32_t lo = uint32_t(v);
         uint32_t hi = uint32_t(v >> 32);
+        uint32_t msk, tmp;
 
         ARCH_ARM_ASM
         (
-            __ASM_EMIT("rbit            %[lo], %[lo]")
-            __ASM_EMIT("rbit            %[hi], %[hi]")
-            : [lo] "+r" (lo), [hi] "+r" (hi)
-            : :
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
+            : [lo] "+r" (lo), [hi] "+r" (hi),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return hi | (int64_t(lo) << 32);
@@ -212,13 +288,13 @@ namespace lsp
     {
         uint32_t lo = uint32_t(v);
         uint32_t hi = uint32_t(v >> 32);
-        uint32_t tmp;
+        uint32_t msk, tmp;
 
         ARCH_ARM_ASM
         (
             __ASM_EMIT("rsb             %[count], %[count], #64")
-            __ASM_EMIT("rbit            %[lo], %[lo]")
-            __ASM_EMIT("rbit            %[hi], %[hi]")                  // [ lo, hi ]
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("cmp             %[count], #32")
             __ASM_EMIT("blo             2f")
 
@@ -236,9 +312,10 @@ namespace lsp
             __ASM_EMIT("orr             %[hi], %[tmp]")                 // [ lo >> count, (hi >> count) | (lo << (32 - count)) ]
 
             __ASM_EMIT("4:")
-            : [lo] "+r" (lo), [hi] "+r" (hi), [tmp] "=&r" (tmp),
-              [count] "+r" (count)
-            : :
+            : [lo] "+r" (lo), [hi] "+r" (hi), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return hi | (uint64_t(lo) << 32);
@@ -248,13 +325,13 @@ namespace lsp
     {
         uint32_t lo = uint32_t(v);
         uint32_t hi = uint32_t(v >> 32);
-        uint32_t tmp;
+        uint32_t msk, tmp;
 
         ARCH_ARM_ASM
         (
             __ASM_EMIT("rsb             %[count], %[count], #64")
-            __ASM_EMIT("rbit            %[lo], %[lo]")
-            __ASM_EMIT("rbit            %[hi], %[hi]")                  // [ lo, hi ]
+            LSP_ARMV6_RBIT32("%[lo]", "%[msk]", "%[tmp]", "%[masks]")
+            LSP_ARMV6_RBIT32("%[hi]", "%[msk]", "%[tmp]", "%[masks]")
             __ASM_EMIT("cmp             %[count], #32")
             __ASM_EMIT("blo             2f")
 
@@ -272,13 +349,14 @@ namespace lsp
             __ASM_EMIT("orr             %[hi], %[tmp]")                 // [ lo >> count, (hi >> count) | (lo << (32 - count)) ]
 
             __ASM_EMIT("4:")
-            : [lo] "+r" (lo), [hi] "+r" (hi), [tmp] "=&r" (tmp),
-              [count] "+r" (count)
-            : :
+            : [lo] "+r" (lo), [hi] "+r" (hi), [count] "+r" (count),
+              [msk] "=&r" (msk), [tmp] "=&r" (tmp)
+            : [masks] "r" (lsp_rb_masks)
+            :
         );
 
         return hi | (int64_t(lo) << 32);
     }
-}
+} /* namespace lsp */
 
-#endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_ARMV7_BITS_H_ */
+#endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_BITS_REVERSE_ARMV6_H_ */

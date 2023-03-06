@@ -120,7 +120,7 @@ depend: $(DEP_CXX)
 	    $(eval SED_RULES += s/$(REPLACEMENT)/\\$$$$\\($(dep)_BIN\\)/g;)\
 	  )\
 	)
-	cat $(DEP_CXX) | sed -E "$(SED_RULES)" >Makefile.d
+	cat $(DEP_CXX) | sed -E "$(SED_RULES)" >Makefile.$(ARCHITECTURE_FAMILY).d
 
 $(ARTIFACT_DEPS):
 	echo "make $(notdir $($(@)_OBJ))"
@@ -195,4 +195,4 @@ uninstall:
 	echo "Uninstall OK"
 
 # Dependencies
--include $(CURDIR)/Makefile.d
+-include $(CURDIR)/Makefile.$(ARCHITECTURE_FAMILY).d

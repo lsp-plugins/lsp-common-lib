@@ -19,8 +19,8 @@
  * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_H_
-#define LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_H_
+#ifndef LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_REVERSE_H_
+#define LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_REVERSE_H_
 
 #ifndef LSP_PLUG_IN_COMMON_BITS_IMPL
     #error "This file should not be included directly"
@@ -286,133 +286,6 @@ namespace lsp
         return res;
     }
 
-    inline int __lsp_forced_inline     int_log2(uint8_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %w[res], %w[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %w[res], %w[v]")
-            __ASM_EMIT("mov             %w[v], #31")
-            __ASM_EMIT("sub             %w[res], %w[v], %w[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
+} /* namespace lsp */
 
-    inline int __lsp_forced_inline     int_log2(int8_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %w[res], %w[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %w[res], %w[v]")
-            __ASM_EMIT("mov             %w[v], #31")
-            __ASM_EMIT("sub             %w[res], %w[v], %w[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
-
-    inline int __lsp_forced_inline     int_log2(uint16_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %w[res], %w[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %w[res], %w[v]")
-            __ASM_EMIT("mov             %w[v], #31")
-            __ASM_EMIT("sub             %w[res], %w[v], %w[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
-
-    inline int __lsp_forced_inline     int_log2(int16_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %w[res], %w[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %w[res], %w[v]")
-            __ASM_EMIT("mov             %w[v], #31")
-            __ASM_EMIT("sub             %w[res], %w[v], %w[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
-
-    inline int __lsp_forced_inline     int_log2(uint32_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %w[res], %w[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %w[res], %w[v]")
-            __ASM_EMIT("mov             %w[v], #31")
-            __ASM_EMIT("sub             %w[res], %w[v], %w[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
-
-    inline int __lsp_forced_inline     int_log2(int32_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %w[res], %w[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %w[res], %w[v]")
-            __ASM_EMIT("mov             %w[v], #31")
-            __ASM_EMIT("sub             %w[res], %w[v], %w[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
-
-    inline int __lsp_forced_inline     int_log2(uint64_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %x[res], %x[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %x[res], %x[v]")
-            __ASM_EMIT("mov             %x[v], #63")
-            __ASM_EMIT("sub             %x[res], %x[v], %x[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
-
-    inline int __lsp_forced_inline     int_log2(int64_t v)
-    {
-        int32_t res;
-        ARCH_AARCH64_ASM (
-            __ASM_EMIT("subs            %x[res], %x[v], #0")    // res = v
-            __ASM_EMIT("b.eq            1f")                    // res == 0?
-            __ASM_EMIT("clz             %x[res], %x[v]")
-            __ASM_EMIT("mov             %x[v], #63")
-            __ASM_EMIT("sub             %x[res], %x[v], %x[res]")
-            __ASM_EMIT("1:")
-            : [res] "=r" (res), [v] "+r" (v)
-            : : "cc"
-        );
-        return res;
-    }
-}
-
-#endif /* LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_H_ */
+#endif /* LSP_PLUG_IN_COMMON_ARCH_AARCH64_BITS_REVERSE_H_ */
