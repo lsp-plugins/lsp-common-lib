@@ -9,6 +9,8 @@
 * Added debug::log_string data structure for easy logging non-char strings.
 * Added test build for Windows using MSYS2.
 * Reorganized architecture-dependend inline assembly into smaller files.
+* Added support of older ARM architectures regardless to atomic operations and
+  endian byte swap operations.
 * Updated build scripts.
 
 === 1.0.25 ===
