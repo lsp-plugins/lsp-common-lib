@@ -26,12 +26,16 @@
 #include <lsp-plug.in/common/types.h>
 
 // Declare array only for specific architectures
-#if (!defined(ARCH_ARM)) && (!defined(ARCH_AARCH64))
+#if defined(ARCH_ARM7) || defined(ARCH_ARM6)
+    /* nothing */
+#elif defined(ARCH_AARCH64)
+    /* nothing */
+#else
 namespace lsp
 {
     LSP_COMMON_LIB_PUBLIC
     extern const uint8_t    lsp_rb_data[];
-}
+} /* namespace lsp */
 #endif
 
 // Include CPU-optimized code for bit reversal
