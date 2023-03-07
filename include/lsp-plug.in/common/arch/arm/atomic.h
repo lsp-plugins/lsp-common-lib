@@ -34,12 +34,17 @@
         \
         ARCH_ARM_ASM \
         ( \
+            __ASM_EMIT("1:") \
             IF_ARCH_LEAST_ARM7(__ASM_EMIT("dmb")) \
             __ASM_EMIT("ldr" qsz "      %[tmp], [%[ptr]]") \
-            __ASM_EMIT("teq             %[tmp], %[exp]") \
-            __ASM_EMIT("str" qsz "eq    %[tmp], %[rep], [%[ptr]]") \
-            __ASM_EMIT("movne           %[tmp], $1") \
-            __ASM_EMIT("eor             %[tmp], $1") \
+            __ASM_EMIT("cmp             %[tmp], %[exp]") \
+            __ASM_EMIT("mov             %[tmp], #0") \
+            __ASM_EMIT("bne             2f") \
+            __ASM_EMIT("str" qsz "      %[tmp], %[rep], [%[ptr]]") \
+            __ASM_EMIT("cmp             %[tmp], #0") \
+            __ASM_EMIT("bne             1b") \
+            __ASM_EMIT("mov             %[tmp], #1") \
+            __ASM_EMIT("2:") \
             : [tmp] "=&r" (tmp) \
             : [ptr] "r" (ptr), [exp] "r" (exp), [rep] "r" (rep) \
             : "cc", "memory" \

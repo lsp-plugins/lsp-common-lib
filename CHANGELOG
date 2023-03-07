@@ -11,6 +11,7 @@
 * Reorganized architecture-dependend inline assembly into smaller files.
 * Added support of older ARM architectures regardless to atomic operations and
   endian byte swap operations.
+* Updated atomic_cas implementation for ARM.
 * Updated build scripts.
 
 === 1.0.25 ===

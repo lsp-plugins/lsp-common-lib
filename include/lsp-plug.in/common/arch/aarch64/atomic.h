@@ -31,19 +31,20 @@
     inline type atomic_cas(extra type *ptr, type exp, type rep) \
     { \
         type tmp; \
-        uint32_t res; \
         \
         ARCH_AARCH64_ASM \
         ( \
+            __ASM_EMIT("1:") \
             __ASM_EMIT("dmb st") \
             __ASM_EMIT("ldaxr" qsz "    %" mod "[tmp], [%[ptr]]") \
-            __ASM_EMIT("subs            %" mod "[tmp], %" mod "[tmp], %" mod "[exp]")    /* tmp == 0 on success */ \
+            __ASM_EMIT("cmp             %" mod "[tmp], %" mod "[exp]") \
+            __ASM_EMIT("mov             %" mod "[tmp], #0") \
             __ASM_EMIT("b.ne            2f")                                             /* jump if failed */ \
-            __ASM_EMIT("stxr" qsz "     %w[res], %" mod "[rep], [%[ptr]]")               /* try to store replacement */ \
-            __ASM_EMIT("tst             %w[res], %w[res]")                               /* ret == 0 on success */ \
+            __ASM_EMIT("stxr" qsz "     %w[tmp], %" mod "[rep], [%[ptr]]")               /* try to store replacement */ \
+            __ASM_EMIT("cbnz            %w[tmp], 1b") /* repeat if failed */ \
+            __ASM_EMIT("mov             %" mod "[tmp], #1") \
             __ASM_EMIT("2:") \
-            __ASM_EMIT("cset            %" mod "[tmp], eq") \
-            : [tmp] "=&r" (tmp), [res] "=&r" (res) \
+            : [tmp] "=&r" (tmp) \
             : [ptr] "r" (ptr), [exp] "r" (exp), [rep] "r" (rep) \
             : "cc", "memory" \
         ); \
