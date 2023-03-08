@@ -230,7 +230,7 @@ namespace lsp
         #define ARCH_LE
     #endif
 
-    #if (__ARM_ARCH == 7)
+    #if (__ARM_ARCH >= 7)
         #define ARCH_ARM7
         #define ARCH_STRING             "armv7a"
         #define IF_ARCH_ARM7(...)        __VA_ARGS__
@@ -255,7 +255,7 @@ namespace lsp
 
     #define ARCH_STRING                 "aarch64"
 
-    #if (__ARM_ARCH == 8)
+    #if (__ARM_ARCH >= 8)
         #define ARCH_ARM8
         #define IF_ARCH_ARM8(...)        __VA_ARGS__
     #endif
