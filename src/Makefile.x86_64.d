@@ -41,6 +41,12 @@ $(LSP_COMMON_LIB_BIN)/main/bits.o: main/bits.cpp \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/finally.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/arch/x86/bits/reverse.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/arch/x86/bits/int_log2.h
+$(LSP_COMMON_LIB_BIN)/main/atomic.o: main/atomic.cpp \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/atomic.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/version.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/types.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/finally.h \
+ $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/arch/x86/atomic.h
 $(LSP_COMMON_LIB_BIN)/test/utest/version.o: test/utest/version.cpp \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/types.h \
  $(LSP_COMMON_LIB_INC)/lsp-plug.in/common/version.h \
