@@ -13,6 +13,7 @@
   endian byte swap operations.
 * Updated atomic_cas implementation for ARM.
 * Updated build scripts.
+* Updated module versions in dependencies.
 
 === 1.0.25 ===
 * Added Clang build for the CI.
