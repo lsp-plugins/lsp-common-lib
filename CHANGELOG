@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.27 ===
+
+
 === 1.0.26 ===
 * Updated implementation of fdsync() for Windows.
 * Updated definition of LSP_HIDDEN_MODIFIER under Windows.
