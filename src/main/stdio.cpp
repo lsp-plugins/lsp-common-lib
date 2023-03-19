@@ -69,7 +69,24 @@ namespace lsp
     LSP_COMMON_LIB_PUBLIC
     int fdsync(FILE *fd)
     {
-        return (FlushFileBuffers((HANDLE)_fileno(fd))) ? 0 : -1;
+        /*
+         * When stdin, stdout, and stderr aren't associated with a stream (for example, in
+         * a Windows application without a console window), the file descriptor values for
+         * these streams are returned from _fileno as the special value -2. Similarly, if you
+         * use a 0, 1, or 2 as the file descriptor parameter instead of the result of a call to
+         * _fileno, _get_osfhandle also returns the special value -2 when the file descriptor
+         * is not associated with a stream, and does not set errno. However, this is not a valid
+         * file handle value, and subsequent calls that attempt to use it are likely to fail.
+         */
+        int fd_id = _fileno(fd);
+        if (fd_id == -2)
+            return -1;
+
+        intptr_t hfd = _get_osfhandle(fd_id);
+        if (hfd == -2)
+            return -1;
+
+        return (FlushFileBuffers(reinterpret_cast<HANDLE>(hfd))) ? 0 : -1;
     }
 
 #endif /* PLATFORM_WINDOWS */

@@ -29,6 +29,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <limits.h>
+#include <unistd.h>
 
 //-----------------------------------------------------------------------------
 // VERSION MANAGEMENT
@@ -194,6 +195,11 @@ namespace lsp
      * @return version structure
      */
     typedef const version_t *(* module_version_t)();
+
+    /**
+     * Definition of nullptr_t
+     */
+    typedef decltype(nullptr)   nullptr_t;
 }
 
 //-----------------------------------------------------------------------------
@@ -224,7 +230,7 @@ namespace lsp
         #define ARCH_LE
     #endif
 
-    #if (__ARM_ARCH == 7)
+    #if (__ARM_ARCH >= 7)
         #define ARCH_ARM7
         #define ARCH_STRING             "armv7a"
         #define IF_ARCH_ARM7(...)        __VA_ARGS__
@@ -249,7 +255,7 @@ namespace lsp
 
     #define ARCH_STRING                 "aarch64"
 
-    #if (__ARM_ARCH == 8)
+    #if (__ARM_ARCH >= 8)
         #define ARCH_ARM8
         #define IF_ARCH_ARM8(...)        __VA_ARGS__
     #endif
@@ -815,6 +821,10 @@ namespace lsp
     #define SSIZE_MAX                       ((ssize_t)(SIZE_MAX >> 1))
 #endif /* SIZE_MAX */
 
+#ifndef PATH_MAX
+    #define PATH_MAX                        4096
+#endif /* PATH_MAX */
+
 namespace lsp
 {
     enum lsp_wrap_flags_t
@@ -856,7 +866,7 @@ namespace lsp
 #ifdef PLATFORM_WINDOWS
     #define LSP_IMPORT_MODIFIER     __declspec(dllimport)
     #define LSP_EXPORT_MODIFIER     __declspec(dllexport)
-    #define LSP_HIDDEN_MODIFIER     __attribute__((visibility("hidden")))
+    #define LSP_HIDDEN_MODIFIER
 #else
     #define LSP_IMPORT_MODIFIER
     #define LSP_EXPORT_MODIFIER     __attribute__((visibility("default")))

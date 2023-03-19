@@ -31,7 +31,9 @@
         #include <lsp-plug.in/common/arch/x86/endian.h>
     #elif defined(ARCH_AARCH64)
         #include <lsp-plug.in/common/arch/aarch64/endian.h>
-    #elif defined(ARCH_ARM)
+    #elif defined(ARCH_ARM6)
+        #include <lsp-plug.in/common/arch/arm/endian.h>
+    #elif defined(ARCH_ARM7)
         #include <lsp-plug.in/common/arch/arm/endian.h>
     #else
         #include <lsp-plug.in/common/arch/generic/endian.h>

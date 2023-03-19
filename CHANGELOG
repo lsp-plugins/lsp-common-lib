@@ -2,6 +2,19 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.26 ===
+* Updated implementation of fdsync() for Windows.
+* Updated definition of LSP_HIDDEN_MODIFIER under Windows.
+* Added default definition for PATH_MAX of 4096 if it is missing in <limits.h>.
+* Added debug::log_string data structure for easy logging non-char strings.
+* Added test build for Windows using MSYS2.
+* Reorganized architecture-dependend inline assembly into smaller files.
+* Added support of older ARM architectures regardless to atomic operations and
+  endian byte swap operations.
+* Updated atomic_cas implementation for ARM.
+* Updated build scripts.
+* Updated module versions in dependencies.
+
 === 1.0.25 ===
 * Added Clang build for the CI.
 
