@@ -22,6 +22,8 @@
 #ifndef LSP_PLUG_IN_COMMON_FINALLY_H_
 #define LSP_PLUG_IN_COMMON_FINALLY_H_
 
+#include <lsp-plug.in/common/version.h>
+
 namespace lsp
 {
     template <class T>
