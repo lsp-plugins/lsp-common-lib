@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.27 ===
-
+* Small header updates.
 
 === 1.0.26 ===
 * Updated implementation of fdsync() for Windows.
