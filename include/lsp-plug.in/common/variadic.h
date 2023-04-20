@@ -22,6 +22,8 @@
 #ifndef LSP_PLUG_IN_COMMON_VARIADIC_H_
 #define LSP_PLUG_IN_COMMON_VARIADIC_H_
 
+#include <lsp-plug.in/common/version.h>
+
 namespace lsp
 {
     // lsp::remove_reference
