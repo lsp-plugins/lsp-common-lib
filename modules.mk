@@ -20,7 +20,7 @@
 
 #------------------------------------------------------------------------------
 # Variables that describe source code dependencies
-LSP_TEST_FW_VERSION        := 1.0.19
+LSP_TEST_FW_VERSION        := 1.0.20
 LSP_TEST_FW_NAME           := lsp-test-fw
 LSP_TEST_FW_TYPE           := src
 LSP_TEST_FW_URL_RO         := https://github.com/lsp-plugins/$(LSP_TEST_FW_NAME).git
