@@ -45,6 +45,13 @@ namespace lsp
         typedef T type;
     };
 
+    // lsp::move
+    template <typename T>
+    typename remove_reference<T>::type && move(T && t) noexcept
+    {
+        return static_cast<typename remove_reference<T>::type &&>(t);
+    }
+
     // lsp::forward
     template<typename T>
     constexpr T && forward(typename remove_reference<T>::type && args) noexcept
