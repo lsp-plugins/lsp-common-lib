@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.31 ===
-
+* Added release_ptr() template method for releasing pointers that should be freed by finally statement.
 
 === 1.0.30 ===
 * Updated build scripts.

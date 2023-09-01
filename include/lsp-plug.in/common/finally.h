@@ -58,6 +58,15 @@ namespace lsp
         auto lsp_impl_finally1(id, lsp_finally_function) = FinallyExecutorInit{} + [&]() -> void
 
     #define lsp_finally lsp_impl_finally0(__COUNTER__)
+
+    template <class T>
+    inline T * release_ptr(T * & value)
+    {
+        T *res  = value;
+        value   = nullptr;
+        return res;
+    }
+
 } /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_FINALLY_H_ */
