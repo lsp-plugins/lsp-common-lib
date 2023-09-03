@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 7 апр. 2020 г.
@@ -357,6 +357,9 @@ namespace lsp
 
         log_string & log_string::operator = (const log_string & src)
         {
+            if (this == &src)
+                return *this;
+
             if (text != NULL)
                 free(text);
             text        = (src.text != NULL) ? strdup(src.text) : NULL;
@@ -365,6 +368,9 @@ namespace lsp
 
         log_string & log_string::operator = (log_string && src)
         {
+            if (this == &src)
+                return *this;
+
             if (text != NULL)
                 free(text);
             text        = src.text;
