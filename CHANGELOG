@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.32 ===
+
+
 === 1.0.31 ===
 * Fixed several issues reported by PVS Studio static analyzer.
 * Added release_ptr() template method for releasing pointers that should be freed by finally statement.
