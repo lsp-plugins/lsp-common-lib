@@ -72,6 +72,17 @@ UTEST_BEGIN("common", bits)
             }
         }
 
+    void test_pow2_rounding()
+    {
+        uint32_t x = 0x100;
+
+        printf("Testing round_pow2...\n");
+
+        UTEST_ASSERT(round_pow2(x) == x);
+        for (uint32_t i = 1; i<=x; ++i)
+            UTEST_ASSERT(round_pow2(x + i) == (x << 1));
+    }
+
     UTEST_MAIN
     {
         test_reverse_bits<uint8_t>("reverse_bits u8");
@@ -91,6 +102,8 @@ UTEST_BEGIN("common", bits)
         test_int_log2<int32_t>("int_log2 i32");
         test_int_log2<uint64_t>("int_log2 u64");
         test_int_log2<int64_t>("int_log2 i64");
+
+        test_pow2_rounding();
     }
 
 UTEST_END;

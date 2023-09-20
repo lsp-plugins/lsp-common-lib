@@ -4,6 +4,7 @@
 
 === 1.0.32 ===
 * Added realloc_aligned function.
+* Added round_pow2 function for rounding integer values up to power of 2.
 
 === 1.0.31 ===
 * Fixed several issues reported by PVS Studio static analyzer.
