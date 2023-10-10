@@ -2,6 +2,10 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.32 ===
+* Added realloc_aligned function.
+* Added round_pow2 function for rounding integer values up to power of 2.
+
 === 1.0.31 ===
 * Fixed several issues reported by PVS Studio static analyzer.
 * Added release_ptr() template method for releasing pointers that should be freed by finally statement.

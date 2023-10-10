@@ -58,5 +58,20 @@ namespace lsp
     #endif
 #undef LSP_PLUG_IN_COMMON_BITS_IMPL
 
+namespace lsp
+{
+    /**
+     * Round the integer value up to power of 2
+     * @tparam T integer value
+     * @param value value to round
+     * @return rounded value
+     */
+    template <class T>
+    T round_pow2(T value)
+    {
+        T rounded   = 1 << int_log2(value);
+        return (rounded == value) ? rounded : rounded << 1;
+    }
+} /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_BITS_H_ */
