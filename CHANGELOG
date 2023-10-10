@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.33 ===
+
+
 === 1.0.32 ===
 * Added realloc_aligned function.
 * Added round_pow2 function for rounding integer values up to power of 2.
