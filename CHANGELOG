@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.33 ===
-
+* Implemented advance_ptr function.
 
 === 1.0.32 ===
 * Added realloc_aligned function.
