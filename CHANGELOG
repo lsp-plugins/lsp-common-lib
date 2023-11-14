@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.33 ===
-* Implemented advance_ptr function.
+* Implemented advance_ptr and advance_ptr_bytes functions.
 
 === 1.0.32 ===
 * Added realloc_aligned function.
