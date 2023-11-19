@@ -4,6 +4,8 @@
 
 === 1.0.33 ===
 * Implemented advance_ptr and advance_ptr_bytes functions.
+* Introduced stdlib/locale.h header and SET_LOCALE_SCOPED macro for easy locale
+  change and update.
 
 === 1.0.32 ===
 * Added realloc_aligned function.
