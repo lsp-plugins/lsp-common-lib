@@ -57,6 +57,24 @@ namespace lsp
             return static_cast<T *>(::malloc(sizeof(T) * count));
         }
 
+    template <class T, class P>
+        inline T *advance_ptr(P * &ptr, size_t count)
+        {
+            uintptr_t x     = uintptr_t(ptr);
+            T *result       = reinterpret_cast<T *>(ptr);
+            ptr             = reinterpret_cast<P *>(x + count * sizeof(T));
+            return result;
+        }
+
+    template <class T, class P>
+        inline T *advance_ptr_bytes(P * &ptr, size_t count)
+        {
+            uintptr_t x     = uintptr_t(ptr);
+            T *result       = reinterpret_cast<T *>(ptr);
+            ptr             = reinterpret_cast<P *>(x + count);
+            return result;
+        }
+
     /** Allocate aligned pointer
      *
      * @param ptr reference to pointer to store allocated pointer for future free() operation
