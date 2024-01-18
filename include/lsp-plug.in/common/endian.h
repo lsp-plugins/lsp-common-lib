@@ -48,8 +48,8 @@
     #define BE_TO_CPU(x)            ::lsp::byte_swap(x)
     #define CPU_TO_BE(x)            ::lsp::byte_swap(x)
 
-    #define VLE_TO_CPU(v, n)
-    #define CPU_TO_VLE(v, n)
+    #define VLE_TO_CPU(v, n)        do {} while(false)
+    #define CPU_TO_VLE(v, n)        do {} while(false)
 
     #define VBE_TO_CPU(v, n)        ::lsp::byte_swap(v, n)
     #define CPU_TO_VBE(v, n)        ::lsp::byte_swap(v, n)
@@ -64,8 +64,8 @@
     #define VLE_TO_CPU(v, n)        ::lsp::byte_swap(v, n)
     #define CPU_TO_VLE(v, n)        ::lsp::byte_swap(v, n)
 
-    #define VBE_TO_CPU(v, n)
-    #define CPU_TO_VBE(v, n)
+    #define VBE_TO_CPU(v, n)        do {} while(false)
+    #define CPU_TO_VBE(v, n)        do {} while(false)
 
 #endif /* */
 
@@ -114,6 +114,13 @@ namespace lsp
         byte_swap(reinterpret_cast<unsigned int *>(v), n);
     #endif
     }
-}
+
+    template <class T>
+    inline void byte_swap_copy(T *dst, const T *src, size_t n)
+    {
+        for (size_t i=0; i<n; ++i)
+            dst[i]      = byte_swap(src[i]);
+    }
+} /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_ENDIAN_H_ */
