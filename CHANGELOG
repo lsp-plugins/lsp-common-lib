@@ -2,6 +2,10 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.34 ===
+* Updated build scripts.
+* Updated module versions in dependencies.
+
 === 1.0.33 ===
 * Implemented advance_ptr and advance_ptr_bytes functions.
 * Introduced stdlib/locale.h header and SET_LOCALE_SCOPED macro for easy locale
