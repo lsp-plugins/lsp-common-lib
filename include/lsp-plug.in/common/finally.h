@@ -55,7 +55,7 @@ namespace lsp
     #define lsp_impl_finally2(id, prefix) prefix ## id ## __
     #define lsp_impl_finally1(id, prefix) lsp_impl_finally2(id, prefix)
     #define lsp_impl_finally0(id) \
-        auto lsp_impl_finally1(id, lsp_finally_function) = FinallyExecutorInit{} + [&]() -> void
+        auto lsp_impl_finally1(id, lsp_finally_function) = ::lsp::FinallyExecutorInit{} + [&]() -> void
 
     #define lsp_finally lsp_impl_finally0(__COUNTER__)
 

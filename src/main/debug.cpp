@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 7 апр. 2020 г.
@@ -61,8 +61,10 @@ namespace lsp
             if ((n < 0) || (tmppath == NULL))
                 return;
 
-            ::fprintf(log_fd, "Log data will be written to file: %s\n", path);
+        #if defined(LSP_TRACE) || defined(LSP_DEBUG)
+            ::fprintf(log_fd, "Log data will be written to file: %s\n", tmppath);
             ::fflush(log_fd);
+        #endif
 
             FILE *fd  = ::fopen(tmppath, "a");
             if (fd == NULL)

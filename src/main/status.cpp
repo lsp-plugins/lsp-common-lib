@@ -94,6 +94,9 @@ namespace lsp
         S("no_grab", "No grab is currently obtained"),
         S("underflow", "Underflow"),
         S("incompatible", "Incompatible module/function"),
+        S("not_mapped", "Resource is not mapped"),
+        S("retry", "Retry a call"),
+        S("interrupted", "Interrupted"),
 
         S(NULL, NULL)
     };

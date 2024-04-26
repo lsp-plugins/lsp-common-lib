@@ -100,6 +100,9 @@ namespace lsp
         STATUS_NO_GRAB,               //!< STATUS_NO_GRAB
         STATUS_UNDERFLOW,             //!< STATUS_UNDERFLOW
         STATUS_INCOMPATIBLE,          //!< STATUS_INCOMPATIBLE The module/function is not compatible
+        STATUS_NOT_MAPPED,            //!< STATUS_NOT_MAPPED the resource is not mapped
+        STATUS_RETRY,                 //!< STATUS_RETRY need to retry the call
+        STATUS_INTERRUPTED,           //!< STATUS_INTERRUPTED the call has been interrupted
 
         STATUS_TOTAL,
         STATUS_MAX = STATUS_TOTAL - 1,
