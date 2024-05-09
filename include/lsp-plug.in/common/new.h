@@ -39,4 +39,14 @@ inline void *operator new(size_t size, void *ptr, const lsp::inplace_new_tag_t &
     return ptr;
 }
 
+inline void *operator new(size_t size, void *ptr, lsp::inplace_new_tag_t && tag)
+{
+    return ptr;
+}
+
+inline void *operator new(size_t size, void *ptr, lsp::inplace_new_tag_t tag)
+{
+    return ptr;
+}
+
 #endif /* INCLUDE_LSP_PLUG_IN_COMMON_NEW_H_ */
