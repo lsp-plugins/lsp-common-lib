@@ -34,16 +34,6 @@ namespace lsp
     } inplace_new_tag_t;
 } /* namespace lsp */
 
-inline void *operator new(size_t size, void *ptr, const lsp::inplace_new_tag_t & tag)
-{
-    return ptr;
-}
-
-inline void *operator new(size_t size, void *ptr, lsp::inplace_new_tag_t && tag)
-{
-    return ptr;
-}
-
 inline void *operator new(size_t size, void *ptr, lsp::inplace_new_tag_t tag)
 {
     return ptr;
