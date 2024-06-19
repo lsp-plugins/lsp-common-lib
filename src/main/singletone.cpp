@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2022 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2022 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-sampler
  * Created on: 4 нояб. 2022 г.
@@ -28,7 +28,7 @@ namespace lsp
         // Synchronization barrier: ensure that DSP library is already initialized
         while (true)
         {
-            uatomic_t current_state = state;
+            const uatomic_t current_state = atomic_load(&state);
             switch (current_state)
             {
                 case ST_UNINITIALIZED:
@@ -50,7 +50,7 @@ namespace lsp
     {
         while (true)
         {
-            uatomic_t current_state = state;
+            const uatomic_t current_state = atomic_load(&state);
             if (current_state != ST_INITIALIZING)
                 return false;
             if (atomic_cas(&state, current_state, ST_INITIALIZED))

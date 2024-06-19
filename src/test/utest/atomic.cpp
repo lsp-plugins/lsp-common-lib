@@ -29,7 +29,8 @@ UTEST_BEGIN("common", atomic)
     void test_cas()
     {
         size_t i;
-        atomic_t value = 0;
+        atomic_t value;
+        atomic_store(&value, 0);
 
         printf("Testing atomic_cas...\n");
 
@@ -47,33 +48,36 @@ UTEST_BEGIN("common", atomic)
             if (atomic_cas(&value, 1, 2))
                 break;
         UTEST_ASSERT(i < 1000);
-        UTEST_ASSERT(value == 2);
+        UTEST_ASSERT(atomic_load(&value) == 2);
     }
 
     void test_swap()
     {
-        atomic_t value1 = 0, value2 = 1;
+        atomic_t value1, value2;
+        atomic_store(&value1, 0);
+        atomic_store(&value2, 1);
         printf("Testing atomic_swap...\n");
 
         atomic_swap(&value1, 2);
         atomic_swap(&value2, 3);
 
-        UTEST_ASSERT(value1 == 2);
-        UTEST_ASSERT(value2 == 3);
+        UTEST_ASSERT(atomic_load(&value1) == 2);
+        UTEST_ASSERT(atomic_load(&value2) == 3);
 
         atomic_swap(&value1, value2);
 
-        UTEST_ASSERT(value1 == 3);
+        UTEST_ASSERT(atomic_load(&value1) == 3);
     }
 
     void test_add()
     {
-        atomic_t value = 0;
+        atomic_t value;
+        atomic_store(&value, 0);
         printf("Testing atomic_add...\n");
 
         for (size_t i=0; i<1000; ++i)
             UTEST_ASSERT(atomic_add(&value, 1) == atomic_t(i)); // i == previous value
-        UTEST_ASSERT(value == 1000);
+        UTEST_ASSERT(atomic_load(&value) == 1000);
     }
 
     UTEST_MAIN

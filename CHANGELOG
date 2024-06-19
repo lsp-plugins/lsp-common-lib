@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.37 ===
+* Updated definition of atomic operations.
 * Updated build scripts.
 
 === 1.0.36 ===
