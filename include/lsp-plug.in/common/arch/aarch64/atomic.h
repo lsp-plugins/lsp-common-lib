@@ -27,7 +27,7 @@
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_IMPL */
 
 #define ATOMIC_LOAD_DEF(type, ptrtype, qsz, mod)                   \
-    inline type atomic_load(ptrtype, ptr) \
+    inline type atomic_load(ptrtype ptr) \
     { \
         type tmp; \
         \
