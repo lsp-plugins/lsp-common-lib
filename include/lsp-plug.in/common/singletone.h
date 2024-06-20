@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2022 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2022 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 4 нояб. 2022 г.
@@ -40,10 +40,10 @@ namespace lsp
                 ST_INITIALIZED
             };
 
-            volatile uatomic_t  state;
+            mutable uatomic_t       state;
 
         public:
-            explicit singletone_t() { state = ST_UNINITIALIZED; }
+            explicit singletone_t() { atomic_store(&state, ST_UNINITIALIZED); }
             ~ singletone_t() { }
 
         public:
@@ -51,20 +51,20 @@ namespace lsp
              *
              * @return true if singletone is initialized
              */
-            inline bool uninitialized() const   { return state == ST_UNINITIALIZED; }
+            inline bool uninitialized() const   { return atomic_load(&state) == ST_UNINITIALIZED; }
 
 
             /** Check that singletone data the barrier is responsible for is initialized
              *
              * @return true if singletone is initialized
              */
-            inline bool initialized() const     { return state == ST_INITIALIZED; }
+            inline bool initialized() const     { return atomic_load(&state) == ST_INITIALIZED; }
 
             /** Check that singletone data the barrier is responsible for is in initialization state
              *
              * @return true if singletone is initialized
              */
-            inline bool initializing() const    { return state == ST_INITIALIZING; }
+            inline bool initializing() const    { return atomic_load(&state) == ST_INITIALIZING; }
 
             /** Lock singletone barrier for initialization process
              *
