@@ -49,24 +49,35 @@ namespace lsp
 
 #undef ATOMIC_STORE_DEF
 
-#define ATOMIC_LOAD_DEF(type) \
-    inline type atomic_load(type *ptr) {                            \
+#define ATOMIC_LOAD_DEF(type, ptrtype) \
+    inline type atomic_load(ptrtype ptr) {                          \
         return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);              \
     }
 
 namespace lsp
 {
-    ATOMIC_LOAD_DEF(int8_t)
-    ATOMIC_LOAD_DEF(uint8_t)
-    ATOMIC_LOAD_DEF(int16_t)
-    ATOMIC_LOAD_DEF(uint16_t)
-    ATOMIC_LOAD_DEF(int32_t)
-    ATOMIC_LOAD_DEF(uint32_t)
-    ATOMIC_LOAD_DEF(void *)
+    ATOMIC_LOAD_DEF(int8_t, int8_t *)
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *)
+    ATOMIC_LOAD_DEF(uint8_t, uint8_t *)
+    ATOMIC_LOAD_DEF(uint8_t, const uint8_t *)
+    ATOMIC_LOAD_DEF(int16_t, int16_t *)
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *)
+    ATOMIC_LOAD_DEF(uint16_t, uint16_t *)
+    ATOMIC_LOAD_DEF(uint16_t, const uint16_t *)
+    ATOMIC_LOAD_DEF(int32_t, int32_t *)
+    ATOMIC_LOAD_DEF(int32_t, const int32_t *)
+    ATOMIC_LOAD_DEF(uint32_t, uint32_t *)
+    ATOMIC_LOAD_DEF(uint32_t, const uint32_t *)
+    ATOMIC_LOAD_DEF(void *, void **)
+    ATOMIC_LOAD_DEF(void *, void * const *)
+    ATOMIC_LOAD_DEF(const void *, const void **)
+    ATOMIC_LOAD_DEF(const void *, const void * const *)
 
     #ifdef ARCH_64BIT
-        ATOMIC_LOAD_DEF(int64_t)
-        ATOMIC_LOAD_DEF(uint64_t)
+        ATOMIC_LOAD_DEF(int64_t, int64_t *)
+        ATOMIC_LOAD_DEF(int64_t, const int64_t *)
+        ATOMIC_LOAD_DEF(uint64_t, uint64_t *)
+        ATOMIC_LOAD_DEF(uint64_t, const uint64_t *)
     #endif /* ARCH_64BIT */
 } /* namespace lsp */
 
