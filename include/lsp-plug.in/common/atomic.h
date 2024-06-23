@@ -89,6 +89,37 @@ namespace lsp
             )
         );
     }
+
+    template <class T>
+    T *atomic_load(T **ptr)
+    {
+        return static_cast<T *>(
+            atomic_load(
+                reinterpret_cast<void **>(ptr)
+            )
+        );
+    }
+
+    template <class T>
+    T *atomic_load(T * const *ptr)
+    {
+        return static_cast<T *>(
+            atomic_load(
+                reinterpret_cast<void * const *>(ptr)
+            )
+        );
+    }
+
+    template <class T>
+    void atomic_store(T **ptr, T * value)
+    {
+        return static_cast<T *>(
+            atomic_store(
+                reinterpret_cast<void **>(ptr),
+                reinterpret_cast<void *>(value)
+            )
+        );
+    }
 } /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_H_ */
