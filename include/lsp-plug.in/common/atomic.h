@@ -113,11 +113,9 @@ namespace lsp
     template <class T>
     void atomic_store(T **ptr, T * value)
     {
-        return static_cast<T *>(
-            atomic_store(
-                reinterpret_cast<void **>(ptr),
-                reinterpret_cast<void *>(value)
-            )
+        atomic_store(
+            reinterpret_cast<void **>(ptr),
+            reinterpret_cast<void *>(value)
         );
     }
 } /* namespace lsp */
