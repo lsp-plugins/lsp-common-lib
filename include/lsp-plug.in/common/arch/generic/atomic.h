@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 31 мар. 2020 г.
@@ -26,100 +26,125 @@
     #error "This file should not be included directly"
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_IMPL */
 
-#define ATOMIC_XCHG_DEF(type, extra) \
-    inline extra type atomic_swap(extra type *ptr, type value) { \
-        extra type *xptr = ptr; \
-        while (true) { \
-            extra type x = *xptr; \
-            if (__sync_bool_compare_and_swap (ptr, x, value)) \
-                return x; \
-        } \
+#define ATOMIC_STORE_DEF(type) \
+    inline void atomic_store(type *ptr, type value) {               \
+        __atomic_store_n(ptr, value, __ATOMIC_SEQ_CST);             \
     }
 
 namespace lsp
 {
-    ATOMIC_XCHG_DEF(int8_t, )
-    ATOMIC_XCHG_DEF(int8_t, volatile)
-    ATOMIC_XCHG_DEF(uint8_t, )
-    ATOMIC_XCHG_DEF(uint8_t, volatile)
-    ATOMIC_XCHG_DEF(int16_t, )
-    ATOMIC_XCHG_DEF(int16_t, volatile)
-    ATOMIC_XCHG_DEF(uint16_t, )
-    ATOMIC_XCHG_DEF(uint16_t, volatile)
-    ATOMIC_XCHG_DEF(int32_t, )
-    ATOMIC_XCHG_DEF(int32_t, volatile)
-    ATOMIC_XCHG_DEF(uint32_t, )
-    ATOMIC_XCHG_DEF(uint32_t, volatile)
-    ATOMIC_XCHG_DEF(void *, )
-    ATOMIC_XCHG_DEF(void *, volatile)
+    ATOMIC_STORE_DEF(int8_t)
+    ATOMIC_STORE_DEF(uint8_t)
+    ATOMIC_STORE_DEF(int16_t)
+    ATOMIC_STORE_DEF(uint16_t)
+    ATOMIC_STORE_DEF(int32_t)
+    ATOMIC_STORE_DEF(uint32_t)
+    ATOMIC_STORE_DEF(void *)
 
     #ifdef ARCH_64BIT
-        ATOMIC_XCHG_DEF(int64_t, )
-        ATOMIC_XCHG_DEF(int64_t, volatile)
-        ATOMIC_XCHG_DEF(uint64_t, )
-        ATOMIC_XCHG_DEF(uint64_t, volatile)
+        ATOMIC_STORE_DEF(int64_t)
+        ATOMIC_STORE_DEF(uint64_t)
+    #endif /* ARCH_64BIT */
+} /* namespace lsp */
+
+#undef ATOMIC_STORE_DEF
+
+#define ATOMIC_LOAD_DEF(type, ptrtype) \
+    inline type atomic_load(ptrtype ptr) {                          \
+        return __atomic_load_n(ptr, __ATOMIC_SEQ_CST);              \
+    }
+
+namespace lsp
+{
+    ATOMIC_LOAD_DEF(int8_t, int8_t *)
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *)
+    ATOMIC_LOAD_DEF(uint8_t, uint8_t *)
+    ATOMIC_LOAD_DEF(uint8_t, const uint8_t *)
+    ATOMIC_LOAD_DEF(int16_t, int16_t *)
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *)
+    ATOMIC_LOAD_DEF(uint16_t, uint16_t *)
+    ATOMIC_LOAD_DEF(uint16_t, const uint16_t *)
+    ATOMIC_LOAD_DEF(int32_t, int32_t *)
+    ATOMIC_LOAD_DEF(int32_t, const int32_t *)
+    ATOMIC_LOAD_DEF(uint32_t, uint32_t *)
+    ATOMIC_LOAD_DEF(uint32_t, const uint32_t *)
+    ATOMIC_LOAD_DEF(void *, void **)
+    ATOMIC_LOAD_DEF(void *, void * const *)
+    ATOMIC_LOAD_DEF(const void *, const void **)
+    ATOMIC_LOAD_DEF(const void *, const void * const *)
+
+    #ifdef ARCH_64BIT
+        ATOMIC_LOAD_DEF(int64_t, int64_t *)
+        ATOMIC_LOAD_DEF(int64_t, const int64_t *)
+        ATOMIC_LOAD_DEF(uint64_t, uint64_t *)
+        ATOMIC_LOAD_DEF(uint64_t, const uint64_t *)
+    #endif /* ARCH_64BIT */
+} /* namespace lsp */
+
+
+#define ATOMIC_XCHG_DEF(type)                                       \
+    inline type atomic_swap(type *ptr, type value) {                \
+        return __atomic_exchange_n(ptr, value, __ATOMIC_SEQ_CST);   \
+    }
+
+namespace lsp
+{
+    ATOMIC_XCHG_DEF(int8_t)
+    ATOMIC_XCHG_DEF(uint8_t)
+    ATOMIC_XCHG_DEF(int16_t)
+    ATOMIC_XCHG_DEF(uint16_t)
+    ATOMIC_XCHG_DEF(int32_t)
+    ATOMIC_XCHG_DEF(uint32_t)
+    ATOMIC_XCHG_DEF(void *)
+
+    #ifdef ARCH_64BIT
+        ATOMIC_XCHG_DEF(int64_t)
+        ATOMIC_XCHG_DEF(uint64_t)
     #endif /* ARCH_64BIT */
 }
 
 #undef ATOMIC_XCHG_DEF
 
-#define ATOMIC_CAS_DEF(type, extra)                         \
-    inline bool atomic_cas(extra type *ptr, type src, type rep) {  \
-        return __sync_bool_compare_and_swap (ptr, src, rep); \
+#define ATOMIC_CAS_DEF(type)                                        \
+    inline bool atomic_cas(type *ptr, type src, type rep) {         \
+        return __sync_bool_compare_and_swap(ptr, src, rep);         \
     }
 
 namespace lsp
 {
-    ATOMIC_CAS_DEF(int8_t, )
-    ATOMIC_CAS_DEF(int8_t, volatile)
-    ATOMIC_CAS_DEF(uint8_t, )
-    ATOMIC_CAS_DEF(uint8_t, volatile)
-    ATOMIC_CAS_DEF(int16_t, )
-    ATOMIC_CAS_DEF(int16_t, volatile)
-    ATOMIC_CAS_DEF(uint16_t, )
-    ATOMIC_CAS_DEF(uint16_t, volatile)
-    ATOMIC_CAS_DEF(int32_t, )
-    ATOMIC_CAS_DEF(int32_t, volatile)
-    ATOMIC_CAS_DEF(uint32_t, )
-    ATOMIC_CAS_DEF(uint32_t, volatile)
-    ATOMIC_CAS_DEF(void *, )
-    ATOMIC_CAS_DEF(void *, volatile)
+    ATOMIC_CAS_DEF(int8_t)
+    ATOMIC_CAS_DEF(uint8_t)
+    ATOMIC_CAS_DEF(int16_t)
+    ATOMIC_CAS_DEF(uint16_t)
+    ATOMIC_CAS_DEF(int32_t)
+    ATOMIC_CAS_DEF(uint32_t)
+    ATOMIC_CAS_DEF(void *)
 
     #ifdef ARCH_64BIT
-        ATOMIC_CAS_DEF(int64_t, )
-        ATOMIC_CAS_DEF(int64_t, volatile)
-        ATOMIC_CAS_DEF(uint64_t, )
-        ATOMIC_CAS_DEF(uint64_t, volatile)
+        ATOMIC_CAS_DEF(int64_t)
+        ATOMIC_CAS_DEF(uint64_t)
     #endif /* ARCH_64BIT */
 }
 
 #undef ATOMIC_CAS_DEF
 
-#define ATOMIC_ADD_DEF(type, extra) \
-    inline type atomic_add(extra type *ptr, type value) { \
-        return __sync_fetch_and_add(ptr, value); \
+#define ATOMIC_ADD_DEF(type)                                        \
+    inline type atomic_add(type *ptr, type value) {                 \
+        return __atomic_fetch_add(ptr, value, __ATOMIC_SEQ_CST);    \
     }
 
 namespace lsp
 {
-    ATOMIC_ADD_DEF(int8_t, )
-    ATOMIC_ADD_DEF(int8_t, volatile)
-    ATOMIC_ADD_DEF(uint8_t, )
-    ATOMIC_ADD_DEF(uint8_t, volatile)
-    ATOMIC_ADD_DEF(int16_t, )
-    ATOMIC_ADD_DEF(int16_t, volatile)
-    ATOMIC_ADD_DEF(uint16_t, )
-    ATOMIC_ADD_DEF(uint16_t, volatile)
-    ATOMIC_ADD_DEF(int32_t, )
-    ATOMIC_ADD_DEF(int32_t, volatile)
-    ATOMIC_ADD_DEF(uint32_t, )
-    ATOMIC_ADD_DEF(uint32_t, volatile)
+    ATOMIC_ADD_DEF(int8_t)
+    ATOMIC_ADD_DEF(uint8_t)
+    ATOMIC_ADD_DEF(int16_t)
+    ATOMIC_ADD_DEF(uint16_t)
+    ATOMIC_ADD_DEF(int32_t)
+    ATOMIC_ADD_DEF(uint32_t)
 
     #ifdef ARCH_64BIT
-        ATOMIC_ADD_DEF(int64_t, )
-        ATOMIC_ADD_DEF(int64_t, volatile)
-        ATOMIC_ADD_DEF(uint64_t, )
-        ATOMIC_ADD_DEF(uint64_t, volatile)
+        ATOMIC_ADD_DEF(int64_t)
+        ATOMIC_ADD_DEF(uint64_t)
     #endif /* ARCH_64BIT */
 }
 
@@ -127,16 +152,20 @@ namespace lsp
 
 //-----------------------------------------------------------------------------
 // Atomic operations
+
+#define LSP_ATOMIC_UNLOCKED     1
+#define LSP_ATOMIC_LOCKED       0
+
 namespace lsp
 {
     template <class type_t>
-        inline void atomic_init(type_t &lk) { lk = 1; }
+    inline void atomic_init(type_t &lk)     { atomic_store(&lk, LSP_ATOMIC_UNLOCKED);       }
 
     template <class type_t>
-        inline bool atomic_trylock(type_t &lk) { return atomic_cas(&lk, 1, 0); }
+    inline bool atomic_trylock(type_t &lk)  { return atomic_cas(&lk, LSP_ATOMIC_UNLOCKED, LSP_ATOMIC_LOCKED); }
 
     template <class type_t>
-        inline type_t atomic_unlock(type_t &lk) { return atomic_swap(&lk, 1); }
+    inline type_t atomic_unlock(type_t &lk) { return atomic_swap(&lk, LSP_ATOMIC_UNLOCKED); }
 }
 
 #endif /* LSP_PLUG_IN_COMMON_ARCH_GENERIC_ATOMIC_H_ */

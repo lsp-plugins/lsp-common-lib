@@ -27,7 +27,7 @@ namespace lsp
     /* nothing */
 #elif defined(ARCH_ARM)
     LSP_COMMON_LIB_PUBLIC
-    volatile uint32_t atomic_lock_barrier = 0;
+    uint32_t atomic_lock_barrier = 0;
 #else
     /* nothing */
 #endif /* ARCH_ARM */

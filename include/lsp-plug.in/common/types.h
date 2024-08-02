@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 10 авг. 2018 г.
@@ -173,7 +173,7 @@ namespace lsp
 
         #define SMWORD_MIN          INT128_MIN
         #define SMWORD_MAX          INT128_MAX
-        #define SMWORD_BITS         64
+        #define SMWORD_BITS         128
 
         typedef uint128_t           umword_t;
         typedef int128_t            smword_t;

@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 31 мар. 2020 г.
@@ -26,8 +26,83 @@
     #error "This file should not be included directly"
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_IMPL */
 
-#define ATOMIC_XCHG_DEF(type, extra)                    \
-    inline type atomic_swap(extra type *ptr, type value)\
+#define ATOMIC_LOAD_DEF(type, ptrtype)                  \
+    inline type atomic_load(ptrtype ptr)                \
+    {                                                   \
+        type value;                                     \
+        ARCH_X86_ASM                                    \
+        (                                               \
+            __ASM_EMIT("mov     (%[ptr]), %[value]")    \
+            : [value] "=&r"(value)                      \
+            : [ptr] "r" (ptr)                           \
+            :                                           \
+        );                                              \
+        return value;                                   \
+    }
+
+namespace lsp
+{
+    ATOMIC_LOAD_DEF(int8_t, int8_t *)
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *)
+    ATOMIC_LOAD_DEF(uint8_t, uint8_t *)
+    ATOMIC_LOAD_DEF(uint8_t, const uint8_t *)
+    ATOMIC_LOAD_DEF(int16_t, int16_t *)
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *)
+    ATOMIC_LOAD_DEF(uint16_t, uint16_t *)
+    ATOMIC_LOAD_DEF(uint16_t, const uint16_t *)
+    ATOMIC_LOAD_DEF(int32_t, int32_t *)
+    ATOMIC_LOAD_DEF(int32_t, const int32_t *)
+    ATOMIC_LOAD_DEF(uint32_t, uint32_t *)
+    ATOMIC_LOAD_DEF(uint32_t, const uint32_t *)
+    ATOMIC_LOAD_DEF(void *, void **)
+    ATOMIC_LOAD_DEF(void *, void * const *)
+    ATOMIC_LOAD_DEF(const void *, const void **)
+    ATOMIC_LOAD_DEF(const void *, const void * const *)
+
+    #ifdef ARCH_X86_64
+        ATOMIC_LOAD_DEF(int64_t, int64_t *)
+        ATOMIC_LOAD_DEF(int64_t, const int64_t *)
+        ATOMIC_LOAD_DEF(uint64_t, uint64_t *)
+        ATOMIC_LOAD_DEF(uint64_t, const uint64_t *)
+    #endif /* ARCH_X86_64 */
+
+} /* namespace lsp */
+
+#undef ATOMIC_LOAD_DEF
+
+#define ATOMIC_STORE_DEF(type)                          \
+    inline void atomic_store(type *ptr, type value)     \
+    {                                                   \
+        ARCH_X86_ASM                                    \
+        (                                               \
+            __ASM_EMIT("mov     %[value], (%[ptr])")    \
+            :                                           \
+            : [ptr] "r" (ptr), [value] "r" (value)      \
+            : "memory"                                  \
+        );                                              \
+    }
+
+namespace lsp
+{
+    ATOMIC_STORE_DEF(int8_t)
+    ATOMIC_STORE_DEF(uint8_t)
+    ATOMIC_STORE_DEF(int16_t)
+    ATOMIC_STORE_DEF(uint16_t)
+    ATOMIC_STORE_DEF(int32_t)
+    ATOMIC_STORE_DEF(uint32_t)
+    ATOMIC_STORE_DEF(void *)
+
+    #ifdef ARCH_X86_64
+        ATOMIC_STORE_DEF(int64_t)
+        ATOMIC_STORE_DEF(uint64_t)
+    #endif /* ARCH_X86_64 */
+
+} /* namespace lsp */
+
+#undef ATOMIC_STORE_DEF
+
+#define ATOMIC_XCHG_DEF(type)                           \
+    inline type atomic_swap(type *ptr, type value)      \
     {                                                   \
         ARCH_X86_ASM                                    \
         (                                               \
@@ -42,33 +117,25 @@
 
 namespace lsp
 {
-    ATOMIC_XCHG_DEF(int8_t, )
-    ATOMIC_XCHG_DEF(int8_t, volatile)
-    ATOMIC_XCHG_DEF(uint8_t, )
-    ATOMIC_XCHG_DEF(uint8_t, volatile)
-    ATOMIC_XCHG_DEF(int16_t, )
-    ATOMIC_XCHG_DEF(int16_t, volatile)
-    ATOMIC_XCHG_DEF(uint16_t, )
-    ATOMIC_XCHG_DEF(uint16_t, volatile)
-    ATOMIC_XCHG_DEF(int32_t, )
-    ATOMIC_XCHG_DEF(int32_t, volatile)
-    ATOMIC_XCHG_DEF(uint32_t, )
-    ATOMIC_XCHG_DEF(uint32_t, volatile)
-    ATOMIC_XCHG_DEF(void *, )
-    ATOMIC_XCHG_DEF(void *, volatile)
+    ATOMIC_XCHG_DEF(int8_t)
+    ATOMIC_XCHG_DEF(uint8_t)
+    ATOMIC_XCHG_DEF(int16_t)
+    ATOMIC_XCHG_DEF(uint16_t)
+    ATOMIC_XCHG_DEF(int32_t)
+    ATOMIC_XCHG_DEF(uint32_t)
+    ATOMIC_XCHG_DEF(void *)
 
     #ifdef ARCH_X86_64
-        ATOMIC_XCHG_DEF(int64_t, )
-        ATOMIC_XCHG_DEF(int64_t, volatile)
-        ATOMIC_XCHG_DEF(uint64_t, )
-        ATOMIC_XCHG_DEF(uint64_t, volatile)
+        ATOMIC_XCHG_DEF(int64_t)
+        ATOMIC_XCHG_DEF(uint64_t)
     #endif /* ARCH_X86_64 */
-}
+
+} /* namespace lsp */
 
 #undef ATOMIC_XCHG_DEF
 
-#define ATOMIC_CAS_DEF(type, extra)                         \
-    inline bool atomic_cas(extra type *ptr, type src, type rep)   \
+#define ATOMIC_CAS_DEF(type)                     \
+    inline bool atomic_cas(type *ptr, type src, type rep)   \
     {                                                   \
         bool res;                                       \
         ARCH_X86_ASM                                    \
@@ -78,8 +145,7 @@ namespace lsp
             __ASM_EMIT("lock")                          \
             __ASM_EMIT("cmpxchg %[rep], (%[ptr])")      \
             __ASM_EMIT("2:")                            \
-            __ASM_EMIT("setz    %[res]")                \
-            : [res] "=a" (res)                          \
+            : [res] "=@ccz" (res)                       \
             : [src] "a" (src),                          \
               [ptr] "r" (ptr),                          \
               [rep] "r" (rep)                           \
@@ -90,32 +156,24 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_CAS_DEF(int8_t, )
-    ATOMIC_CAS_DEF(int8_t, volatile)
-    ATOMIC_CAS_DEF(uint8_t, )
-    ATOMIC_CAS_DEF(uint8_t, volatile)
-    ATOMIC_CAS_DEF(int16_t, )
-    ATOMIC_CAS_DEF(int16_t, volatile)
-    ATOMIC_CAS_DEF(uint16_t, )
-    ATOMIC_CAS_DEF(uint16_t, volatile)
-    ATOMIC_CAS_DEF(int32_t, )
-    ATOMIC_CAS_DEF(int32_t, volatile)
-    ATOMIC_CAS_DEF(uint32_t, )
-    ATOMIC_CAS_DEF(uint32_t, volatile)
-    ATOMIC_CAS_DEF(void *, )
-    ATOMIC_CAS_DEF(void *, volatile)
+    ATOMIC_CAS_DEF(int8_t)
+    ATOMIC_CAS_DEF(uint8_t)
+    ATOMIC_CAS_DEF(int16_t)
+    ATOMIC_CAS_DEF(uint16_t)
+    ATOMIC_CAS_DEF(int32_t)
+    ATOMIC_CAS_DEF(uint32_t)
+    ATOMIC_CAS_DEF(void *)
 
     #ifdef ARCH_X86_64
-        ATOMIC_CAS_DEF(int64_t, )
-        ATOMIC_CAS_DEF(int64_t, volatile)
-        ATOMIC_CAS_DEF(uint64_t, )
-        ATOMIC_CAS_DEF(uint64_t, volatile)
+        ATOMIC_CAS_DEF(int64_t)
+        ATOMIC_CAS_DEF(uint64_t)
     #endif /* ARCH_X86_64 */
-}
+
+} /* namespace lsp */
 #undef ATOMIC_CAS_DEF
 
-#define ATOMIC_ADD_DEF(type, extra) \
-    inline type atomic_add(extra type *ptr, type value) \
+#define ATOMIC_ADD_DEF(type) \
+    inline type atomic_add(type *ptr, type value)       \
     {                                                   \
         ARCH_X86_ASM                                    \
         (                                               \
@@ -130,41 +188,39 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_ADD_DEF(int8_t, )
-    ATOMIC_ADD_DEF(int8_t, volatile)
-    ATOMIC_ADD_DEF(uint8_t, )
-    ATOMIC_ADD_DEF(uint8_t, volatile)
-    ATOMIC_ADD_DEF(int16_t, )
-    ATOMIC_ADD_DEF(int16_t, volatile)
-    ATOMIC_ADD_DEF(uint16_t, )
-    ATOMIC_ADD_DEF(uint16_t, volatile)
-    ATOMIC_ADD_DEF(int32_t, )
-    ATOMIC_ADD_DEF(int32_t, volatile)
-    ATOMIC_ADD_DEF(uint32_t, )
-    ATOMIC_ADD_DEF(uint32_t, volatile)
+    ATOMIC_ADD_DEF(int8_t)
+    ATOMIC_ADD_DEF(uint8_t)
+    ATOMIC_ADD_DEF(int16_t)
+    ATOMIC_ADD_DEF(uint16_t)
+    ATOMIC_ADD_DEF(int32_t)
+    ATOMIC_ADD_DEF(uint32_t)
 
     #ifdef ARCH_X86_64
-        ATOMIC_ADD_DEF(int64_t, )
-        ATOMIC_ADD_DEF(int64_t, volatile)
-        ATOMIC_ADD_DEF(uint64_t, )
-        ATOMIC_ADD_DEF(uint64_t, volatile)
+        ATOMIC_ADD_DEF(int64_t)
+        ATOMIC_ADD_DEF(uint64_t)
     #endif /* ARCH_X86_64 */
-}
+
+} /* namespace lsp */
 
 #undef ATOMIC_ADD_DEF
 
 //-----------------------------------------------------------------------------
 // Atomic operations
+
+#define LSP_ATOMIC_UNLOCKED     1
+#define LSP_ATOMIC_LOCKED       0
+
 namespace lsp
 {
     template <class type_t>
-        inline void atomic_init(type_t &lk) { lk = 1; }
+    inline void atomic_init(type_t &lk)         { lk = LSP_ATOMIC_UNLOCKED; }
 
     template <class type_t>
-        inline type_t atomic_trylock(type_t &lk) { return atomic_swap(&lk, 0); }
+    inline type_t atomic_trylock(type_t &lk)    { return atomic_swap(&lk, LSP_ATOMIC_LOCKED); }
 
     template <class type_t>
-        inline type_t atomic_unlock(type_t &lk) { return atomic_swap(&lk, 1); }
-}
+    inline type_t atomic_unlock(type_t &lk)     { return atomic_swap(&lk, LSP_ATOMIC_UNLOCKED); }
+
+} /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_ARCH_X86_ATOMIC_H_ */
