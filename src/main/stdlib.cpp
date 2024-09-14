@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 21 нояб. 2020 г.
@@ -60,7 +60,7 @@ namespace lsp
         int (*compar)(const void *a1, const void *a2, void *data),
         void *arg)
     {
-        #if defined(PLATFORM_LINUX) || defined(_GNU_SOURCE) || defined(__GNU__)
+        #if defined(PLATFORM_LINUX) || defined(_GNU_SOURCE) || defined(__GNU__) || defined(PLATFORM_HAIKU)
             ::qsort_r(data, count, szof, compar, arg);
         #elif defined(PLATFORM_BSD) || defined(PLATFORM_MACOSX)
             bsd_qsort_r_t sort;

@@ -394,17 +394,22 @@ namespace lsp
     #define IF_PLATFORM_MACOSX(...)     __VA_ARGS__
 #endif /* __macosx__ */
 
-#if defined(PLATFORM_UNIX) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOSX) || defined(PLATFORM_BSD)
+#if defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__)
+    #define PLATFORM_WINDOWS
+    #define IF_PLATFORM_WINDOWS(...)    __VA_ARGS__
+#endif /* __macosx__ */
+
+#if defined(__HAIKU__)
+    #define PLATFORM_HAIKU
+    #define IF_PLATFORM_HAIKU(...)      __VA_ARGS__
+#endif /* __Haiku__ */
+
+#if defined(PLATFORM_UNIX) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOSX) || defined(PLATFORM_BSD) || defined(PLATFORM_HAIKU)
     #define PLATFORM_UNIX_COMPATIBLE
     #define PLATFORM_POSIX
 
     #define IF_PLATFORM_POSIX(...)      __VA_ARGS__
 #endif /* unix-compatible platforms */
-
-#if defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__)
-    #define PLATFORM_WINDOWS
-    #define IF_PLATFORM_WINDOWS(...)    __VA_ARGS__
-#endif /* __macosx__ */
 
 // File separators for platform tuning
 #if defined(PLATFORM_UNIX_COMPATIBLE)
@@ -748,6 +753,10 @@ namespace lsp
 #ifndef IF_PLATFORM_MACOSX
     #define IF_PLATFORM_MACOSX(...)
 #endif /* IF_PLATFORM_MACOSX */
+
+#ifndef IF_PLATFORM_HAIKU
+    #define IF_PLATFORM_HAIKU(...)
+#endif /* IF_PLATFORM_HAIKU */
 
 #ifndef IF_PLATFORM_POSIX
     #define IF_PLATFORM_POSIX(...)
