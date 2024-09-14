@@ -4,6 +4,7 @@
 
 === 1.0.38 ===
 * Locale settings from the <stdlib/locale.h> are now applied in thread-local context.
+* Updated build scripts.
 
 === 1.0.37 ===
 * Updated definition of atomic operations.
