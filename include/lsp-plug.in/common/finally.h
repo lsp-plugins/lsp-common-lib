@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2022 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2022 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 29 июн. 2022 г.
@@ -23,6 +23,7 @@
 #define LSP_PLUG_IN_COMMON_FINALLY_H_
 
 #include <lsp-plug.in/common/version.h>
+#include <lsp-plug.in/common/variadic.h>
 
 namespace lsp
 {
@@ -33,7 +34,7 @@ namespace lsp
             T       sActor;
 
         public:
-            inline FinallyExecutor(T && actor): sActor(actor) {}
+            inline FinallyExecutor(T && actor): sActor(lsp::move(actor)) {}
             inline FinallyExecutor(T & actor) : sActor(actor) {}
             ~FinallyExecutor()  { sActor(); }
     };
@@ -41,15 +42,16 @@ namespace lsp
     struct FinallyExecutorInit
     {
         template <class T>
-            inline FinallyExecutor<T> operator + (T & actor)
-            {
-                return FinallyExecutor<T>(actor);
-            }
+        inline FinallyExecutor<T> operator + (T & actor)
+        {
+            return FinallyExecutor<T>(actor);
+        }
+
         template <class T>
-            inline FinallyExecutor<T> operator + (T && actor)
-            {
-                return FinallyExecutor<T>(actor);
-            }
+        inline FinallyExecutor<T> operator + (T && actor)
+        {
+            return FinallyExecutor<T>(lsp::move(actor));
+        }
     };
 
     #define lsp_impl_finally2(id, prefix) prefix ## id ## __
@@ -58,14 +60,6 @@ namespace lsp
         auto lsp_impl_finally1(id, lsp_finally_function) = ::lsp::FinallyExecutorInit{} + [&]() -> void
 
     #define lsp_finally lsp_impl_finally0(__COUNTER__)
-
-    template <class T>
-    inline T * release_ptr(T * & value)
-    {
-        T *res  = value;
-        value   = nullptr;
-        return res;
-    }
 
 } /* namespace lsp */
 

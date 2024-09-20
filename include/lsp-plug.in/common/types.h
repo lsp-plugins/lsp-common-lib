@@ -977,6 +977,14 @@ namespace lsp
             return (value) ? bits | flag : bits & (~flag);
         }
 
+    template <class T>
+    inline T * release_ptr(T * & value)
+    {
+        T *res  = value;
+        value   = nullptr;
+        return res;
+    }
+
     LSP_COMMON_LIB_PUBLIC
     int version_cmp(const version_t *a, const version_t *b);
 

@@ -29,6 +29,10 @@
 #include <locale.h>
 #include <string.h>
 
+#ifdef PLATFORM_MACOSX
+    #include <xlocale.h>
+#endif /* PLATFORM_MACOSX */
+
 #define SET_LOCALE_MANGLE2(prefix, postfix) prefix ## _ ## postfix
 #define SET_LOCALE_MANGLE1(prefix, postfix) SET_LOCALE_MANGLE2(prefix, postfix)
 #define SET_LOCALE_MANGLE(var) SET_LOCALE_MANGLE1(var, __COUNTER__)
