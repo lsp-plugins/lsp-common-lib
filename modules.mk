@@ -20,7 +20,7 @@
 
 #------------------------------------------------------------------------------
 # Variables that describe source code dependencies
-LSP_TEST_FW_VERSION        := 1.0.26
+LSP_TEST_FW_VERSION        := 1.0.27
 LSP_TEST_FW_NAME           := lsp-test-fw
 LSP_TEST_FW_TYPE           := src
 LSP_TEST_FW_URL_RO         := https://github.com/lsp-plugins/$(LSP_TEST_FW_NAME).git
@@ -32,3 +32,9 @@ LIBSHLWAPI_VERSION         := system
 LIBSHLWAPI_NAME            := libshlwapi
 LIBSHLWAPI_TYPE            := opt
 LIBSHLWAPI_LDFLAGS         := -lshlwapi
+
+LIBGNU_VERSION             := system
+LIBGNU_NAME                := libgnu
+LIBGNU_TYPE                := opt
+LIBGNU_LDFLAGS             := -lgnu
+

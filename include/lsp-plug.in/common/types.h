@@ -394,17 +394,22 @@ namespace lsp
     #define IF_PLATFORM_MACOSX(...)     __VA_ARGS__
 #endif /* __macosx__ */
 
-#if defined(PLATFORM_UNIX) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOSX) || defined(PLATFORM_BSD)
+#if defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__)
+    #define PLATFORM_WINDOWS
+    #define IF_PLATFORM_WINDOWS(...)    __VA_ARGS__
+#endif /* __macosx__ */
+
+#if defined(__HAIKU__)
+    #define PLATFORM_HAIKU
+    #define IF_PLATFORM_HAIKU(...)      __VA_ARGS__
+#endif /* __Haiku__ */
+
+#if defined(PLATFORM_UNIX) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOSX) || defined(PLATFORM_BSD) || defined(PLATFORM_HAIKU)
     #define PLATFORM_UNIX_COMPATIBLE
     #define PLATFORM_POSIX
 
     #define IF_PLATFORM_POSIX(...)      __VA_ARGS__
 #endif /* unix-compatible platforms */
-
-#if defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__)
-    #define PLATFORM_WINDOWS
-    #define IF_PLATFORM_WINDOWS(...)    __VA_ARGS__
-#endif /* __macosx__ */
 
 // File separators for platform tuning
 #if defined(PLATFORM_UNIX_COMPATIBLE)
@@ -749,6 +754,10 @@ namespace lsp
     #define IF_PLATFORM_MACOSX(...)
 #endif /* IF_PLATFORM_MACOSX */
 
+#ifndef IF_PLATFORM_HAIKU
+    #define IF_PLATFORM_HAIKU(...)
+#endif /* IF_PLATFORM_HAIKU */
+
 #ifndef IF_PLATFORM_POSIX
     #define IF_PLATFORM_POSIX(...)
 #endif /* IF_PLATFORM_POSIX */
@@ -886,87 +895,95 @@ namespace lsp
 namespace lsp
 {
     template <class T>
-        inline void swap(T &a, T &b)
-        {
-            T tmp = a;
-            a = b;
-            b = tmp;
-        }
+    inline void swap(T &a, T &b)
+    {
+        T tmp = a;
+        a = b;
+        b = tmp;
+    }
 
     template <class T>
-        inline T *release(T * &a)
-        {
-            T *tmp = a;
-            a = NULL;
-            return tmp;
-        }
+    inline T *release(T * &a)
+    {
+        T *tmp = a;
+        a = NULL;
+        return tmp;
+    }
 
     template <class A, class B>
-        inline A lsp_max(A a, B b)
-        {
-            return (a > b) ? a : b;
-        }
+    inline A lsp_max(A a, B b)
+    {
+        return (a > b) ? a : b;
+    }
 
     template <class A, class B, class C>
-        inline A lsp_max(A a, B b, C c)
-        {
-            if ((a > b) && (a > c))
-                return a;
-            return (b > c) ? b : c;
-        }
+    inline A lsp_max(A a, B b, C c)
+    {
+        if ((a > b) && (a > c))
+            return a;
+        return (b > c) ? b : c;
+    }
 
     template <class A, class B, class C, class D>
-        inline A lsp_max(A a, B b, C c, D d)
-        {
-            return lsp_max(lsp_max(a, b), lsp_max(c, d));
-        }
+    inline A lsp_max(A a, B b, C c, D d)
+    {
+        return lsp_max(lsp_max(a, b), lsp_max(c, d));
+    }
 
     template <class A, class B>
-        inline A lsp_min(A a, B b)
-        {
-            return (a < b) ? a : b;
-        }
+    inline A lsp_min(A a, B b)
+    {
+        return (a < b) ? a : b;
+    }
 
     template <class A, class B, class C>
-        inline A lsp_min(A a, B b, C c)
-        {
-            if ((a < b) && (a < c))
-                return a;
-            return (b < c) ? b : c;
-        }
+    inline A lsp_min(A a, B b, C c)
+    {
+        if ((a < b) && (a < c))
+            return a;
+        return (b < c) ? b : c;
+    }
 
     template <class A, class B, class C, class D>
-        inline A lsp_min(A a, B b, C c, D d)
-        {
-            return lsp_min(lsp_min(a, b), lsp_min(c, d));
-        }
+    inline A lsp_min(A a, B b, C c, D d)
+    {
+        return lsp_min(lsp_min(a, b), lsp_min(c, d));
+    }
 
     template <class A, class B, class C>
-        inline A lsp_limit(A a, B min, C max)
-        {
+    inline A lsp_limit(A a, B min, C max)
+    {
+        return (a < min) ? min : ((a > max) ? max : a);
+    }
+
+    template <class A, class B, class C>
+    inline A lsp_xlimit(A a, B min, C max)
+    {
+        if (min < max)
             return (a < min) ? min : ((a > max) ? max : a);
-        }
 
-    template <class A, class B, class C>
-        inline A lsp_xlimit(A a, B min, C max)
-        {
-            if (min < max)
-                return (a < min) ? min : ((a > max) ? max : a);
-
-            return (a < max) ? max : ((a > min) ? min : a);
-        }
+        return (a < max) ? max : ((a > min) ? min : a);
+    }
 
     template <class T>
-        inline T lsp_abs(T a)
-        {
-            return (a < 0) ? -a : a;
-        }
+    inline T lsp_abs(T a)
+    {
+        return (a < 0) ? -a : a;
+    }
 
     template <class S, class F>
-        inline S lsp_setflag(S bits, F flag, bool value)
-        {
-            return (value) ? bits | flag : bits & (~flag);
-        }
+    inline S lsp_setflag(S bits, F flag, bool value)
+    {
+        return (value) ? bits | flag : bits & (~flag);
+    }
+
+    template <class T>
+    inline T * release_ptr(T * & value)
+    {
+        T *res  = value;
+        value   = nullptr;
+        return res;
+    }
 
     LSP_COMMON_LIB_PUBLIC
     int version_cmp(const version_t *a, const version_t *b);
