@@ -4,6 +4,7 @@
 
 === 1.0.39 ===
 * Updated build scripts.
+* Updated module versions in dependencies.
 
 === 1.0.38 ===
 * Locale settings from the <stdlib/locale.h> are now applied in thread-local context.
