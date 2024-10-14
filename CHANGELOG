@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.40 ===
-
+* Fixed build for musl library (contributed by Daniel Martinez).
 
 === 1.0.39 ===
 * Updated build scripts.
