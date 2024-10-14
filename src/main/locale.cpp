@@ -40,14 +40,24 @@ namespace lsp
                 case LC_MONETARY:       flags   = LC_MONETARY_MASK; break;
                 case LC_MESSAGES:       flags   = LC_MESSAGES_MASK; break;
                 case LC_ALL:            flags   = LC_ALL_MASK; break;
-        #if defined(PLATFORM_LINUX)
+        #if defined(LC_PAPER)
                 case LC_PAPER:          flags   = LC_PAPER_MASK; break;
+        #endif
+        #if defined(LC_NAME)
                 case LC_NAME:           flags   = LC_NAME_MASK; break;
+        #endif
+        #if defined(LC_ADDRESS)
                 case LC_ADDRESS:        flags   = LC_ADDRESS_MASK; break;
+        #endif
+        #if defined(LC_TELEPHONE)
                 case LC_TELEPHONE:      flags   = LC_TELEPHONE_MASK; break;
+        #endif
+        #if defined(LC_MEASUREMENT)
                 case LC_MEASUREMENT:    flags   = LC_MEASUREMENT_MASK; break;
+        #endif
+        #if defined(LC_IDENTIFICATION)
                 case LC_IDENTIFICATION: flags   = LC_IDENTIFICATION_MASK; break;
-        #endif /* PLATFORM_LINUX */
+        #endif
 
                 default:
                     return INVALID_LOCALE;
