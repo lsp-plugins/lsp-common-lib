@@ -4,6 +4,7 @@
 
 === 1.0.40 ===
 * Fixed build for musl library (contributed by Daniel Martinez).
+* Added lsp::fixed_int functions to simplify cast of size_t to fixed-width data type.
 
 === 1.0.39 ===
 * Updated build scripts.

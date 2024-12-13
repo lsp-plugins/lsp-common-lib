@@ -868,7 +868,7 @@ namespace lsp
         typedef uint16_t            lsp_utf16_t;
         typedef wchar_t             lsp_utf32_t;
     #endif
-}
+} /* namespace lsp */
 
 //------------------------------------------------------------------------------
 // Library exports, for built-in modules there are no exports
@@ -996,6 +996,40 @@ namespace lsp
 
     LSP_COMMON_LIB_PUBLIC
     void version_destroy(version_t *version);
-}
+
+#if defined(ARCH_32BIT)
+    constexpr inline uint32_t fixed_int(size_t value)
+    {
+        return uint32_t(value);
+    }
+
+    constexpr inline int32_t fixed_int(ssize_t value)
+    {
+        return int32_t(value);
+    }
+
+#elif defined(ARCH_64BIT)
+    constexpr inline uint64_t fixed_int(size_t value)
+    {
+        return uint64_t(value);
+    }
+
+    constexpr inline int64_t fixed_int(ssize_t value)
+    {
+        return int64_t(value);
+    }
+#else /* fall-back */
+    constexpr inline size_t fixed_int(size_t value)
+    {
+        return value;
+    }
+
+    constexpr inline ssize_t fixed_int(ssize_t value)
+    {
+        return value;
+    }
+#endif /* ARCH_32BIT */
+
+} /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_TYPES_H_ */
