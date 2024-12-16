@@ -203,6 +203,7 @@ namespace lsp
     ATOMIC_SWAP_DEF(uint32_t, "", "w")
     ATOMIC_SWAP_DEF(int64_t, "", "x")
     ATOMIC_SWAP_DEF(uint64_t, "", "x")
+    ATOMIC_SWAP_DEF(void *, "", "x")
 } /* namespace lsp */
 
 #undef ATOMIC_SWAP_DEF
