@@ -39,7 +39,7 @@ UTEST_BEGIN("common", qsort)
     {
         int data[ITEMS];
         for (size_t i=0; i<ITEMS; ++i)
-            data[i] = i;
+            data[i] = int(i);
 
         printf("Testing descending qsort_r...\n");
         bool asc = false;

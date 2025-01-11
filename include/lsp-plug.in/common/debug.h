@@ -135,7 +135,7 @@ namespace lsp
 
         /**
          * Redirect log to the temporary file in the temporary directory
-         * @param file file name (UTF-8)
+         * @param file destination file name (UTF-8)
          */
         LSP_COMMON_LIB_PUBLIC
         void                redirect(const char *file);
@@ -143,7 +143,7 @@ namespace lsp
         /**
          * Redirect log to the file located in the specified directoyr
          * @param path path to the temorary directory (UTF-8)
-         * @param file
+         * @param file desination file name (UTF-8)
          */
         LSP_COMMON_LIB_PUBLIC
         void                redirect(const char *path, const char *file);
@@ -176,8 +176,8 @@ namespace lsp
         /**
          * Dump bytes
          * @param s prefix string
-         * @param f pointer to array of bytes
-         * @param n number of bytes in array
+         * @param b pointer to array of bytes
+         * @param sz number of bytes in array
          */
         LSP_COMMON_LIB_PUBLIC
         void                dumpb(const char *s, const void *b, size_t sz);
