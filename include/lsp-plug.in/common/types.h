@@ -998,37 +998,39 @@ namespace lsp
     void version_destroy(version_t *version);
 
 #if defined(ARCH_32BIT)
-    constexpr inline uint32_t fixed_int(size_t value)
-    {
-        return uint32_t(value);
-    }
-
-    constexpr inline int32_t fixed_int(ssize_t value)
-    {
-        return int32_t(value);
-    }
-
+    typedef uint32_t            fixed_size_t;
+    typedef int32_t             fixed_ssize_t;
 #elif defined(ARCH_64BIT)
-    constexpr inline uint64_t fixed_int(size_t value)
-    {
-        return uint64_t(value);
-    }
-
-    constexpr inline int64_t fixed_int(ssize_t value)
-    {
-        return int64_t(value);
-    }
+    typedef uint64_t            fixed_size_t;
+    typedef int64_t             fixed_ssize_t;
 #else /* fall-back */
-    constexpr inline size_t fixed_int(size_t value)
+    typedef size_t              fixed_size_t;
+    typedef ssize_t             fixed_ssize_t;
+#endif /* ARCH_32BIT */
+
+    /**
+     * Safe conversion of size_t to one of uintN_t types without loosing precision.
+     * This is usual for systems where size_t is defined in some strange way like in MacOS.
+     *
+     * @param value value to convert
+     * @return converted value
+     */
+    constexpr inline fixed_size_t fixed_int(size_t value)
     {
-        return value;
+        return fixed_size_t(value);
     }
 
-    constexpr inline ssize_t fixed_int(ssize_t value)
+    /**
+     * Safe conversion of ssize_t to one of intN_t types without loosing precision.
+     * This is usual for systems where size_t is defined in some strange way like in MacOS.
+     *
+     * @param value value to convert
+     * @return converted value
+     */
+    constexpr inline fixed_ssize_t fixed_int(ssize_t value)
     {
-        return value;
+        return fixed_ssize_t(value);
     }
-#endif /* ARCH_32BIT */
 
 } /* namespace lsp */
 
