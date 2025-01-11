@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.41 ===
-
+* Added definition of MacOS dependencies in build scripts.
 
 === 1.0.40 ===
 * Fixed build for musl library (contributed by Daniel Martinez).
