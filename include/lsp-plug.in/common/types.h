@@ -1008,28 +1008,40 @@ namespace lsp
     typedef ssize_t             fixed_ssize_t;
 #endif /* ARCH_32BIT */
 
-    /**
-     * Safe conversion of size_t to one of uintN_t types without loosing precision.
-     * This is usual for systems where size_t is defined in some strange way like in MacOS.
-     *
-     * @param value value to convert
-     * @return converted value
-     */
-    constexpr inline fixed_size_t fixed_int(size_t value)
-    {
-        return fixed_size_t(value);
-    }
+    template <int size, bool S> struct fixed_int_alias_t        { };
+    template <typename T> struct fixed_int_type_t               { };
+
+    template <> struct fixed_int_alias_t<1, true>               { typedef int8_t type;      };
+    template <> struct fixed_int_alias_t<2, true>               { typedef int16_t type;     };
+    template <> struct fixed_int_alias_t<4, true>               { typedef int32_t type;     };
+    template <> struct fixed_int_alias_t<8, true>               { typedef int64_t type;     };
+    template <> struct fixed_int_alias_t<1, false>              { typedef uint8_t type;     };
+    template <> struct fixed_int_alias_t<2, false>              { typedef uint16_t type;    };
+    template <> struct fixed_int_alias_t<4, false>              { typedef uint32_t type;    };
+    template <> struct fixed_int_alias_t<8, false>              { typedef uint64_t type;    };
+
+    template <> struct fixed_int_type_t<signed char> : public fixed_int_alias_t<sizeof(signed char), true> {};
+    template <> struct fixed_int_type_t<signed short> : public fixed_int_alias_t<sizeof(signed short), true> {};
+    template <> struct fixed_int_type_t<signed int> : public fixed_int_alias_t<sizeof(signed int), true> {};
+    template <> struct fixed_int_type_t<signed long> : public fixed_int_alias_t<sizeof(signed long), true> {};
+    template <> struct fixed_int_type_t<signed long long> : public fixed_int_alias_t<sizeof(signed long long), true> {};
+    template <> struct fixed_int_type_t<unsigned char> : public fixed_int_alias_t<sizeof(unsigned char), false> {};
+    template <> struct fixed_int_type_t<unsigned short> : public fixed_int_alias_t<sizeof(unsigned short), false> {};
+    template <> struct fixed_int_type_t<unsigned int> : public fixed_int_alias_t<sizeof(unsigned int), false> {};
+    template <> struct fixed_int_type_t<unsigned long> : public fixed_int_alias_t<sizeof(unsigned long), false> {};
+    template <> struct fixed_int_type_t<unsigned long long> : public fixed_int_alias_t<sizeof(unsigned long long), false> {};
 
     /**
-     * Safe conversion of ssize_t to one of intN_t types without loosing precision.
+     * Safe size-matching conversion of integral type to one of intN_t/uintN_t types without loosing precision.
      * This is usual for systems where size_t is defined in some strange way like in MacOS.
      *
      * @param value value to convert
      * @return converted value
      */
-    constexpr inline fixed_ssize_t fixed_int(ssize_t value)
+    template <typename T>
+    constexpr inline typename fixed_int_type_t<T>::type fixed_int(T value)
     {
-        return fixed_ssize_t(value);
+        return typename fixed_int_type_t<T>::type(value);
     }
 
 } /* namespace lsp */

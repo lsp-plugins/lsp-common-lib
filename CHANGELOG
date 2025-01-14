@@ -3,7 +3,8 @@
 *******************************************************************************
 
 === 1.0.41 ===
-* Updated definition of conversion of size_t and ssize_t to uintN_t and intN_t respectively.
+* Added fixed_int function for proper platform-dependent integral type conversion to
+  fixed-size type conversion defined by intN_t and uintN_t types.
 * Added definition of MacOS dependencies in build scripts.
 
 === 1.0.40 ===
