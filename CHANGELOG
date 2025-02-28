@@ -2,6 +2,12 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.41 ===
+* Added fixed_int function for proper platform-dependent integral type conversion to
+  fixed-size type conversion defined by intN_t and uintN_t types.
+* Added definition of MacOS dependencies in build scripts.
+* Updated module versions in dependencies.
+
 === 1.0.40 ===
 * Fixed build for musl library (contributed by Daniel Martinez).
 * Added lsp::fixed_int functions to simplify cast of size_t to fixed-width data type.
