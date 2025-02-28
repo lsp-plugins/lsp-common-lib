@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.42 ===
+
+
 === 1.0.41 ===
 * Added fixed_int function for proper platform-dependent integral type conversion to
   fixed-size type conversion defined by intN_t and uintN_t types.
