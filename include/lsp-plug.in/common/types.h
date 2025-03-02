@@ -1020,6 +1020,7 @@ namespace lsp
     template <> struct fixed_int_alias_t<4, false>              { typedef uint32_t type;    };
     template <> struct fixed_int_alias_t<8, false>              { typedef uint64_t type;    };
 
+    template <> struct fixed_int_type_t<char> : public fixed_int_alias_t<sizeof(char), char(0xff) < 0> {};
     template <> struct fixed_int_type_t<signed char> : public fixed_int_alias_t<sizeof(signed char), true> {};
     template <> struct fixed_int_type_t<signed short> : public fixed_int_alias_t<sizeof(signed short), true> {};
     template <> struct fixed_int_type_t<signed int> : public fixed_int_alias_t<sizeof(signed int), true> {};
@@ -1032,7 +1033,7 @@ namespace lsp
     template <> struct fixed_int_type_t<unsigned long long> : public fixed_int_alias_t<sizeof(unsigned long long), false> {};
 
     /**
-     * Safe size-matching conversion of integral type to one of intN_t/uintN_t types without loosing precision.
+     * Safe size-matching conversion of integral type to one of intN_t/uintN_t types without losing precision.
      * This is usual for systems where size_t is defined in some strange way like in MacOS.
      *
      * @param value value to convert
@@ -1042,6 +1043,32 @@ namespace lsp
     constexpr inline typename fixed_int_type_t<T>::type fixed_int(T value)
     {
         return typename fixed_int_type_t<T>::type(value);
+    }
+
+    /**
+     * Safe size-matching conversion of integral type pointer to one of intN_t/uintN_t pointer types without losing precision.
+     * This is usual for systems where size_t is defined in some strange way like in MacOS.
+     *
+     * @param value value to convert
+     * @return converted value
+     */
+    template <typename T>
+    constexpr inline typename fixed_int_type_t<T>::type *fixed_int(T *value)
+    {
+        return reinterpret_cast<typename fixed_int_type_t<T>::type *>(value);
+    }
+
+    /**
+     * Safe size-matching conversion of integral type pointer to one of intN_t/uintN_t pointer types without losing precision.
+     * This is usual for systems where size_t is defined in some strange way like in MacOS.
+     *
+     * @param value value to convert
+     * @return converted value
+     */
+    template <typename T>
+    constexpr inline const typename fixed_int_type_t<T>::type * fixed_int(const T *value)
+    {
+        return reinterpret_cast<const typename fixed_int_type_t<T>::type *>(value);
     }
 
 } /* namespace lsp */
