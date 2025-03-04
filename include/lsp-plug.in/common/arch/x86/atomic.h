@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 31 мар. 2020 г.
@@ -212,14 +212,29 @@ namespace lsp
 
 namespace lsp
 {
-    template <class type_t>
-    inline void atomic_init(type_t &lk)         { lk = LSP_ATOMIC_UNLOCKED; }
+    template <class T>
+    inline void atomic_init(T & lk)
+    {
+        lk = LSP_ATOMIC_UNLOCKED;
+    }
 
-    template <class type_t>
-    inline type_t atomic_trylock(type_t &lk)    { return atomic_swap(&lk, LSP_ATOMIC_LOCKED); }
+    template <class T>
+    inline T atomic_trylock(T & lk)
+    {
+        return T(atomic_swap(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_LOCKED))
+        ));
+    }
 
-    template <class type_t>
-    inline type_t atomic_unlock(type_t &lk)     { return atomic_swap(&lk, LSP_ATOMIC_UNLOCKED); }
+    template <class T>
+    inline T atomic_unlock(T &lk)
+    {
+        return T(atomic_swap(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED))
+        ));
+    }
 
 } /* namespace lsp */
 

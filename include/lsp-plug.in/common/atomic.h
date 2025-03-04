@@ -55,8 +55,10 @@ namespace lsp
         #include <lsp-plug.in/common/arch/x86/atomic.h>
     #elif defined(ARCH_AARCH64) /* ARM 64-bit implementation */
         #include <lsp-plug.in/common/arch/aarch64/atomic.h>
-    #elif defined(ARCH_ARM7) || defined(ARCH_ARM6) /* ARM 32-bit implementation */
+    #elif defined(ARCH_ARM7) /* ARM 32-bit implementation */
         #include <lsp-plug.in/common/arch/arm/atomic.h>
+    #elif defined(ARCH_ARM6) /* ARM 32-bit implementation */
+        #include <lsp-plug.in/common/arch/arm/atomic-armv6.h>
     #elif defined(ARCH_ARM) /* ARM 32-bit implementation */
         #include <lsp-plug.in/common/arch/arm/atomic-legacy.h>
     #else /* Generic implementation */
@@ -78,6 +80,12 @@ namespace lsp
         );
     }
 
+    template <class T>
+    T atomic_swap(T *ptr, T value)
+    {
+        return T(atomic_swap(fixed_int(ptr), fixed_int(value)));
+    }
+
     // Special case for NULL
     template <class T>
     T *atomic_swap(T **ptr, nullptr_t *value)
@@ -88,6 +96,34 @@ namespace lsp
                 reinterpret_cast<void *>(value)
             )
         );
+    }
+
+    template <class T>
+    bool atomic_cas(T *dst, T src, T rep)
+    {
+        return atomic_cas(fixed_int(dst), fixed_int(src), fixed_int(rep));
+    }
+
+    template <class T>
+    bool atomic_cas(T **dst, T *src, T *rep)
+    {
+        return atomic_cas(
+            reinterpret_cast<void **>(dst),
+            reinterpret_cast<void *>(src),
+            reinterpret_cast<void *>(rep)
+        );
+    }
+
+    template <class T>
+    T atomic_load(T *ptr)
+    {
+        return T(atomic_load(fixed_int(ptr)));
+    }
+
+    template <class T>
+    T atomic_load(const T *ptr)
+    {
+        return T(atomic_load(fixed_int(ptr)));
     }
 
     template <class T>
@@ -111,12 +147,27 @@ namespace lsp
     }
 
     template <class T>
+    void atomic_store(T *ptr, T value)
+    {
+        return atomic_store(fixed_int(ptr), fixed_int(value));
+    }
+
+    template <class T>
     void atomic_store(T **ptr, T * value)
     {
         atomic_store(
             reinterpret_cast<void **>(ptr),
             reinterpret_cast<void *>(value)
         );
+    }
+
+    template <class T>
+    inline T atomic_add(T *ptr, T value)
+    {
+        return T(atomic_add(
+            fixed_int(ptr),
+            fixed_int(value)
+        ));
     }
 } /* namespace lsp */
 
