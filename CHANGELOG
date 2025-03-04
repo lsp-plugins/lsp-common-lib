@@ -3,7 +3,8 @@
 *******************************************************************************
 
 === 1.0.42 ===
-
+* Several changes related to bit operations.
+* Improved atomic operations.
 
 === 1.0.41 ===
 * Added fixed_int function for proper platform-dependent integral type conversion to
