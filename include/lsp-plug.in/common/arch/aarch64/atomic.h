@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 31 мар. 2020 г.
@@ -43,12 +43,12 @@
 
 namespace lsp
 {
-    ATOMIC_LOAD_DEF(int8_t, int8_t *, "sb", "w")
-    ATOMIC_LOAD_DEF(int8_t, const int8_t *, "sb", "w")
+    ATOMIC_LOAD_DEF(int8_t, int8_t *, "b", "w")
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *, "b", "w")
     ATOMIC_LOAD_DEF(uint8_t, uint8_t *, "b", "w")
     ATOMIC_LOAD_DEF(uint8_t, const uint8_t *, "b", "w")
-    ATOMIC_LOAD_DEF(int16_t, int16_t *, "sh", "w")
-    ATOMIC_LOAD_DEF(int16_t, const int16_t *, "sh", "w")
+    ATOMIC_LOAD_DEF(int16_t, int16_t *, "h", "w")
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *, "h", "w")
     ATOMIC_LOAD_DEF(uint16_t, uint16_t *, "h", "w")
     ATOMIC_LOAD_DEF(uint16_t, const uint16_t *, "h", "w")
     ATOMIC_LOAD_DEF(int32_t, int32_t *, "", "w")
@@ -81,9 +81,9 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_STORE_DEF(int8_t,     "sb", "w")
+    ATOMIC_STORE_DEF(int8_t,     "b", "w")
     ATOMIC_STORE_DEF(uint8_t,    "b", "w")
-    ATOMIC_STORE_DEF(int16_t,    "sh", "w")
+    ATOMIC_STORE_DEF(int16_t,    "h", "w")
     ATOMIC_STORE_DEF(uint16_t,   "h", "w")
     ATOMIC_STORE_DEF(int32_t,    "", "w")
     ATOMIC_STORE_DEF(uint32_t,   "", "w")
@@ -216,14 +216,33 @@ namespace lsp
 
 namespace lsp
 {
-    template <class type_t>
-        inline void atomic_init(type_t &lk) { lk = LSP_ATOMIC_UNLOCKED; }
+    template <class T>
+    inline void atomic_init(T &lk)
+    {
+        atomic_store(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED))
+        );
+    }
 
-    template <class type_t>
-        inline type_t atomic_trylock(type_t &lk) { return atomic_cas(&lk, LSP_ATOMIC_UNLOCKED, LSP_ATOMIC_LOCKED); }
+    template <class T>
+    inline T atomic_trylock(T &lk)
+    {
+        return T(atomic_cas(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED)),
+            fixed_int(T(LSP_ATOMIC_LOCKED))
+        ));
+    }
 
-    template <class type_t>
-        inline type_t atomic_unlock(type_t &lk) { return atomic_swap(&lk, LSP_ATOMIC_UNLOCKED); }
+    template <class T>
+    inline T atomic_unlock(T &lk)
+    {
+        return T(atomic_swap(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED))
+        ));
+    }
 } /* namespace lsp */
 
 
