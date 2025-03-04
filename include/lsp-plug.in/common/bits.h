@@ -79,7 +79,7 @@ namespace lsp
     template <class T>
     inline T reverse_bits(T src)
     {
-        return T(fixed_int(src));
+        return T(reverse_bits(fixed_int(src)));
     }
 
     /**
@@ -91,7 +91,10 @@ namespace lsp
     template <class T>
     inline T reverse_bits(T src, size_t count)
     {
-        return T(fixed_int(src, count));
+        return T(reverse_bits(
+            fixed_int(src),
+            count
+        ));
     }
 
     /**

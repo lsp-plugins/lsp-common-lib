@@ -26,51 +26,63 @@ using namespace lsp;
 
 UTEST_BEGIN("common", bits)
     template <typename T>
-        void test_reverse_bits(const char *label)
+    void test_reverse_bits(const char *label)
+    {
+        printf("Testing reverse_bits for %s...\n", label);
+        const size_t n = sizeof(T) * 8;
+
+        for (size_t i=0; i<n; ++i)
         {
-            printf("Testing %s...\n", label);
-            size_t n = sizeof(T) * 8;
-
-            for (size_t i=0; i<n; ++i)
-            {
-                T x     = T(1) << i;
-                T y     = reverse_bits(x);
-                T ck    = (T(1) << (n - i - 1));
-                UTEST_ASSERT_MSG(y == ck, "%s: tier1, i=%d, n=%d", label, int(i), int(n));
-            }
-
-            for (size_t i=0; i<(n - 4); ++i)
-            {
-                T x     = T(1) << i;
-                T y     = reverse_bits(x, n - 4);
-                T ck    = (T(1) << (n - 5 - i));
-                UTEST_ASSERT_MSG(y == ck, "%s: tier2, i=%d, n=%d", label, int(i), int(n));
-            }
-
-            for (size_t i=0; i<4; ++i)
-            {
-                T x     = T(1) << i;
-                T y     = reverse_bits(x, 4);
-                T ck    = (T(1) << (3 - i));
-                UTEST_ASSERT_MSG(y == ck, "%s: tier3, i=%d, n=%d", label, int(i), int(n));
-            }
+            T x     = T(1) << i;
+            T y     = reverse_bits(x);
+            T ck    = (T(1) << (n - i - 1));
+            UTEST_ASSERT_MSG(y == ck, "%s: tier1, i=%d, n=%d, x=0x%08llx, y=0x%08llx, ck=0x%08llx",
+                label, int(i), int(n),
+                (long long)x,
+                (long long)y,
+                (long long)ck);
         }
+
+        for (size_t i=0; i<(n - 4); ++i)
+        {
+            T x     = T(1) << i;
+            T y     = reverse_bits(x, n - 4);
+            T ck    = (T(1) << (n - 5 - i));
+            UTEST_ASSERT_MSG(y == ck, "%s: tier2, i=%d, n=%d, x=0x%08llx, y=0x%08llx, ck=0x%08llx",
+                label, int(i), int(n),
+                (long long)x,
+                (long long)y,
+                (long long)ck);
+        }
+
+        for (size_t i=0; i<4; ++i)
+        {
+            T x     = T(1) << i;
+            T y     = reverse_bits(x, 4);
+            T ck    = (T(1) << (3 - i));
+            UTEST_ASSERT_MSG(y == ck, "%s: tier3, i=%d, n=%d, x=0x%08llx, y=0x%08llx, ck=0x%08llx",
+                label, int(i), int(n),
+                (long long)x,
+                (long long)y,
+                (long long)ck);
+        }
+    }
 
     template <typename T>
-        void test_int_log2(const char *label)
+    void test_int_log2(const char *label)
+    {
+        printf("Testing int_log2 for %s...\n", label);
+
+        int log2 = int_log2(T(0));
+        UTEST_ASSERT_MSG(log2 == 0, "%s: zero input detected as %d", label, log2);
+
+        for (int i=0; i<int(sizeof(T)*8); ++i)
         {
-            printf("Testing %s...\n", label);
-
-            int log2 = int_log2(T(0));
-            UTEST_ASSERT_MSG(log2 == 0, "%s: zero input detected as %d", label, log2);
-
-            for (int i=0; i<int(sizeof(T)*8); ++i)
-            {
-                T x     = T(1) << i;
-                int y   = int_log2(x);
-                UTEST_ASSERT_MSG(y == i, "%s: bit=%d but detected as %d", label, i, y);
-            }
+            T x     = T(1) << i;
+            int y   = int_log2(x);
+            UTEST_ASSERT_MSG(y == i, "%s: bit=%d but detected as %d", label, i, y);
         }
+    }
 
     void test_pow2_rounding()
     {
@@ -85,27 +97,27 @@ UTEST_BEGIN("common", bits)
 
     UTEST_MAIN
     {
-        test_reverse_bits<uint8_t>("reverse_bits u8");
-        test_reverse_bits<int8_t>("reverse_bits i8");
-        test_reverse_bits<uint16_t>("reverse_bits u16");
-        test_reverse_bits<int16_t>("reverse_bits i16");
-        test_reverse_bits<uint32_t>("reverse_bits u32");
-        test_reverse_bits<int32_t>("reverse_bits i32");
-        test_reverse_bits<uint64_t>("reverse_bits u64");
-        test_reverse_bits<int64_t>("reverse_bits i64");
-        test_reverse_bits<size_t>("reverse_bits size_t");
-        test_reverse_bits<ssize_t>("reverse_bits ssize_t");
+        test_reverse_bits<uint8_t>("uint8_t");
+        test_reverse_bits<int8_t>("int8_t");
+        test_reverse_bits<uint16_t>("uint16_t");
+        test_reverse_bits<int16_t>("int16_t");
+        test_reverse_bits<uint32_t>("uint32_t");
+        test_reverse_bits<int32_t>("int32_t");
+        test_reverse_bits<uint64_t>("uint64_t");
+        test_reverse_bits<int64_t>("int64_t");
+        test_reverse_bits<size_t>("size_t");
+        test_reverse_bits<ssize_t>("ssize_t");
 
-        test_int_log2<uint8_t>("int_log2 u8");
-        test_int_log2<int8_t>("int_log2 i8");
-        test_int_log2<uint16_t>("int_log2 u16");
-        test_int_log2<int16_t>("int_log2 i16");
-        test_int_log2<uint32_t>("int_log2 u32");
-        test_int_log2<int32_t>("int_log2 i32");
-        test_int_log2<uint64_t>("int_log2 u64");
-        test_int_log2<int64_t>("int_log2 i64");
-        test_int_log2<size_t>("int_log2 size_t");
-        test_int_log2<ssize_t>("int_log2 ssize_t");
+        test_int_log2<uint8_t>("uint8_t");
+        test_int_log2<int8_t>("int8_t");
+        test_int_log2<uint16_t>("uint16_t");
+        test_int_log2<int16_t>("int16_t");
+        test_int_log2<uint32_t>("uint32_t");
+        test_int_log2<int32_t>("int32_t");
+        test_int_log2<uint64_t>("uint64_t");
+        test_int_log2<int64_t>("int64_t");
+        test_int_log2<size_t>("size_t");
+        test_int_log2<ssize_t>("ssize_t");
 
         test_pow2_rounding();
     }

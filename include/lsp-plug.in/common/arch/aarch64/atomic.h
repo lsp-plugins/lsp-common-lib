@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 31 мар. 2020 г.
@@ -43,12 +43,12 @@
 
 namespace lsp
 {
-    ATOMIC_LOAD_DEF(int8_t, int8_t *, "sb", "w")
-    ATOMIC_LOAD_DEF(int8_t, const int8_t *, "sb", "w")
+    ATOMIC_LOAD_DEF(int8_t, int8_t *, "b", "w")
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *, "b", "w")
     ATOMIC_LOAD_DEF(uint8_t, uint8_t *, "b", "w")
     ATOMIC_LOAD_DEF(uint8_t, const uint8_t *, "b", "w")
-    ATOMIC_LOAD_DEF(int16_t, int16_t *, "sh", "w")
-    ATOMIC_LOAD_DEF(int16_t, const int16_t *, "sh", "w")
+    ATOMIC_LOAD_DEF(int16_t, int16_t *, "h", "w")
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *, "h", "w")
     ATOMIC_LOAD_DEF(uint16_t, uint16_t *, "h", "w")
     ATOMIC_LOAD_DEF(uint16_t, const uint16_t *, "h", "w")
     ATOMIC_LOAD_DEF(int32_t, int32_t *, "", "w")
@@ -81,9 +81,9 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_STORE_DEF(int8_t,     "sb", "w")
+    ATOMIC_STORE_DEF(int8_t,     "b", "w")
     ATOMIC_STORE_DEF(uint8_t,    "b", "w")
-    ATOMIC_STORE_DEF(int16_t,    "sh", "w")
+    ATOMIC_STORE_DEF(int16_t,    "h", "w")
     ATOMIC_STORE_DEF(uint16_t,   "h", "w")
     ATOMIC_STORE_DEF(int32_t,    "", "w")
     ATOMIC_STORE_DEF(uint32_t,   "", "w")
