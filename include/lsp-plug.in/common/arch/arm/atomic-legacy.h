@@ -108,10 +108,10 @@ namespace lsp
 #define ATOMIC_SWAP_DEF3(type) \
     inline type atomic_swap(type *ptr, type value) \
     { \
-        while (atomic_swap(&atomic_lock_barrier, 1)) /* nothing */ ; \
+        while (atomic_swap(&atomic_lock_barrier, uint32_t(1))) /* nothing */ ; \
         type retval = *ptr; \
         *ptr = value; \
-        atomic_swap(&atomic_lock_barrier, 0); \
+        atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
         return retval; \
     }
 
@@ -135,16 +135,16 @@ namespace lsp
 #define ATOMIC_CAS_DEF(type)                        \
     inline bool atomic_cas(type *ptr, type exp, type rep) \
     { \
-        if (!atomic_swap(&atomic_lock_barrier, 1)) \
+        if (!atomic_swap(&atomic_lock_barrier, uint32_t(1))) \
             return false; \
         if (*ptr == exp) \
         { \
             *ptr    = rep; \
-            atomic_swap(&atomic_lock_barrier, 0); \
+            atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
             return true; \
         } \
         \
-        atomic_swap(&atomic_lock_barrier, 0); \
+        atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
         return false; \
     }
 
