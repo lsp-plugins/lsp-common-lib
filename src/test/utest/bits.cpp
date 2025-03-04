@@ -93,6 +93,8 @@ UTEST_BEGIN("common", bits)
         test_reverse_bits<int32_t>("reverse_bits i32");
         test_reverse_bits<uint64_t>("reverse_bits u64");
         test_reverse_bits<int64_t>("reverse_bits i64");
+        test_reverse_bits<size_t>("reverse_bits size_t");
+        test_reverse_bits<ssize_t>("reverse_bits ssize_t");
 
         test_int_log2<uint8_t>("int_log2 u8");
         test_int_log2<int8_t>("int_log2 i8");
@@ -102,6 +104,8 @@ UTEST_BEGIN("common", bits)
         test_int_log2<int32_t>("int_log2 i32");
         test_int_log2<uint64_t>("int_log2 u64");
         test_int_log2<int64_t>("int_log2 i64");
+        test_int_log2<size_t>("int_log2 size_t");
+        test_int_log2<ssize_t>("int_log2 ssize_t");
 
         test_pow2_rounding();
     }

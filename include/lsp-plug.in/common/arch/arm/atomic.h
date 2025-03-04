@@ -210,14 +210,33 @@ namespace lsp
 
 namespace lsp
 {
-    template <class type_t>
-        inline void atomic_init(type_t &lk) { lk = LSP_ATOMIC_UNLOCKED; }
+    template <class T>
+    inline void atomic_init(T &lk)
+    {
+        atomic_store(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED))
+        );
+    }
 
-    template <class type_t>
-        inline type_t atomic_trylock(type_t &lk) { return atomic_cas(&lk, LSP_ATOMIC_UNLOCKED, LSP_ATOMIC_LOCKED); }
+    template <class T>
+    inline T atomic_trylock(T &lk)
+    {
+        return T(atomic_cas(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED)),
+            fixed_int(T(LSP_ATOMIC_LOCKED))
+        ));
+    }
 
-    template <class type_t>
-        inline type_t atomic_unlock(type_t &lk) { return atomic_swap(&lk, LSP_ATOMIC_UNLOCKED); }
+    template <class T>
+    inline T atomic_unlock(T &lk)
+    {
+        return T(atomic_swap(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED))
+        ));
+    }
 } /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_H_ */

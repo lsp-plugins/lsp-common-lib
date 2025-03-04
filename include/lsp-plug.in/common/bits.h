@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 1 апр. 2020 г.
@@ -61,15 +61,49 @@ namespace lsp
 namespace lsp
 {
     /**
+     * Compute binary logarithm of the integer value
+     * @param value value to compute binary logarithm
+     * @return computed binary logarithm
+     */
+    template <class T>
+    inline T int_log2(T value)
+    {
+        return T(int_log2(fixed_int(value)));
+    }
+
+    /**
+     * Reverse bits
+     * @param src source value to reverse bits
+     * @return value with reverse-order of bits
+     */
+    template <class T>
+    inline T reverse_bits(T src)
+    {
+        return T(fixed_int(src));
+    }
+
+    /**
+     * Reverse bits
+     * @param src source value to reverse bits
+     * @param count number of significant bits in the integer value
+     * @return value with reverse-order of significant bits
+     */
+    template <class T>
+    inline T reverse_bits(T src, size_t count)
+    {
+        return T(fixed_int(src, count));
+    }
+
+    /**
      * Round the integer value up to power of 2
      * @tparam T integer value
      * @param value value to round
      * @return rounded value
      */
     template <class T>
-    T round_pow2(T value)
+    inline T round_pow2(T value)
     {
-        T rounded   = 1 << int_log2(value);
+        T rounded   = T(1 << int_log2(fixed_int(value)));
         return (rounded == value) ? rounded : rounded << 1;
     }
 } /* namespace lsp */
