@@ -31,10 +31,10 @@ namespace lsp
     extern uint32_t atomic_lock_barrier;
 } /* namespace lsp */
 
-#define ATOMIC_LOAD_DEF(type, cmd) \
-    inline type atomic_load(type *ptr) \
+#define ATOMIC_LOAD_DEF(rtype, type, cmd) \
+    inline rtype atomic_load(type ptr) \
     { \
-        type retval; \
+        rtype retval; \
         ARCH_ARM_ASM( \
             __ASM_EMIT(cmd "        %[ret], [%[ptr]]") \
             : [ret] "=&r" (retval) \
@@ -46,13 +46,20 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_LOAD_DEF(int8_t,     "ldrb")
-    ATOMIC_LOAD_DEF(uint8_t,    "ldrb")
-    ATOMIC_LOAD_DEF(int16_t,    "ldrh")
-    ATOMIC_LOAD_DEF(uint16_t,   "ldrh")
-    ATOMIC_LOAD_DEF(int32_t,    "ldr")
-    ATOMIC_LOAD_DEF(uint32_t,   "ldr")
-    ATOMIC_LOAD_DEF(void *,     "ldr")
+    ATOMIC_LOAD_DEF(int8_t, int8_t *,               "ldrb")
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *,         "ldrb")
+    ATOMIC_LOAD_DEF(uint8_t, uint8_t *,             "ldrb")
+    ATOMIC_LOAD_DEF(uint8_t, const uint8_t *,       "ldrb")
+    ATOMIC_LOAD_DEF(int16_t, int16_t *,             "ldrh")
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *,       "ldrh")
+    ATOMIC_LOAD_DEF(uint16_t, uint16_t *,           "ldrh")
+    ATOMIC_LOAD_DEF(uint16_t, const uint16_t *,     "ldrh")
+    ATOMIC_LOAD_DEF(int32_t, int32_t *,             "ldr")
+    ATOMIC_LOAD_DEF(int32_t, const int32_t *,       "ldr")
+    ATOMIC_LOAD_DEF(uint32_t, uint32_t *,           "ldr")
+    ATOMIC_LOAD_DEF(uint32_t, const uint32_t *,     "ldr")
+    ATOMIC_LOAD_DEF(void *, const void **,          "ldr")
+    ATOMIC_LOAD_DEF(void *, const void * const *,   "ldr")
 } /* namespace lsp */
 
 #undef ATOMIC_LOAD_DEF
