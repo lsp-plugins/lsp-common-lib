@@ -26,14 +26,14 @@
     #error "This file should not be included directly"
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_IMPL */
 
-#define ATOMIC_LOAD_DEF(type, ptrtype)                  \
+#define ATOMIC_LOAD_DEF(type, ptrtype, reg)             \
     inline type atomic_load(ptrtype ptr)                \
     {                                                   \
         type value;                                     \
         ARCH_X86_ASM                                    \
         (                                               \
             __ASM_EMIT("mov     (%[ptr]), %[value]")    \
-            : [value] "=&r"(value)                      \
+            : [value] reg (value)                       \
             : [ptr] "r" (ptr)                           \
             :                                           \
         );                                              \
@@ -42,73 +42,73 @@
 
 namespace lsp
 {
-    ATOMIC_LOAD_DEF(int8_t, int8_t *)
-    ATOMIC_LOAD_DEF(int8_t, const int8_t *)
-    ATOMIC_LOAD_DEF(uint8_t, uint8_t *)
-    ATOMIC_LOAD_DEF(uint8_t, const uint8_t *)
-    ATOMIC_LOAD_DEF(int16_t, int16_t *)
-    ATOMIC_LOAD_DEF(int16_t, const int16_t *)
-    ATOMIC_LOAD_DEF(uint16_t, uint16_t *)
-    ATOMIC_LOAD_DEF(uint16_t, const uint16_t *)
-    ATOMIC_LOAD_DEF(int32_t, int32_t *)
-    ATOMIC_LOAD_DEF(int32_t, const int32_t *)
-    ATOMIC_LOAD_DEF(uint32_t, uint32_t *)
-    ATOMIC_LOAD_DEF(uint32_t, const uint32_t *)
-    ATOMIC_LOAD_DEF(void *, void **)
-    ATOMIC_LOAD_DEF(void *, void * const *)
-    ATOMIC_LOAD_DEF(const void *, const void **)
-    ATOMIC_LOAD_DEF(const void *, const void * const *)
+    ATOMIC_LOAD_DEF(int8_t, int8_t *, "=&q")
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *, "=&q")
+    ATOMIC_LOAD_DEF(uint8_t, uint8_t *, "=&q")
+    ATOMIC_LOAD_DEF(uint8_t, const uint8_t *, "=&q")
+    ATOMIC_LOAD_DEF(int16_t, int16_t *, "=&r")
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *, "=&r")
+    ATOMIC_LOAD_DEF(uint16_t, uint16_t *, "=&r")
+    ATOMIC_LOAD_DEF(uint16_t, const uint16_t *, "=&r")
+    ATOMIC_LOAD_DEF(int32_t, int32_t *, "=&r")
+    ATOMIC_LOAD_DEF(int32_t, const int32_t *, "=&r")
+    ATOMIC_LOAD_DEF(uint32_t, uint32_t *, "=&r")
+    ATOMIC_LOAD_DEF(uint32_t, const uint32_t *, "=&r")
+    ATOMIC_LOAD_DEF(void *, void **, "=&r")
+    ATOMIC_LOAD_DEF(void *, void * const *, "=&r")
+    ATOMIC_LOAD_DEF(const void *, const void **, "=&r")
+    ATOMIC_LOAD_DEF(const void *, const void * const *, "=&r")
 
     #ifdef ARCH_X86_64
-        ATOMIC_LOAD_DEF(int64_t, int64_t *)
-        ATOMIC_LOAD_DEF(int64_t, const int64_t *)
-        ATOMIC_LOAD_DEF(uint64_t, uint64_t *)
-        ATOMIC_LOAD_DEF(uint64_t, const uint64_t *)
+        ATOMIC_LOAD_DEF(int64_t, int64_t *, "=&r")
+        ATOMIC_LOAD_DEF(int64_t, const int64_t *, "=&r")
+        ATOMIC_LOAD_DEF(uint64_t, uint64_t *, "=&r")
+        ATOMIC_LOAD_DEF(uint64_t, const uint64_t *, "=&r")
     #endif /* ARCH_X86_64 */
 
 } /* namespace lsp */
 
 #undef ATOMIC_LOAD_DEF
 
-#define ATOMIC_STORE_DEF(type)                          \
+#define ATOMIC_STORE_DEF(type, reg)                     \
     inline void atomic_store(type *ptr, type value)     \
     {                                                   \
         ARCH_X86_ASM                                    \
         (                                               \
             __ASM_EMIT("mov     %[value], (%[ptr])")    \
             :                                           \
-            : [ptr] "r" (ptr), [value] "r" (value)      \
+            : [ptr] "r" (ptr), [value] reg (value)      \
             : "memory"                                  \
         );                                              \
     }
 
 namespace lsp
 {
-    ATOMIC_STORE_DEF(int8_t)
-    ATOMIC_STORE_DEF(uint8_t)
-    ATOMIC_STORE_DEF(int16_t)
-    ATOMIC_STORE_DEF(uint16_t)
-    ATOMIC_STORE_DEF(int32_t)
-    ATOMIC_STORE_DEF(uint32_t)
-    ATOMIC_STORE_DEF(void *)
+    ATOMIC_STORE_DEF(int8_t, "q")
+    ATOMIC_STORE_DEF(uint8_t, "q")
+    ATOMIC_STORE_DEF(int16_t, "r")
+    ATOMIC_STORE_DEF(uint16_t, "r")
+    ATOMIC_STORE_DEF(int32_t, "r")
+    ATOMIC_STORE_DEF(uint32_t, "r")
+    ATOMIC_STORE_DEF(void *, "r")
 
     #ifdef ARCH_X86_64
-        ATOMIC_STORE_DEF(int64_t)
-        ATOMIC_STORE_DEF(uint64_t)
+        ATOMIC_STORE_DEF(int64_t, "r")
+        ATOMIC_STORE_DEF(uint64_t, "r")
     #endif /* ARCH_X86_64 */
 
 } /* namespace lsp */
 
 #undef ATOMIC_STORE_DEF
 
-#define ATOMIC_XCHG_DEF(type)                           \
+#define ATOMIC_XCHG_DEF(type, reg)                      \
     inline type atomic_swap(type *ptr, type value)      \
     {                                                   \
         ARCH_X86_ASM                                    \
         (                                               \
             __ASM_EMIT("lock")                          \
             __ASM_EMIT("xchg    %[value], (%[ptr])")    \
-            : [value] "+r"(value)                       \
+            : [value] reg (value)                       \
             : [ptr] "r" (ptr)                           \
             : "memory", "cc"                            \
         );                                              \
@@ -117,24 +117,24 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_XCHG_DEF(int8_t)
-    ATOMIC_XCHG_DEF(uint8_t)
-    ATOMIC_XCHG_DEF(int16_t)
-    ATOMIC_XCHG_DEF(uint16_t)
-    ATOMIC_XCHG_DEF(int32_t)
-    ATOMIC_XCHG_DEF(uint32_t)
-    ATOMIC_XCHG_DEF(void *)
+    ATOMIC_XCHG_DEF(int8_t, "+q")
+    ATOMIC_XCHG_DEF(uint8_t, "+q")
+    ATOMIC_XCHG_DEF(int16_t, "+r")
+    ATOMIC_XCHG_DEF(uint16_t, "+r")
+    ATOMIC_XCHG_DEF(int32_t, "+r")
+    ATOMIC_XCHG_DEF(uint32_t, "+r")
+    ATOMIC_XCHG_DEF(void *, "+r")
 
     #ifdef ARCH_X86_64
-        ATOMIC_XCHG_DEF(int64_t)
-        ATOMIC_XCHG_DEF(uint64_t)
+        ATOMIC_XCHG_DEF(int64_t, "+r")
+        ATOMIC_XCHG_DEF(uint64_t, "+r")
     #endif /* ARCH_X86_64 */
 
 } /* namespace lsp */
 
 #undef ATOMIC_XCHG_DEF
 
-#define ATOMIC_CAS_DEF(type)                     \
+#define ATOMIC_CAS_DEF(type, reg)                       \
     inline bool atomic_cas(type *ptr, type src, type rep)   \
     {                                                   \
         bool res;                                       \
@@ -147,8 +147,8 @@ namespace lsp
             __ASM_EMIT("2:")                            \
             : [res] "=@ccz" (res)                       \
             : [src] "a" (src),                          \
-              [ptr] "r" (ptr),                          \
-              [rep] "r" (rep)                           \
+              [ptr] reg (ptr),                          \
+              [rep] reg (rep)                           \
             : "memory", "cc"                            \
         );                                              \
         return res; \
@@ -156,30 +156,30 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_CAS_DEF(int8_t)
-    ATOMIC_CAS_DEF(uint8_t)
-    ATOMIC_CAS_DEF(int16_t)
-    ATOMIC_CAS_DEF(uint16_t)
-    ATOMIC_CAS_DEF(int32_t)
-    ATOMIC_CAS_DEF(uint32_t)
-    ATOMIC_CAS_DEF(void *)
+    ATOMIC_CAS_DEF(int8_t, "q")
+    ATOMIC_CAS_DEF(uint8_t, "q")
+    ATOMIC_CAS_DEF(int16_t, "r")
+    ATOMIC_CAS_DEF(uint16_t, "r")
+    ATOMIC_CAS_DEF(int32_t, "r")
+    ATOMIC_CAS_DEF(uint32_t, "r")
+    ATOMIC_CAS_DEF(void *, "r")
 
     #ifdef ARCH_X86_64
-        ATOMIC_CAS_DEF(int64_t)
-        ATOMIC_CAS_DEF(uint64_t)
+        ATOMIC_CAS_DEF(int64_t, "r")
+        ATOMIC_CAS_DEF(uint64_t, "r")
     #endif /* ARCH_X86_64 */
 
 } /* namespace lsp */
 #undef ATOMIC_CAS_DEF
 
-#define ATOMIC_ADD_DEF(type) \
+#define ATOMIC_ADD_DEF(type, reg) \
     inline type atomic_add(type *ptr, type value)       \
     {                                                   \
         ARCH_X86_ASM                                    \
         (                                               \
             __ASM_EMIT("lock")                          \
             __ASM_EMIT("xadd %[src], (%[ptr])")         \
-            : [src] "+r" (value)                        \
+            : [src] reg (value)                         \
             : [ptr] "r" (ptr)                           \
             : "memory", "cc"                            \
         );                                              \
@@ -188,16 +188,16 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_ADD_DEF(int8_t)
-    ATOMIC_ADD_DEF(uint8_t)
-    ATOMIC_ADD_DEF(int16_t)
-    ATOMIC_ADD_DEF(uint16_t)
-    ATOMIC_ADD_DEF(int32_t)
-    ATOMIC_ADD_DEF(uint32_t)
+    ATOMIC_ADD_DEF(int8_t, "+q")
+    ATOMIC_ADD_DEF(uint8_t, "+q")
+    ATOMIC_ADD_DEF(int16_t, "+r")
+    ATOMIC_ADD_DEF(uint16_t, "+r")
+    ATOMIC_ADD_DEF(int32_t, "+r")
+    ATOMIC_ADD_DEF(uint32_t, "+r")
 
     #ifdef ARCH_X86_64
-        ATOMIC_ADD_DEF(int64_t)
-        ATOMIC_ADD_DEF(uint64_t)
+        ATOMIC_ADD_DEF(int64_t, "+r")
+        ATOMIC_ADD_DEF(uint64_t, "+r")
     #endif /* ARCH_X86_64 */
 
 } /* namespace lsp */
