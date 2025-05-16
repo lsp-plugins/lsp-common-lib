@@ -31,10 +31,10 @@ namespace lsp
     extern uint32_t atomic_lock_barrier;
 } /* namespace lsp */
 
-#define ATOMIC_LOAD_DEF(type, cmd) \
-    inline type atomic_load(type *ptr) \
+#define ATOMIC_LOAD_DEF(rtype, type, cmd) \
+    inline rtype atomic_load(type ptr) \
     { \
-        type retval; \
+        rtype retval; \
         ARCH_ARM_ASM( \
             __ASM_EMIT(cmd "        %[ret], [%[ptr]]") \
             : [ret] "=&r" (retval) \
@@ -46,13 +46,20 @@ namespace lsp
 
 namespace lsp
 {
-    ATOMIC_LOAD_DEF(int8_t,     "ldrb")
-    ATOMIC_LOAD_DEF(uint8_t,    "ldrb")
-    ATOMIC_LOAD_DEF(int16_t,    "ldrh")
-    ATOMIC_LOAD_DEF(uint16_t,   "ldrh")
-    ATOMIC_LOAD_DEF(int32_t,    "ldr")
-    ATOMIC_LOAD_DEF(uint32_t,   "ldr")
-    ATOMIC_LOAD_DEF(void *,     "ldr")
+    ATOMIC_LOAD_DEF(int8_t, int8_t *,               "ldrb")
+    ATOMIC_LOAD_DEF(int8_t, const int8_t *,         "ldrb")
+    ATOMIC_LOAD_DEF(uint8_t, uint8_t *,             "ldrb")
+    ATOMIC_LOAD_DEF(uint8_t, const uint8_t *,       "ldrb")
+    ATOMIC_LOAD_DEF(int16_t, int16_t *,             "ldrh")
+    ATOMIC_LOAD_DEF(int16_t, const int16_t *,       "ldrh")
+    ATOMIC_LOAD_DEF(uint16_t, uint16_t *,           "ldrh")
+    ATOMIC_LOAD_DEF(uint16_t, const uint16_t *,     "ldrh")
+    ATOMIC_LOAD_DEF(int32_t, int32_t *,             "ldr")
+    ATOMIC_LOAD_DEF(int32_t, const int32_t *,       "ldr")
+    ATOMIC_LOAD_DEF(uint32_t, uint32_t *,           "ldr")
+    ATOMIC_LOAD_DEF(uint32_t, const uint32_t *,     "ldr")
+    ATOMIC_LOAD_DEF(void *, const void **,          "ldr")
+    ATOMIC_LOAD_DEF(void *, const void * const *,   "ldr")
 } /* namespace lsp */
 
 #undef ATOMIC_LOAD_DEF
@@ -108,10 +115,10 @@ namespace lsp
 #define ATOMIC_SWAP_DEF3(type) \
     inline type atomic_swap(type *ptr, type value) \
     { \
-        while (atomic_swap(&atomic_lock_barrier, 1)) /* nothing */ ; \
+        while (atomic_swap(&atomic_lock_barrier, uint32_t(1))) /* nothing */ ; \
         type retval = *ptr; \
         *ptr = value; \
-        atomic_swap(&atomic_lock_barrier, 0); \
+        atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
         return retval; \
     }
 
@@ -135,16 +142,16 @@ namespace lsp
 #define ATOMIC_CAS_DEF(type)                        \
     inline bool atomic_cas(type *ptr, type exp, type rep) \
     { \
-        if (!atomic_swap(&atomic_lock_barrier, 1)) \
+        if (!atomic_swap(&atomic_lock_barrier, uint32_t(1))) \
             return false; \
         if (*ptr == exp) \
         { \
             *ptr    = rep; \
-            atomic_swap(&atomic_lock_barrier, 0); \
+            atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
             return true; \
         } \
         \
-        atomic_swap(&atomic_lock_barrier, 0); \
+        atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
         return false; \
     }
 
@@ -191,14 +198,32 @@ namespace lsp
 
 namespace lsp
 {
-    template <class type_t>
-        inline void atomic_init(type_t &lk) { lk = LSP_ATOMIC_UNLOCKED; }
+    template <class T>
+    inline void atomic_init(T &lk)
+    {
+        atomic_store(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED))
+        );
+    }
 
-    template <class type_t>
-        inline type_t atomic_trylock(type_t &lk) { return atomic_swap(&lk, LSP_ATOMIC_LOCKED); }
+    template <class T>
+    inline T atomic_trylock(T &lk)
+    {
+        return T(atomic_swap(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_LOCKED))
+        ));
+    }
 
-    template <class type_t>
-        inline type_t atomic_unlock(type_t &lk) { return atomic_swap(&lk, LSP_ATOMIC_UNLOCKED); }
+    template <class T>
+    inline T atomic_unlock(T &lk)
+    {
+        return T(atomic_swap(
+            fixed_int(&lk),
+            fixed_int(T(LSP_ATOMIC_UNLOCKED))
+        ));
+    }
 } /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_LEGACY_H_ */

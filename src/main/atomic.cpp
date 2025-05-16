@@ -23,7 +23,7 @@
 
 namespace lsp
 {
-#if defined(ARCH_ARM7) || defined(ARCH_ARM6)
+#if defined(ARCH_ARM7)
     /* nothing */
 #elif defined(ARCH_ARM)
     LSP_COMMON_LIB_PUBLIC

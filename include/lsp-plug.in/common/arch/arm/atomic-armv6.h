@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
- * Created on: 31 мар. 2020 г.
+ * Created on: 4 мар. 2025 г.
  *
  * lsp-common-lib is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -19,21 +19,24 @@
  * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_H_
-#define LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_H_
+#ifndef LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_ARMV6_H_
+#define LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_ARMV6_H_
 
 #ifndef LSP_PLUG_IN_COMMON_ATOMIC_IMPL
     #error "This file should not be included directly"
 #endif /* LSP_PLUG_IN_COMMON_ATOMIC_IMPL */
+
+namespace lsp
+{
+    extern uint32_t atomic_lock_barrier;
+} /* namespace lsp */
 
 #define ATOMIC_LOAD_DEF(type, ptrtype, cmd) \
     inline type atomic_load(ptrtype ptr) \
     { \
         type retval; \
         ARCH_ARM_ASM( \
-            __ASM_EMIT("dmb ish") \
             __ASM_EMIT(cmd "        %[ret], [%[ptr]]") \
-            __ASM_EMIT("dmb ish") \
             : [ret] "=&r" (retval) \
             : [ptr] "r" (ptr) \
             : "memory" \
@@ -67,9 +70,7 @@ namespace lsp
     inline void atomic_store(type *ptr, type value) \
     { \
         ARCH_ARM_ASM( \
-            __ASM_EMIT("dmb ish") \
             __ASM_EMIT(cmd "        %[value], [%[ptr]]") \
-            __ASM_EMIT("dmb ish") \
             : \
             : [ptr] "r" (ptr), [value] "r" (value) \
             : "memory" \
@@ -89,6 +90,52 @@ namespace lsp
 
 #undef ATOMIC_STORE_DEF
 
+#define ATOMIC_SWAP_DEF(type, qsz) \
+    inline type atomic_swap(type *ptr, type value)      \
+    {                                                   \
+        type tmp;                                       \
+        type retval;                                    \
+        \
+        ARCH_ARM_ASM                                    \
+        (                                               \
+            __ASM_EMIT("1:")    \
+            __ASM_EMIT("ldr" qsz "      %[ret], [%[ptr]]") \
+            __ASM_EMIT("str" qsz "      %[tmp], %[src], [%[ptr]]") \
+            __ASM_EMIT("tst             %[tmp], %[tmp]") \
+            __ASM_EMIT("bne             1b") \
+            : [tmp] "=&r" (tmp), \
+              [ret] "=&r" (retval)  \
+            : [ptr] "r" (ptr), \
+              [src] "r" (value) \
+            : "memory", "cc"                            \
+        );                                              \
+        return retval; \
+    }
+
+#define ATOMIC_SWAP_DEF2(type) \
+    inline type atomic_swap(type *ptr, type value) \
+    { \
+        while (atomic_swap(&atomic_lock_barrier, uint32_t(1))) /* nothing */ ; \
+        type retval = *ptr; \
+        *ptr = value; \
+        atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
+        return retval; \
+    }
+
+namespace lsp
+{
+    ATOMIC_SWAP_DEF(int32_t, "ex")
+    ATOMIC_SWAP_DEF(uint32_t, "ex")
+    ATOMIC_SWAP_DEF(void *, "ex")
+    ATOMIC_SWAP_DEF2(int8_t)
+    ATOMIC_SWAP_DEF2(uint8_t)
+    ATOMIC_SWAP_DEF2(int16_t)
+    ATOMIC_SWAP_DEF2(uint16_t)
+} /* namespace lsp */
+
+#undef ATOMIC_SWAP_DEF
+#undef ATOMIC_SWAP_DEF2
+
 #define ATOMIC_CAS_DEF(type, qsz)                           \
     inline type atomic_cas(type *ptr, type exp, type rep)   \
     { \
@@ -97,7 +144,6 @@ namespace lsp
         ARCH_ARM_ASM \
         ( \
             __ASM_EMIT("1:") \
-            __ASM_EMIT("dmb ish") \
             __ASM_EMIT("ldr" qsz "      %[tmp], [%[ptr]]") \
             __ASM_EMIT("cmp             %[tmp], %[exp]") \
             __ASM_EMIT("mov             %[tmp], #0") \
@@ -107,7 +153,6 @@ namespace lsp
             __ASM_EMIT("bne             1b") \
             __ASM_EMIT("mov             %[tmp], #1") \
             __ASM_EMIT("2:") \
-            __ASM_EMIT("dmb ish") \
             : [tmp] "=&r" (tmp) \
             : [ptr] "r" (ptr), [exp] "r" (exp), [rep] "r" (rep) \
             : "cc", "memory" \
@@ -115,18 +160,35 @@ namespace lsp
         return tmp; \
     }
 
+#define ATOMIC_CAS_DEF2(type)                           \
+    inline bool atomic_cas(type *ptr, type exp, type rep) \
+    { \
+        if (!atomic_swap(&atomic_lock_barrier, uint32_t(1))) \
+            return false; \
+        if (*ptr == exp) \
+        { \
+            *ptr    = rep; \
+            atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
+            return true; \
+        } \
+        \
+        atomic_swap(&atomic_lock_barrier, uint32_t(0)); \
+        return false; \
+    }
+
 namespace lsp
 {
-    ATOMIC_CAS_DEF(int8_t, "exb")
-    ATOMIC_CAS_DEF(uint8_t, "exb")
-    ATOMIC_CAS_DEF(int16_t, "exh")
-    ATOMIC_CAS_DEF(uint16_t, "exh")
     ATOMIC_CAS_DEF(int32_t, "ex")
     ATOMIC_CAS_DEF(uint32_t, "ex")
     ATOMIC_CAS_DEF(void *, "ex")
+    ATOMIC_CAS_DEF2(int8_t)
+    ATOMIC_CAS_DEF2(uint8_t)
+    ATOMIC_CAS_DEF2(int16_t)
+    ATOMIC_CAS_DEF2(uint16_t)
 } /* namespace lsp */
 
 #undef ATOMIC_CAS_DEF
+#undef ATOMIC_CAS_DEF2
 
 #define ATOMIC_ADD_DEF(type, qsz)                       \
     inline type atomic_add(type *ptr, type value)       \
@@ -136,13 +198,11 @@ namespace lsp
         ARCH_ARM_ASM                                    \
         (                                               \
             __ASM_EMIT("1:")    \
-            __ASM_EMIT("dmb ish") \
             __ASM_EMIT("ldr" qsz "      %[ret], [%[ptr]]") \
             __ASM_EMIT("add             %[sum], %[ret], %[src]") \
             __ASM_EMIT("str" qsz "      %[tmp], %[sum], [%[ptr]]") \
             __ASM_EMIT("tst             %[tmp], %[tmp]") \
             __ASM_EMIT("bne             1b") \
-            __ASM_EMIT("dmb ish") \
             : [tmp] "=&r" (tmp), \
               [sum] "=&r" (sum), \
               [ret] "=&r" (retval)  \
@@ -153,54 +213,28 @@ namespace lsp
         return retval; \
     }
 
-namespace lsp
-{
-    ATOMIC_ADD_DEF(int8_t, "exb")
-    ATOMIC_ADD_DEF(uint8_t, "exb")
-    ATOMIC_ADD_DEF(int16_t, "exh")
-    ATOMIC_ADD_DEF(uint16_t, "exh")
-    ATOMIC_ADD_DEF(int32_t, "ex")
-    ATOMIC_ADD_DEF(uint32_t, "ex")
-} /* namespace lsp */
-
-#undef ATOMIC_ADD_DEF
-
-#define ATOMIC_SWAP_DEF(type, qsz) \
-    inline type atomic_swap(type *ptr, type value)      \
+#define ATOMIC_ADD_DEF2(type) \
+    inline type atomic_add(type *ptr, type value) \
     {                                                   \
-        type tmp;                                       \
-        type retval;                                    \
-        \
-        ARCH_ARM_ASM                                    \
-        (                                               \
-            __ASM_EMIT("1:")    \
-            __ASM_EMIT("dmb ish") \
-            __ASM_EMIT("ldr" qsz "      %[ret], [%[ptr]]") \
-            __ASM_EMIT("str" qsz "      %[tmp], %[src], [%[ptr]]") \
-            __ASM_EMIT("tst             %[tmp], %[tmp]") \
-            __ASM_EMIT("bne             1b") \
-            __ASM_EMIT("dmb ish") \
-            : [tmp] "=&r" (tmp), \
-              [ret] "=&r" (retval)  \
-            : [ptr] "r" (ptr), \
-              [src] "r" (value) \
-            : "memory", "cc"                            \
-        );                                              \
+        while (atomic_swap(&atomic_lock_barrier, 1)) /* nothing */ ; \
+        type retval = *ptr; \
+        *ptr = retval + value; \
+        atomic_swap(&atomic_lock_barrier, 0); \
         return retval; \
     }
 
 namespace lsp
 {
-    ATOMIC_SWAP_DEF(int8_t, "exb")
-    ATOMIC_SWAP_DEF(uint8_t, "exb")
-    ATOMIC_SWAP_DEF(int16_t, "exh")
-    ATOMIC_SWAP_DEF(uint16_t, "exh")
-    ATOMIC_SWAP_DEF(int32_t, "ex")
-    ATOMIC_SWAP_DEF(uint32_t, "ex")
-    ATOMIC_SWAP_DEF(void *, "ex")
+    ATOMIC_ADD_DEF(int32_t, "ex")
+    ATOMIC_ADD_DEF(uint32_t, "ex")
+    ATOMIC_ADD_DEF2(int8_t)
+    ATOMIC_ADD_DEF2(uint8_t)
+    ATOMIC_ADD_DEF2(int16_t)
+    ATOMIC_ADD_DEF2(uint16_t)
 } /* namespace lsp */
 
-#undef ATOMIC_SWAP_DEF
+#undef ATOMIC_ADD_DEF
+#undef ATOMIC_ADD_DEF2
 
 //-----------------------------------------------------------------------------
 // Atomic operations
@@ -239,4 +273,6 @@ namespace lsp
     }
 } /* namespace lsp */
 
-#endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_H_ */
+
+
+#endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_ATOMIC_ARMV6_H_ */
