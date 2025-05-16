@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.43 ===
+
+
 === 1.0.42 ===
 * Several changes related to bit operations.
 * Improved atomic operations.
