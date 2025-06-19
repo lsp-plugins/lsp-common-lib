@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.43 ===
-
+* Added MacOS CI builds.
 
 === 1.0.42 ===
 * Several changes related to bit operations.
