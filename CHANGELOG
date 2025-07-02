@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.43 ===
+* Better memory safety macros definition.
 * Added MacOS CI builds.
 
 === 1.0.42 ===
