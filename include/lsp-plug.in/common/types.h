@@ -803,11 +803,11 @@ namespace lsp
 #endif /* DEFAULT_ALIGN */
 
 #ifdef LSP_UNALIGNED_MEMORY_SAFE
-    #define IF_UNALIGNED_MEMORY_SAFE(x)     x
-    #define IF_UNALIGNED_MEMORY_UNSAFE(x)
+    #define IF_UNALIGNED_MEMORY_SAFE(...)   __VA_ARGS__
+    #define IF_UNALIGNED_MEMORY_UNSAFE(...)
 #else
-    #define IF_UNALIGNED_MEMORY_SAFE(x)
-    #define IF_UNALIGNED_MEMORY_UNSAFE(x)   x
+    #define IF_UNALIGNED_MEMORY_SAFE(...)
+    #define IF_UNALIGNED_MEMORY_UNSAFE(...) __VA_ARGS__
 #endif /* LSP_UNALIGNED_MEMORY_SAFE */
 
 #ifdef PLATFORM_LINUX
