@@ -5,6 +5,7 @@
 === 1.0.43 ===
 * Better memory safety macros definition.
 * Added MacOS CI builds.
+* Updated module versions in dependencies.
 
 === 1.0.42 ===
 * Several changes related to bit operations.
