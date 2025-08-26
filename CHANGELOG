@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.44 ===
+
+
 === 1.0.43 ===
 * Better memory safety macros definition.
 * Added MacOS CI builds.
