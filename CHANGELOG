@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.44 ===
-
+* Updated some basic definitions related to pointer allocation.
 
 === 1.0.43 ===
 * Better memory safety macros definition.

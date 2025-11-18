@@ -777,21 +777,25 @@ namespace lsp
 #ifdef ARCH_I386
     #define DEFAULT_ALIGN                   0x10
     #define MINIMUM_ALIGN                   0x08
+    #define OPTIMAL_ALIGN                   0x40
 #endif /* ARCH_X86 */
 
 #ifdef ARCH_X86_64
     #define DEFAULT_ALIGN                   0x10
     #define MINIMUM_ALIGN                   0x08
+    #define OPTIMAL_ALIGN                   0x40
 #endif /* ARCH_X86 */
 
 #ifdef ARCH_ARCH_ARM
     #define DEFAULT_ALIGN                   0x10
     #define MINIMUM_ALIGN                   0x08
+    #define OPTIMAL_ALIGN                   0x10
 #endif /* ARCH_ARM */
 
 #ifdef ARCH_ARCH_AARCH64
     #define DEFAULT_ALIGN                   0x10
     #define MINIMUM_ALIGN                   0x08
+    #define OPTIMAL_ALIGN                   0x10
 #endif /* ARCH_ARM */
 
 #ifndef DEFAULT_ALIGN
@@ -800,6 +804,10 @@ namespace lsp
 
 #ifndef MINIMUM_ALIGN
     #define MINIMUM_ALIGN                   DEFAULT_ALIGN
+#endif /* DEFAULT_ALIGN */
+
+#ifndef OPTIMAL_ALIGN
+    #define OPTIMAL_ALIGN                   DEFAULT_ALIGN
 #endif /* DEFAULT_ALIGN */
 
 #ifdef LSP_UNALIGNED_MEMORY_SAFE
