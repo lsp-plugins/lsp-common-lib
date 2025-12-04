@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 1 апр. 2020 г.
@@ -24,6 +24,7 @@
 
 #include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
+#include <lsp-plug.in/stdlib/string.h>
 
 #define LSP_PLUG_IN_COMMON_ENDIAN_IMPL
     // Include unsigned functions definition
@@ -42,30 +43,42 @@
 
 // Define macros
 #ifdef ARCH_LE
-    #define LE_TO_CPU(x)            (x)
-    #define CPU_TO_LE(x)            (x)
+    #define LE_TO_CPU(x)                (x)
+    #define CPU_TO_LE(x)                (x)
 
-    #define BE_TO_CPU(x)            ::lsp::byte_swap(x)
-    #define CPU_TO_BE(x)            ::lsp::byte_swap(x)
+    #define BE_TO_CPU(x)                ::lsp::byte_swap(x)
+    #define CPU_TO_BE(x)                ::lsp::byte_swap(x)
 
-    #define VLE_TO_CPU(v, n)        do {} while(false)
-    #define CPU_TO_VLE(v, n)        do {} while(false)
+    #define VLE_TO_CPU(v, n)            do {} while(false)
+    #define CPU_TO_VLE(v, n)            do {} while(false)
 
-    #define VBE_TO_CPU(v, n)        ::lsp::byte_swap(v, n)
-    #define CPU_TO_VBE(v, n)        ::lsp::byte_swap(v, n)
+    #define VBE_TO_CPU(v, n)            ::lsp::byte_swap(v, n)
+    #define CPU_TO_VBE(v, n)            ::lsp::byte_swap(v, n)
+
+    #define VLE_TO_CPU_COPY(d, v, n)    ::lsp::no_byte_swap_copy(d, v, n)
+    #define CPU_TO_VLE_COPY(d, v, n)    ::lsp::no_byte_swap_copy(d, v, n)
+
+    #define VBE_TO_CPU_COPY(d, v, n)    ::lsp::byte_swap_copy(d, v, n)
+    #define CPU_TO_VBE_COPY(d, v, n)    ::lsp::byte_swap_copy(d, v, n)
 
 #else
-    #define LE_TO_CPU(x)            ::lsp::byte_swap(x)
-    #define CPU_TO_LE(x)            ::lsp::byte_swap(x)
+    #define LE_TO_CPU(x)                ::lsp::byte_swap(x)
+    #define CPU_TO_LE(x)                ::lsp::byte_swap(x)
 
-    #define BE_TO_CPU(x)            (x)
-    #define CPU_TO_BE(x)            (x)
+    #define BE_TO_CPU(x)                (x)
+    #define CPU_TO_BE(x)                (x)
 
-    #define VLE_TO_CPU(v, n)        ::lsp::byte_swap(v, n)
-    #define CPU_TO_VLE(v, n)        ::lsp::byte_swap(v, n)
+    #define VLE_TO_CPU(v, n)            ::lsp::byte_swap(v, n)
+    #define CPU_TO_VLE(v, n)            ::lsp::byte_swap(v, n)
 
-    #define VBE_TO_CPU(v, n)        do {} while(false)
-    #define CPU_TO_VBE(v, n)        do {} while(false)
+    #define VBE_TO_CPU(v, n)            do {} while(false)
+    #define CPU_TO_VBE(v, n)            do {} while(false)
+
+    #define VLE_TO_CPU_COPY(d, v, n)    ::lsp::byte_swap_copy(d, v, n)
+    #define CPU_TO_VLE_COPY(d, v, n)    ::lsp::byte_swap_copy(d, v, n)
+
+    #define VBE_TO_CPU_COPY(d, v, n)    ::lsp::no_byte_swap_copy(d, v, n)
+    #define CPU_TO_VBE_COPY(d, v, n)    ::lsp::no_byte_swap_copy(d, v, n)
 
 #endif /* */
 
@@ -120,6 +133,12 @@ namespace lsp
     {
         for (size_t i=0; i<n; ++i)
             dst[i]      = byte_swap(src[i]);
+    }
+
+    template <class T>
+    inline void no_byte_swap_copy(T *dst, const T *src, size_t n)
+    {
+        memcpy(dst, src, n * sizeof(T));
     }
 } /* namespace lsp */
 

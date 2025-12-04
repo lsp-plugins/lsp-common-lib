@@ -3,6 +3,7 @@
 *******************************************************************************
 
 === 1.0.44 ===
+* Some improvement around endianess conversion functions.
 * Updated some basic definitions related to pointer allocation.
 
 === 1.0.43 ===
