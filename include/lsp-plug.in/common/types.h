@@ -362,7 +362,7 @@ namespace lsp
 #if defined(__linux__) || defined(__linux) || defined(linux)
     #define PLATFORM_LINUX
     #define IF_PLATFORM_LINUX(...)      __VA_ARGS__
-#elif defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__) || defined(__CYGWIN__)
+#elif defined(__WINDOWS__) || defined(WIN32) || defined(_WIN32) || defined(__WIN32) || defined(__WIN32__) || defined(WIN64) || defined(_WIN64) || defined(__WIN64) || defined(__WIN64__) || defined(WINNT) || defined(__WINNT) || defined(__WINNT__)
     #define PLATFORM_WINDOWS
     #define IF_PLATFORM_WINDOWS(...)    __VA_ARGS__
 #elif defined(__macosx__) || defined(__APPLE__) || defined(__MACH__) || defined(__DARWIN__)
