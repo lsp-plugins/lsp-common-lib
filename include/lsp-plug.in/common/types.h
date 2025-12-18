@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 10 авг. 2018 г.
@@ -359,50 +359,34 @@ namespace lsp
 
 //-----------------------------------------------------------------------------
 // Detect build platform
-#if defined(__unix__) || defined(unix) || defined(__unix)
-    #define PLATFORM_UNIX
-    #define IF_PLATFORM_UNIX(...)       __VA_ARGS__
-#endif /* __unix__ */
-
-#if defined(__sun__) || defined(__sun) || defined(sun)
-    #define PLATFORM_SOLARIS
-    #define IF_PLATFORM_SOLARIS(...)    __VA_ARGS__
-#endif /* __sun__ */
-
 #if defined(__linux__) || defined(__linux) || defined(linux)
     #define PLATFORM_LINUX
     #define IF_PLATFORM_LINUX(...)      __VA_ARGS__
-#endif /* __linux__ */
-
-#if defined(__FreeBSD__)
-    #define PLATFORM_FREEBSD
-    #define IF_PLATFORM_FREEBSD(...)    __VA_ARGS__
-#endif /* __FreeBSD__ */
-
-#if defined(__OpenBSD__)
-    #define PLATFORM_OPENBSD
-    #define IF_PLATFORM_OPENBSD(...)    __VA_ARGS__
-#endif /* __FreeBSD__ */
-
-#if defined(__bsd__) || defined(__bsd) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(freebsd) || defined(openbsd) || defined(bsdi) || defined(__darwin__)
-    #define PLATFORM_BSD
-    #define IF_PLATFORM_BSD(...)        __VA_ARGS__
-#endif /* __bsd__ */
-
-#if defined(__macosx__) || defined(__APPLE__) || defined(__MACH__) || defined(__DARWIN__)
-    #define PLATFORM_MACOSX
-    #define IF_PLATFORM_MACOSX(...)     __VA_ARGS__
-#endif /* __macosx__ */
-
-#if defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__)
+#elif defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__) || defined(__CYGWIN__)
     #define PLATFORM_WINDOWS
     #define IF_PLATFORM_WINDOWS(...)    __VA_ARGS__
-#endif /* __macosx__ */
-
-#if defined(__HAIKU__)
+#elif defined(__macosx__) || defined(__APPLE__) || defined(__MACH__) || defined(__DARWIN__)
+    #define PLATFORM_MACOSX
+    #define IF_PLATFORM_MACOSX(...)     __VA_ARGS__
+#elif defined(__FreeBSD__)
+    #define PLATFORM_FREEBSD
+    #define IF_PLATFORM_FREEBSD(...)    __VA_ARGS__
+#elif defined(__bsd__) || defined(__bsd) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(freebsd) || defined(openbsd) || defined(bsdi) || defined(__darwin__)
+    #define PLATFORM_BSD
+    #define IF_PLATFORM_BSD(...)        __VA_ARGS__
+#elif defined(__OpenBSD__)
+    #define PLATFORM_OPENBSD
+    #define IF_PLATFORM_OPENBSD(...)    __VA_ARGS__
+#elif defined(__HAIKU__)
     #define PLATFORM_HAIKU
     #define IF_PLATFORM_HAIKU(...)      __VA_ARGS__
-#endif /* __Haiku__ */
+#elif defined(__sun__) || defined(__sun) || defined(sun)
+    #define PLATFORM_SOLARIS
+    #define IF_PLATFORM_SOLARIS(...)    __VA_ARGS__
+#elif defined(__unix__) || defined(unix) || defined(__unix)
+    #define PLATFORM_UNIX
+    #define IF_PLATFORM_UNIX(...)       __VA_ARGS__
+#endif
 
 #if defined(PLATFORM_UNIX) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOSX) || defined(PLATFORM_BSD) || defined(PLATFORM_HAIKU)
     #define PLATFORM_UNIX_COMPATIBLE
