@@ -4,6 +4,7 @@
 
 === 1.0.44 ===
 * Some improvement around endianess conversion functions.
+* Better code for platform detection.
 * Updated some basic definitions related to pointer allocation.
 
 === 1.0.43 ===
