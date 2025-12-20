@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.45 ===
+
+
 === 1.0.44 ===
 * Some improvement around endianess conversion functions.
 * Updated some basic definitions related to pointer allocation.
