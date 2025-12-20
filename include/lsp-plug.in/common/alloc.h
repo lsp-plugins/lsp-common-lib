@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 3 апр. 2020 г.
@@ -30,50 +30,64 @@ namespace lsp
 {
     inline size_t align_size(size_t size, size_t align)
     {
-        size_t off = size % align;
+        const size_t off        = size % align;
         return (off) ? (size + align - off) : size;
     }
 
     template <class T>
-        inline T *align_ptr(T *src, size_t align = DEFAULT_ALIGN)
-        {
-            uintptr_t x     = uintptr_t(src);
-            uintptr_t off   = x % align;
-            return (off) ?
-                reinterpret_cast<T *>(x + align - off) :
-                src;
-        }
+    inline T *align_ptr(T *src, size_t align = DEFAULT_ALIGN)
+    {
+        const uintptr_t x       = uintptr_t(src);
+        const uintptr_t off     = x % align;
+        return (off) ?
+            reinterpret_cast<T *>(x + align - off) :
+            src;
+    }
 
     template <class T>
-        inline bool is_ptr_aligned(T *src, size_t align = DEFAULT_ALIGN)
-        {
-            ptrdiff_t x     = ptrdiff_t(src);
-            return !(x % align);
-        }
+    inline bool is_ptr_aligned(T *src, size_t align = DEFAULT_ALIGN)
+    {
+        ptrdiff_t x     = ptrdiff_t(src);
+        return !(x % align);
+    }
 
     template <class T>
-        inline T *lsp_malloc(size_t count = 1)
-        {
-            return static_cast<T *>(::malloc(sizeof(T) * count));
-        }
+    inline T *lsp_malloc(size_t count = 1)
+    {
+        return static_cast<T *>(::malloc(sizeof(T) * count));
+    }
 
     template <class T, class P>
-        inline T *advance_ptr(P * &ptr, size_t count)
-        {
-            uintptr_t x     = uintptr_t(ptr);
-            T *result       = reinterpret_cast<T *>(ptr);
-            ptr             = reinterpret_cast<P *>(x + count * sizeof(T));
-            return result;
-        }
+    inline T *advance_ptr(P * &ptr, size_t count)
+    {
+        const uintptr_t x   = uintptr_t(ptr);
+        T * const result    = reinterpret_cast<T *>(ptr);
+        ptr                 = reinterpret_cast<P *>(x + count * sizeof(T));
+        return result;
+    }
 
     template <class T, class P>
-        inline T *advance_ptr_bytes(P * &ptr, size_t count)
-        {
-            uintptr_t x     = uintptr_t(ptr);
-            T *result       = reinterpret_cast<T *>(ptr);
-            ptr             = reinterpret_cast<P *>(x + count);
-            return result;
-        }
+    inline T *advance_ptr_bytes(P * &ptr, size_t count)
+    {
+        const uintptr_t x   = uintptr_t(ptr);
+        T * const result    = reinterpret_cast<T *>(ptr);
+        ptr                 = reinterpret_cast<P *>(x + count);
+        return result;
+    }
+
+    template <class T, class P>
+    inline T *add_ptr(P * ptr, size_t count)
+    {
+        const uintptr_t x   = uintptr_t(ptr);
+        return reinterpret_cast<T *>(x + count * sizeof(T));
+    }
+
+    template <class T, class P>
+    inline T *add_ptr_bytes(P * &ptr, size_t count)
+    {
+        const uintptr_t x   = uintptr_t(ptr);
+        return reinterpret_cast<T *>(x + count);
+    }
 
     /** Allocate aligned pointer
      *
@@ -91,25 +105,25 @@ namespace lsp
      *      a = NULL;
      */
     template <class T, class P>
-        inline T *alloc_aligned(P * &ptr, size_t count, size_t align=DEFAULT_ALIGN)
-        {
-            // Check for power of 2
-            if ((!align) || (align & (align-1)))
-                return NULL;
+    inline T *alloc_aligned(P * &ptr, size_t count, size_t align=DEFAULT_ALIGN)
+    {
+        // Check for power of 2
+        if ((!align) || (align & (align-1)))
+            return NULL;
 
-            // Allocate data
-            void *p         = ::malloc((count * sizeof(T)) + align);
-            if (p == NULL)
-                return NULL;
+        // Allocate data
+        void * const p          = ::malloc((count * sizeof(T)) + align);
+        if (p == NULL)
+            return NULL;
 
-            // Store pointer
-            ptr             = reinterpret_cast<P *>(p);
+        // Store pointer
+        ptr                     = reinterpret_cast<P *>(p);
 
-            // Return aligned pointer
-            ptrdiff_t x     = ptrdiff_t(p);
-            ptrdiff_t mask  = align-1;
-            return reinterpret_cast<T *>((x & mask) ? ((x + align)&(~mask)) : x);
-        }
+        // Return aligned pointer
+        const ptrdiff_t x       = ptrdiff_t(p);
+        const ptrdiff_t mask    = align-1;
+        return reinterpret_cast<T *>((x & mask) ? ((x + align)&(~mask)) : x);
+    }
 
     /** Reallocate aligned pointer. Allocate new memory chunk if pointer was not previously allocated.
      *
@@ -127,39 +141,39 @@ namespace lsp
      *      a = NULL;
      */
     template <class T, class P>
-        inline T *realloc_aligned(P * &ptr, size_t count, size_t align=DEFAULT_ALIGN)
-        {
-            // Check for power of 2
-            if ((!align) || (align & (align-1)))
-                return NULL;
+    inline T *realloc_aligned(P * &ptr, size_t count, size_t align=DEFAULT_ALIGN)
+    {
+        // Check for power of 2
+        if ((!align) || (align & (align-1)))
+            return NULL;
 
-            // Allocate data
-            void *p         = ::realloc(ptr, (count * sizeof(T)) + align);
-            if (p == NULL)
-                return NULL;
+        // Allocate data
+        void * const p          = ::realloc(ptr, (count * sizeof(T)) + align);
+        if (p == NULL)
+            return NULL;
 
-            // Store pointer
-            ptr             = reinterpret_cast<P *>(p);
+        // Store pointer
+        ptr                     = reinterpret_cast<P *>(p);
 
-            // Return aligned pointer
-            ptrdiff_t x     = ptrdiff_t(p);
-            ptrdiff_t mask  = align-1;
-            return reinterpret_cast<T *>((x & mask) ? ((x + align)&(~mask)) : x);
-        }
+        // Return aligned pointer
+        const ptrdiff_t x       = ptrdiff_t(p);
+        const ptrdiff_t mask    = align - 1;
+        return reinterpret_cast<T *>((x & mask) ? ((x + align)&(~mask)) : x);
+    }
 
     /** Free aligned pointer and write NULL to it
      *
      * @param ptr pointer to free
      */
     template <class P>
-        inline void free_aligned(P * &ptr)
-        {
-            if (ptr == NULL)
-                return;
-            P *tptr = ptr;
-            ptr = NULL;
-            ::free(tptr);
-        }
+    inline void free_aligned(P * &ptr)
+    {
+        if (ptr == NULL)
+            return;
+        P * const tptr = ptr;
+        ptr = NULL;
+        ::free(tptr);
+    }
 
     /**
      * Seed the address
