@@ -73,13 +73,13 @@ UTEST_BEGIN("common", bits)
     {
         printf("Testing int_log2 for %s...\n", label);
 
-        int log2 = int_log2(T(0));
+        int log2 = int(int_log2(T(0)));
         UTEST_ASSERT_MSG(log2 == 0, "%s: zero input detected as %d", label, log2);
 
         for (int i=0; i<int(sizeof(T)*8); ++i)
         {
             T x     = T(1) << i;
-            int y   = int_log2(x);
+            int y   = int(int_log2(x));
             UTEST_ASSERT_MSG(y == i, "%s: bit=%d but detected as %d", label, i, y);
         }
     }
