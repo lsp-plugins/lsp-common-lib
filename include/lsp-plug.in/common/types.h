@@ -849,7 +849,11 @@ namespace lsp
         WRAP_NONE       = 0,
 
         WRAP_CLOSE      = 1 << 0,
-        WRAP_DELETE     = 1 << 1
+        WRAP_DELETE     = 1 << 1,
+
+        WRAP_FULL       = WRAP_CLOSE | WRAP_DELETE,
+
+        NUM_WRAP_FLAGS  = 2
     };
 
     enum lsp_memdrop_t
