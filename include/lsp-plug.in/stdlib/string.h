@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 2 апр. 2020 г.
@@ -65,6 +65,16 @@ namespace lsp
             ::memcpy(dst, src, count);
         return dst;
     }
-}
+
+    inline char *strend(char *str)
+    {
+        return &str[strlen(str)];
+    }
+
+    inline const char *strend(const char *str)
+    {
+        return &str[strlen(str)];
+    }
+} /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_STDLIB_STRING_H_ */

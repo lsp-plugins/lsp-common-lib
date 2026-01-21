@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.45 ===
-
+* Added strend() function for returning pointer to the end of C string.
 
 === 1.0.44 ===
 * Some improvement around endianess conversion functions.
