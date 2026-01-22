@@ -4,6 +4,8 @@
 
 === 1.0.45 ===
 * Added strend() function for returning pointer to the end of C string.
+* Added strmemdup() function for converting sequence of bytes to C string.
+* Refactoring of headers, moved code from <types.h> to <utility.h> and <fixed_int.h>.
 
 === 1.0.44 ===
 * Some improvement around endianess conversion functions.

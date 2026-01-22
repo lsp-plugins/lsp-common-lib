@@ -75,6 +75,17 @@ namespace lsp
     {
         return &str[strlen(str)];
     }
+
+    inline char *strmemdup(const void *src, size_t count)
+    {
+        char *dst = static_cast<char *>(::malloc(count + 1));
+        if (dst != NULL)
+        {
+            ::memcpy(dst, src, count);
+            dst[count-1] = '\0';
+        }
+        return dst;
+    }
 } /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_STDLIB_STRING_H_ */
