@@ -82,7 +82,7 @@ namespace lsp
         if (dst != NULL)
         {
             ::memcpy(dst, src, count);
-            dst[count-1] = '\0';
+            dst[count] = '\0';
         }
         return dst;
     }
