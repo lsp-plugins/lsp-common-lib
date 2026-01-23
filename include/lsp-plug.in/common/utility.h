@@ -38,6 +38,14 @@ namespace lsp
         b       = lsp::move(tmp);
     }
 
+    template <typename T, typename F = T>
+    inline T exchange(T & value, F && replacement)
+    {
+        T tmp   = value;
+        value   = lsp::forward<F>(replacement);
+        return tmp;
+    }
+
     template <class T>
     inline T *release(T * &a)
     {
@@ -47,68 +55,65 @@ namespace lsp
     }
 
     template <class A, class B>
-    inline A lsp_max(A a, B b)
+    constexpr inline A lsp_max(A a, B b)
     {
         return (a > b) ? a : b;
     }
 
     template <class A, class B, class C>
-    inline A lsp_max(A a, B b, C c)
+    constexpr inline A lsp_max(A a, B b, C c)
     {
-        if ((a > b) && (a > c))
-            return a;
-        return (b > c) ? b : c;
+        return ((a > b) && (a > c)) ? a :
+                (b > c) ? b : c;
     }
 
     template <class A, class B, class C, class D>
-    inline A lsp_max(A a, B b, C c, D d)
+    constexpr inline A lsp_max(A a, B b, C c, D d)
     {
         return lsp_max(lsp_max(a, b), lsp_max(c, d));
     }
 
     template <class A, class B>
-    inline A lsp_min(A a, B b)
+    constexpr inline A lsp_min(A a, B b)
     {
         return (a < b) ? a : b;
     }
 
     template <class A, class B, class C>
-    inline A lsp_min(A a, B b, C c)
+    constexpr inline A lsp_min(A a, B b, C c)
     {
-        if ((a < b) && (a < c))
-            return a;
-        return (b < c) ? b : c;
+        return ((a < b) && (a < c)) ? a :
+            (b < c) ? b : c;
     }
 
     template <class A, class B, class C, class D>
-    inline A lsp_min(A a, B b, C c, D d)
+    constexpr inline A lsp_min(A a, B b, C c, D d)
     {
         return lsp_min(lsp_min(a, b), lsp_min(c, d));
     }
 
     template <class A, class B, class C>
-    inline A lsp_limit(A a, B min, C max)
+    constexpr inline A lsp_limit(A a, B min, C max)
     {
         return (a < min) ? min : ((a > max) ? max : a);
     }
 
     template <class A, class B, class C>
-    inline A lsp_xlimit(A a, B min, C max)
+    constexpr inline A lsp_xlimit(A a, B min, C max)
     {
-        if (min < max)
-            return (a < min) ? min : ((a > max) ? max : a);
-
-        return (a < max) ? max : ((a > min) ? min : a);
+        return (min < max) ?
+            (a < min) ? min : ((a > max) ? max : a) :
+            (a < max) ? max : ((a > min) ? min : a);
     }
 
     template <class T>
-    inline T lsp_abs(T a)
+    constexpr inline T lsp_abs(T a)
     {
         return (a < 0) ? -a : a;
     }
 
     template <class S, class F>
-    inline S lsp_setflag(S bits, F flag, bool value)
+    constexpr inline S lsp_setflag(S bits, F flag, bool value)
     {
         return (value) ? bits | flag : bits & (~flag);
     }
