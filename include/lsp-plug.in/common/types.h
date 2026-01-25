@@ -334,16 +334,16 @@ namespace lsp
 #endif /* defined(ARCH_LOONGARCH32) */
 
 #if defined(ARCH_LE)
-    #define __IF_LEBE(le, be)   le
-    #define __IF_LE(le)         le
-    #define __IF_BE(be)
+    #define __IF_LEBE(le, be)           le
+    #define __IF_LE(...)                __VA_ARGS__
+    #define __IF_BE(...)
     #ifdef ARCH_BE
         #undef ARCH_BE
     #endif /* ARCH_BE */
 #elif defined(ARCH_BE) /* ARCH_BE */
-    #define __IF_LEBE(le, be)   be
-    #define __IF_LE(le)
-    #define __IF_BE(be)         be
+    #define __IF_LEBE(le, be)           be
+    #define __IF_LE(...)
+    #define __IF_BE(...)                __VA_ARGS__
 
     #ifdef ARCH_LE
         #undef ARCH_LE
