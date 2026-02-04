@@ -45,6 +45,34 @@ namespace lsp
         typedef T type;
     };
 
+    // lsp::remove_const
+    template<class T>
+    struct remove_const
+    {
+        typedef T type;
+    };
+
+    template<class T>
+    struct remove_const<const T>
+    {
+        typedef T type;
+    };
+
+    template <class T>
+    struct unconst_ptr_type
+    {
+        using type = typename remove_const<T>::type;
+        static inline type * cast(type * value)         { return static_cast<type *>(value); }
+        static inline type * cast(const type * value)   { return const_cast<type *>(value);  }
+    };
+
+    // lsp::unconst_ptr
+    template <typename T>
+    typename unconst_ptr_type<T>::type * unconst_ptr(T * t) noexcept
+    {
+        return unconst_ptr_type<T>::cast(t);
+    }
+    
     // lsp::move
     template <typename T>
     typename remove_reference<T>::type && move(T && t) noexcept

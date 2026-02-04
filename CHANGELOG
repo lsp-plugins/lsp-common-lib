@@ -6,6 +6,7 @@
 * Added strend() function for returning pointer to the end of C string.
 * Added strmemdup() function for converting sequence of bytes to C string.
 * Added lsp::exchange utility function.
+* Added lsp::unconst_ptr utility function.
 * Refactoring of headers, moved code from <types.h> to <utility.h> and <fixed_int.h>.
 
 === 1.0.44 ===
