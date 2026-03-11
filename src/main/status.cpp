@@ -97,6 +97,8 @@ namespace lsp
         S("not_mapped", "Resource is not mapped"),
         S("retry", "Retry a call"),
         S("interrupted", "Interrupted"),
+        S("not_file", "Not a regular file"),
+        S("bad_symlink", "Bad or broken symbolic link"),
 
         S(NULL, NULL)
     };
