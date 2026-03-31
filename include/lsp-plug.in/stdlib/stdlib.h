@@ -25,16 +25,8 @@
 #include <lsp-plug.in/common/version.h>
 #include <lsp-plug.in/common/types.h>
 
-#ifndef PLATFORM_HAIKU
-	#include <stdlib.h>
-#else
-	#ifndef _GNU_SOURCE
-		#define _GNU_SOURCE
-	#endif /* _GNU_SOURCE */
-	
-	#include <stdlib.h>
-	#include <gnu/stdlib.h>
-#endif /* PLATFORM_HAIKU */
+#include <stdlib.h>
+
 
 namespace lsp
 {
