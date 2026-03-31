@@ -823,6 +823,9 @@ namespace lsp
 
 //-----------------------------------------------------------------------------
 // Character type sizes
+#ifdef PLATFORM_HAIKU
+#include <wchar.h> /* for correct WCHAR_MAX definition on __Haiku__ */
+#endif
 #if (WCHAR_MAX >= 0x10000ul)
     #define WCHART_32BIT
 #else
