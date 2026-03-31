@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.46 ===
-
+* Better Haiku support.
 
 === 1.0.45 ===
 * Added strend() function for returning pointer to the end of C string.
