@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 10 авг. 2018 г.
@@ -381,7 +381,7 @@ namespace lsp
 #if defined(__OpenBSD__)
     #define PLATFORM_OPENBSD
     #define IF_PLATFORM_OPENBSD(...)    __VA_ARGS__
-#endif /* __FreeBSD__ */
+#endif /* __OpenBSD__ */
 
 #if defined(__bsd__) || defined(__bsd) || defined(__FreeBSD__) || defined(__OpenBSD__) || defined(freebsd) || defined(openbsd) || defined(bsdi) || defined(__darwin__)
     #define PLATFORM_BSD
@@ -396,12 +396,12 @@ namespace lsp
 #if defined(__WINDOWS__) || defined(__WIN32__) || defined(__WIN64__) || defined(_WIN64) || defined(_WIN32) || defined(__WINNT) || defined(__WINNT__)
     #define PLATFORM_WINDOWS
     #define IF_PLATFORM_WINDOWS(...)    __VA_ARGS__
-#endif /* __macosx__ */
+#endif /* __WINDOWS__ */
 
-#if defined(__HAIKU__)
+#if defined(__HAIKU__) || defined(__haiku__)
     #define PLATFORM_HAIKU
     #define IF_PLATFORM_HAIKU(...)      __VA_ARGS__
-#endif /* __Haiku__ */
+#endif /* __HAIKU__ */
 
 #if defined(PLATFORM_UNIX) || defined(PLATFORM_LINUX) || defined(PLATFORM_MACOSX) || defined(PLATFORM_BSD) || defined(PLATFORM_HAIKU)
     #define PLATFORM_UNIX_COMPATIBLE
@@ -823,6 +823,10 @@ namespace lsp
 
 //-----------------------------------------------------------------------------
 // Character type sizes
+#ifdef PLATFORM_HAIKU
+    // For correct WCHAR_MAX definition on __Haiku__
+    #include <wchar.h>
+#endif
 #if (WCHAR_MAX >= 0x10000ul)
     #define WCHART_32BIT
 #else
