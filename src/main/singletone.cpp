@@ -25,7 +25,7 @@ namespace lsp
 {
     bool singletone_t::lock_for_initialization()
     {
-        // Synchronization barrier: ensure that DSP library is already initialized
+        // Synchronization barrier: ensure that library is already initialized
         while (true)
         {
             const uatomic_t current_state = atomic_load(&state);
@@ -38,7 +38,32 @@ namespace lsp
                     break;
                 case ST_INITIALIZED:
                     return false;
-                case ST_INITIALIZING: // Another thread is initializing the library
+                case ST_INITIALIZING: // Another thread is initializing/finalizing the library
+                case ST_FINALIZING:
+                default:
+                    // Wait until state has changed
+                    break;
+            }
+        }
+    }
+
+    bool singletone_t::lock_for_finalization()
+    {
+        // Synchronization barrier: ensure that library is already finalized
+        while (true)
+        {
+            const uatomic_t current_state = atomic_load(&state);
+            switch (current_state)
+            {
+                case ST_UNINITIALIZED:
+                    return false;
+                case ST_INITIALIZED:
+                    // Try to obtain the lock
+                    if (atomic_cas(&state, current_state, ST_FINALIZING))
+                        return true; // We have obtained the lock
+                    break;
+                case ST_INITIALIZING: // Another thread is initializing/finalizing the library
+                case ST_FINALIZING:
                 default:
                     // Wait until state has changed
                     break;
@@ -54,6 +79,18 @@ namespace lsp
             if (current_state != ST_INITIALIZING)
                 return false;
             if (atomic_cas(&state, current_state, ST_INITIALIZED))
+                return true;
+        }
+    }
+
+    bool singletone_t::mark_finalized()
+    {
+        while (true)
+        {
+            const uatomic_t current_state = atomic_load(&state);
+            if (current_state != ST_FINALIZING)
+                return false;
+            if (atomic_cas(&state, current_state, ST_UNINITIALIZED))
                 return true;
         }
     }

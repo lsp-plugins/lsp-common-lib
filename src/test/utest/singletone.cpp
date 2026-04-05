@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2022 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2022 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-sampler
  * Created on: 4 нояб. 2022 г.
@@ -29,17 +29,32 @@ UTEST_BEGIN("common", singletone)
         singletone_t singletone;
 
         printf("Testing singletone state transition...\n");
-        UTEST_ASSERT( singletone.uninitialized() );
 
+        // Initialize the singletone
+        UTEST_ASSERT( singletone.uninitialized() );
         lsp_singletone_init(singletone) {
             UTEST_ASSERT( singletone.initializing() );
         };
         UTEST_ASSERT( singletone.initialized() );
 
+        // Try to re-initialize singletone
         lsp_singletone_init(singletone) {
             UTEST_FAIL_MSG( "This should not happen because singletone is already initialized" );
         };
         UTEST_ASSERT( singletone.initialized() );
+
+        // Finalize the singletone
+        UTEST_ASSERT( !singletone.finalizing() );
+        lsp_singletone_finalize(singletone) {
+            UTEST_ASSERT( singletone.finalizing() );
+        };
+        UTEST_ASSERT( singletone.uninitialized() );
+
+        // Try to repeat the finalization of singletone
+        lsp_singletone_finalize(singletone) {
+            UTEST_FAIL_MSG( "This should not happen because singletone is already finalized" );
+        };
+        UTEST_ASSERT( singletone.uninitialized() );
     }
 UTEST_END;
 
