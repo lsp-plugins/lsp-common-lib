@@ -4,6 +4,7 @@
 
 === 1.0.47 ===
 * Added possibility to perform safe deinitialization of singletones.
+* Updated build scripts.
 
 === 1.0.46 ===
 * Better Haiku support.
