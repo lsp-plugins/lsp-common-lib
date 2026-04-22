@@ -14,6 +14,7 @@ It provides:
 The build and correct unit test execution has been confirmed for following platforms:
 * FreeBSD
 * GNU/Linux
+* MacOS (ARM-based)
 * OpenBSD
 * Windows 32-bit
 * Windows 64-bit
