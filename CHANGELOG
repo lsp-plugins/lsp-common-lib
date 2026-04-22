@@ -7,6 +7,7 @@
   TEST, TRACE makefile flags replaced with 'asan', 'crosscompile', 'debug',
   'devel', 'profile', 'strict', 'test' and 'trace' FEATURE flags.
 * Added possibility to perform safe deinitialization of singletones.
+* Updated build scripts.
 
 === 1.0.46 ===
 * Better Haiku support.
