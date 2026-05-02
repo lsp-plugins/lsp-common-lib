@@ -7,6 +7,8 @@
   TEST, TRACE makefile flags replaced with 'asan', 'crosscompile', 'debug',
   'devel', 'profile', 'strict', 'test' and 'trace' FEATURE flags.
 * Added possibility to perform safe deinitialization of singletones.
+* Added malloc_bytes, malloc_count, realloc_bytes and realloc_count template
+  functions to avoid warning of non-trivially copyable objects.
 * Updated build scripts.
 
 === 1.0.46 ===
