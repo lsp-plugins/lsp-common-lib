@@ -9,6 +9,7 @@
 * Added possibility to perform safe deinitialization of singletones.
 * Added malloc_bytes, malloc_count, realloc_bytes and realloc_count template
   functions to avoid warning of non-trivially copyable objects.
+* Added strfmt and vstrfmt functions for easier formatting of C strings.
 * Updated build scripts.
 
 === 1.0.46 ===

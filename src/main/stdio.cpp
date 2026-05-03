@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 4 апр. 2020 г.
@@ -100,7 +100,30 @@ namespace lsp
     }
 #endif /* PLATFORM_UNIX_COMPATIBLE */
 
-}
+    LSP_COMMON_LIB_PUBLIC
+    char *vstrfmt(const char *fmt, va_list ap)
+    {
+        char *res = NULL;
+        const int count = vasprintf(&res, fmt, ap);
+        return (count < 0) ? NULL : res;
+    }
+
+    LSP_COMMON_LIB_PUBLIC
+    char *strfmt(const char *fmt, ...)
+    {
+        char *res = NULL;
+
+        va_list ap;
+        va_start(ap, fmt);
+
+        const int count = vasprintf(&res, fmt, ap);
+
+        va_end(ap);
+
+        return (count < 0) ? NULL : res;
+    }
+
+} /* namespace lsp */
 
 
 
