@@ -1,0 +1,190 @@
+/*
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
+ *
+ * This file is part of lsp-common-lib
+ * Created on: 24 мая 2026 г.
+ *
+ * lsp-common-lib is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * any later version.
+ *
+ * lsp-common-lib is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+#include <lsp-plug.in/stdlib/stdlib.h>
+#include <lsp-plug.in/stdlib/string.h>
+
+namespace lsp
+{
+    constexpr size_t block_size = 0x1000;
+
+    static inline void memswap(uint8_t *a, uint8_t *b, size_t count)
+    {
+        uint8_t block[block_size];
+        for (size_t offset = 0; offset < count; )
+        {
+            const size_t to_do  = lsp_min(count - offset, block_size);
+            memcpy(block, a, to_do);
+            memcpy(a, b, to_do);
+            memcpy(b, block, to_do);
+
+            offset += to_do;
+        }
+    }
+
+    static void memrotate(uint8_t *a, size_t length, size_t count)
+    {
+        uint8_t block[block_size];
+        if (count <= (length >> 1))
+        {
+            // Rotate left
+            while (count > 0)
+            {
+                const size_t to_do  = lsp_min(count, block_size);
+                memcpy(block, a, to_do);
+                memmove(a, &a[to_do], length - to_do);
+                memcpy(&a[length - to_do], block, to_do);
+
+                count -= to_do;
+            }
+        }
+        else
+        {
+            // Rotate right
+            count      = length - count;
+            while (count > 0)
+            {
+                const size_t to_do  = lsp_min(count, block_size);
+                memcpy(block, &a[length - to_do], to_do);
+                memmove(&a[to_do], a, length - to_do);
+                memcpy(a, block, to_do);
+
+                count -= to_do;
+            }
+        }
+    }
+
+    static void merge(uint8_t *a, uint8_t *b, uint8_t *end, size_t szof, sort_compar_t compar, void *arg)
+    {
+        while ((a < b) && (b < end))
+        {
+            // Skip all first a's that are not greater than first b
+            while (compar(a, b, arg) <= 0)
+            {
+                // All a's have been skipped?
+                a      += szof;
+                if (a >= b)
+                    return;
+            }
+
+            uint8_t *ta         = b;
+            memswap(a, b, szof);
+            b                  += szof;
+            a                  += szof;
+
+            while ((a < ta) && (b < end))
+            {
+                if (compar(ta, b, arg) <= 0)
+                {
+                    // Put current 'a' at the beginning of queue and rotate
+                    memswap(ta, a, szof);
+                    memrotate(ta, b - ta, szof);
+                }
+                else
+                {
+                    // Put current 'a' at the end of queue
+                    memswap(b, a, szof);
+                    b              += szof;
+                }
+                a              += szof;
+            }
+            memrotate(a, b - a, ta - a);
+        }
+
+//
+//
+//        uint8_t *la = b - szof;
+//        uint8_t *lb = end - szof;
+//
+//        while ((a <= la) && (b <= lb))
+//        {
+//            // Left-to-right direction
+//
+//            // Find first b that is not less than first a
+//            uint8_t * const sa = b;
+//            do
+//            {
+//                b      += szof;
+//                if (b > lb)
+//                    break;
+//            } while (compar(b, a, arg) < 0);
+//
+//            // Re-order a's using data from new temporary buffer
+//            memrotate(a, b - a, sa - a);
+//            a      += b - sa;
+//            la      = b - szof;
+//
+//            // Right-to-left direction
+//            // Skip all last b's that are not less than last a
+//            while (compar(lb, la, arg) >= 0)
+//            {
+//                // All a's have been skipped?
+//                lb     -= szof;
+//                if (b > lb)
+//                    return;
+//            }
+//
+//            // Find last a that is not greater than last b
+//            uint8_t * const sb = la;
+//            do
+//            {
+//                la     -= szof;
+//                if (a > la)
+//                    break;
+//            } while (compar(la, lb, arg) > 0);
+//
+//            // Re-order b's using data from new temporary buffer
+//            memrotate(la + szof, lb - la, sb - la);
+//            lb     -= sb - la;
+//            b       = la + szof;
+//        }
+    }
+
+    LSP_COMMON_LIB_PUBLIC
+    void ssort_r(void *data, size_t count, size_t szof, sort_compar_t compar, void *arg)
+    {
+        // Step 1: split code into pairs and sort items within pairs
+        if (count < 2)
+            return;
+
+        uint8_t *head = static_cast<uint8_t *>(data);
+        uint8_t * const end = &head[count * szof];
+
+        size_t szof_blk = szof << 1;
+        for (size_t i=0, n=count >> 1; i<n; ++i)
+        {
+            if (compar(&head[szof], &head[0], arg) < 0)
+                memswap(&head[szof], &head[0], szof);
+            head += szof_blk;
+        }
+
+        // Step 2: merge neighbour blocks together
+        for (size_t i=2; i<count; i <<= 1, szof_blk <<= 1)
+        {
+            const size_t szof_blk2 = szof_blk << 1;
+            for (head = static_cast<uint8_t *>(data); head < end; head += szof_blk2)
+                merge(head, &head[szof_blk], lsp_min(&head[szof_blk2], end), szof, compar, arg);
+        }
+    }
+
+} /* namespace lsp */
+
+
