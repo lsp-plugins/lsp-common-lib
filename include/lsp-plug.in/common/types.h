@@ -411,7 +411,12 @@ namespace lsp
 #endif /* unix-compatible platforms */
 
 // File separators for platform tuning
-#if defined(PLATFORM_UNIX_COMPATIBLE)
+#if defined(PLATFORM_MACOSX)
+    #define FILE_SEPARATOR_C            '/'
+    #define FILE_SEPARATOR_S            "/"
+    #define FILE_SYSTEM_CASE_SENSE      1
+    #define FILE_LIBRARY_EXT_S          ".dylib"
+#elif defined(PLATFORM_UNIX_COMPATIBLE)
     #define FILE_SEPARATOR_C            '/'
     #define FILE_SEPARATOR_S            "/"
     #define FILE_SYSTEM_CASE_SENSE      1
