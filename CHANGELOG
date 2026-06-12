@@ -2,6 +2,17 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.47 ===
+* Updated build system: ASAN, CROSS_COMPILE, DEBUG, DEVEL, PROFILE, STRICT,
+  TEST, TRACE makefile flags replaced with 'asan', 'crosscompile', 'debug',
+  'devel', 'profile', 'strict', 'test' and 'trace' FEATURE flags.
+* Added possibility to perform safe deinitialization of singletones.
+* Added malloc_bytes, malloc_count, realloc_bytes and realloc_count template
+  functions to avoid warning of non-trivially copyable objects.
+* Added strfmt and vstrfmt functions for easier formatting of C strings.
+* Updated build scripts.
+* Updated module versions in dependencies.
+
 === 1.0.46 ===
 * Better Haiku support.
 

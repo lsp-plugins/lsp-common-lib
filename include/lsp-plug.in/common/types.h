@@ -411,7 +411,12 @@ namespace lsp
 #endif /* unix-compatible platforms */
 
 // File separators for platform tuning
-#if defined(PLATFORM_UNIX_COMPATIBLE)
+#if defined(PLATFORM_MACOSX)
+    #define FILE_SEPARATOR_C            '/'
+    #define FILE_SEPARATOR_S            "/"
+    #define FILE_SYSTEM_CASE_SENSE      1
+    #define FILE_LIBRARY_EXT_S          ".dylib"
+#elif defined(PLATFORM_UNIX_COMPATIBLE)
     #define FILE_SEPARATOR_C            '/'
     #define FILE_SEPARATOR_S            "/"
     #define FILE_SYSTEM_CASE_SENSE      1
@@ -428,7 +433,14 @@ namespace lsp
     #define COMPILER_CLANG
     #define __IF_CLANG(...)             __VA_ARGS__
     #define __IFN_CLANG(...)
-#elif defined(__GNUC__) || defined(__GNUG__)
+#elif defined(__GNUC__) || defined(__GNUG__) || defined(__MINGW64__) || defined(__MINGW32__)
+
+    #if defined(__MINGW64__) || defined(__MINGW32__)
+        #define COMPILER_MINGW
+        #define __IF_MINGW(...)             __VA_ARGS__
+        #define __IFN_MINGW(...)
+    #endif /* defined(__MINGW64__) */
+
     #define COMPILER_GCC
     #define __IF_GCC(...)               __VA_ARGS__
     #define __IFN_GCC(...)
@@ -445,6 +457,14 @@ namespace lsp
 #ifndef __IFN_CLANG
     #define __IFN_CLANG(...)            __VA_ARGS__
 #endif /*__IFN_CLANG */
+
+#ifndef __IF_MINGW
+    #define __IF_MINGW(...)
+#endif /*__IF_MINGW */
+
+#ifndef __IFN_MINGW
+    #define __IFN_MINGW(...)            __VA_ARGS__
+#endif /*__IFN_GCC */
 
 #ifndef __IF_GCC
     #define __IF_GCC(...)

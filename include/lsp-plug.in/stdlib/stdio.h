@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2020 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2020 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-common-lib
  * Created on: 4 апр. 2020 г.
@@ -49,6 +49,28 @@ namespace lsp
     int         fdsync(FILE *fd);
 
 #endif /* PLATFORM_UNIX_COMPATIBLE */
-}
+
+    /**
+     * Allocate memory for the string and perform formatted print to it.
+     * The caller should free memory by issuing free() after use.
+     *
+     * @param fmt format string
+     * @param ap argument list
+     * @return pointer to allocated string or NULL
+     */
+    LSP_COMMON_LIB_PUBLIC
+    char       *vstrfmt(const char *fmt, va_list ap);
+
+    /**
+     * Allocate memory for the string and perform formatted print to it.
+     * The caller should free memory by issuing free() after use.
+     *
+     * @param fmt format string
+     * @return pointer to allocated string or NULL
+     */
+    LSP_COMMON_LIB_PUBLIC
+    char       *strfmt(const char *fmt, ...);
+
+} /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_STDLIB_STDIO_H_ */
