@@ -40,36 +40,25 @@ namespace lsp
         }
     }
 
+    static void memreverse(uint8_t *data, size_t count)
+    {
+        uint8_t *last = &data[count];
+        while (data < --last)
+        {
+            const uint8_t tmp   = *data;
+            *(data++)           = *last;
+            *last               = tmp;
+        }
+    }
+
     static void memrotate(uint8_t *a, size_t length, size_t count)
     {
-        uint8_t block[block_size];
-        if (count <= (length >> 1))
-        {
-            // Rotate left
-            while (count > 0)
-            {
-                const size_t to_do  = lsp_min(count, block_size);
-                memcpy(block, a, to_do);
-                memmove(a, &a[to_do], length - to_do);
-                memcpy(&a[length - to_do], block, to_do);
+        if ((count == 0) || (count == length))
+            return;
 
-                count -= to_do;
-            }
-        }
-        else
-        {
-            // Rotate right
-            count      = length - count;
-            while (count > 0)
-            {
-                const size_t to_do  = lsp_min(count, block_size);
-                memcpy(block, &a[length - to_do], to_do);
-                memmove(&a[to_do], a, length - to_do);
-                memcpy(a, block, to_do);
-
-                count -= to_do;
-            }
-        }
+        memreverse(a, count);
+        memreverse(&a[count], length - count);
+        memreverse(a, length);
     }
 
     static void merge(uint8_t *a, uint8_t *b, uint8_t *end, size_t szof, sort_compar_t compar, void *arg)
@@ -108,54 +97,6 @@ namespace lsp
             }
             memrotate(a, b - a, ta - a);
         }
-
-//
-//
-//        uint8_t *la = b - szof;
-//        uint8_t *lb = end - szof;
-//
-//        while ((a <= la) && (b <= lb))
-//        {
-//            // Left-to-right direction
-//
-//            // Find first b that is not less than first a
-//            uint8_t * const sa = b;
-//            do
-//            {
-//                b      += szof;
-//                if (b > lb)
-//                    break;
-//            } while (compar(b, a, arg) < 0);
-//
-//            // Re-order a's using data from new temporary buffer
-//            memrotate(a, b - a, sa - a);
-//            a      += b - sa;
-//            la      = b - szof;
-//
-//            // Right-to-left direction
-//            // Skip all last b's that are not less than last a
-//            while (compar(lb, la, arg) >= 0)
-//            {
-//                // All a's have been skipped?
-//                lb     -= szof;
-//                if (b > lb)
-//                    return;
-//            }
-//
-//            // Find last a that is not greater than last b
-//            uint8_t * const sb = la;
-//            do
-//            {
-//                la     -= szof;
-//                if (a > la)
-//                    break;
-//            } while (compar(la, lb, arg) > 0);
-//
-//            // Re-order b's using data from new temporary buffer
-//            memrotate(la + szof, lb - la, sb - la);
-//            lb     -= sb - la;
-//            b       = la + szof;
-//        }
     }
 
     LSP_COMMON_LIB_PUBLIC
