@@ -19,19 +19,17 @@
  * along with lsp-common-lib. If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef LSP_PLUG_IN_COMMON_ARCH_ARM_HWCAP_H_
-#define LSP_PLUG_IN_COMMON_ARCH_ARM_HWCAP_H_
+#ifndef LSP_PLUG_IN_COMMON_ARCH_GENERIC_HWCAP_H_
+#define LSP_PLUG_IN_COMMON_ARCH_GENERIC_HWCAP_H_
+
+#include <lsp-plug.in/common/types.h>
 
 namespace lsp
 {
     enum cpu_hwcap0_t
     {
-        // Different feature set
-        CPU_HWCAP0_VFPD32           = 1 << 0,
-        CPU_HWCAP0_NEON             = 1 << 1,
     };
 
 } /* namespace lsp */
 
-
-#endif /* LSP_PLUG_IN_COMMON_ARCH_ARM_HWCAP_H_ */
+#endif /* LSP_PLUG_IN_COMMON_ARCH_GENERIC_HWCAP_H_ */
