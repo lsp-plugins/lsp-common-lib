@@ -265,7 +265,7 @@ namespace lsp
 
     static const char * const hwcap0_list[] =
     {
-        "VFPD32", "NEON",
+        "VFP", "VFPD32", "NEON",
         NULL
     };
 
@@ -435,6 +435,8 @@ namespace lsp
     {
         uint32_t res = 0;
         unsigned long hwcap = getauxval(AT_HWCAP);
+        if (hwcap & HWCAP_ARM_VFP)
+            res        |= CPU_HWCAP0_VFP;
         if (hwcap & HWCAP_ARM_NEON)
             res        |= CPU_HWCAP0_NEON;
         if (hwcap & HWCAP_ARM_VFPD32)
@@ -452,14 +454,14 @@ namespace lsp
         if (sysctlbyname("hw.optional.AdvSIMD", &val, &len, NULL, 0) == 0)
         {
             if (val != 0)
-                hwcap          |= CPU_HWCAP0_NEON | CPU_HWCAP0_VFPD32;
+                hwcap          |= CPU_HWCAP0_NEON | CPU_HWCAP0_VFPD32 | CPU_HWCAP0_VFP;
         }
 
         val = 0;
         if (sysctlbyname("hw.optional.neon", &val, &len, NULL, 0) == 0)
         {
             if (val != 0)
-                hwcap          |= CPU_HWCAP0_NEON | CPU_HWCAP0_VFPD32;
+                hwcap          |= CPU_HWCAP0_NEON | CPU_HWCAP0_VFPD32 | CPU_HWCAP0_VFP;
         }
 
         return hwcap;
@@ -489,6 +491,8 @@ namespace lsp
             return 0;
 
         uint32_t res = 0;
+        if (hwcap & HWCAP_ARM_VFP)
+            res        |= CPU_HWCAP0_VFP;
         if (hwcap & HWCAP_ARM_NEON)
             res        |= CPU_HWCAP0_NEON;
         if (hwcap & HWCAP_ARM_VFPD32)

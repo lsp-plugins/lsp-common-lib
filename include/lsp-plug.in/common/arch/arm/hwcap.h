@@ -27,8 +27,9 @@ namespace lsp
     enum cpu_hwcap0_t
     {
         // Different feature set
-        CPU_HWCAP0_VFPD32           = 1 << 0,
-        CPU_HWCAP0_NEON             = 1 << 1,
+        CPU_HWCAP0_VFP              = 1 << 0,
+        CPU_HWCAP0_VFPD32           = 1 << 1,
+        CPU_HWCAP0_NEON             = 1 << 2,
     };
 
 } /* namespace lsp */
