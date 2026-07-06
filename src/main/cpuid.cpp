@@ -21,9 +21,9 @@
 
 #include <lsp-plug.in/common/atomic.h>
 #include <lsp-plug.in/common/cpuid.h>
+#include <lsp-plug.in/stdlib/string.h>
 
 #include <sched.h>
-#include <string.h>
 
 namespace lsp
 {
