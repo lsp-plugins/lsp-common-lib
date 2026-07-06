@@ -88,6 +88,7 @@ namespace lsp
         "Ampere",
         "APM",
         "Apple",
+        "ARM",
         "Broadcom",
         "Cavium",
         "Cyrix",

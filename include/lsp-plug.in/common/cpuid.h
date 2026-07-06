@@ -45,6 +45,7 @@ namespace lsp
         CPU_VENDOR_AMPERE,
         CPU_VENDOR_APM,
         CPU_VENDOR_APPLE,
+        CPU_VENDOR_ARM,
         CPU_VENDOR_BROADCOM,
         CPU_VENDOR_CAVIUM,
         CPU_VENDOR_CYRIX,

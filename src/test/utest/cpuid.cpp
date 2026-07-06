@@ -37,6 +37,7 @@ UTEST_BEGIN("common", cpuid)
         printf("  Vendor:               %s (0x%x)\n", sinfo->vendor, int(id.vendor));
         printf("  Architecture:         %s (0x%x)\n", sinfo->arch, int(id.arch));
         printf("  Microarchitecture:    %s (0x%x)\n", sinfo->micro, int(id.micro));
+        printf("  Model name:           %s\n", sinfo->name);
         printf("  Model:                0x%x\n", int(id.model));
         printf("  Variant:              0x%x\n", int(id.variant));
         printf("  Revision:             0x%x\n", int(id.revision));
