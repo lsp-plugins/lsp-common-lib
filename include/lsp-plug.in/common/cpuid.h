@@ -93,6 +93,56 @@ namespace lsp
         CPU_ARCH_ARM7,
         CPU_ARCH_ARM8,
         CPU_ARCH_ARM9,
+
+        CPU_ARCH_RISCV32,
+        CPU_ARCH_RISCV64,
+        CPU_ARCH_RISCV128,
+
+        CPU_ARCH_LOONGARCH32,
+        CPU_ARCH_LOONGARCH64,
+
+        CPU_ARCH_PPC,
+        CPU_ARCH_PPC64,
+
+        CPU_ARCH_MIPS32,
+        CPU_ARCH_MIPS64,
+
+        CPU_ARCH_S390,
+        CPU_ARCH_SPARC,
+
+    #if defined(ARCH_X86_64)
+        CPU_ARCH_CURRENT    = CPU_ARCH_X86_64,
+    #elif defined(ARCH_I386)
+        CPU_ARCH_CURRENT    = CPU_ARCH_I686,
+    #elif defined(ARCH_ARM8)
+        CPU_ARCH_CURRENT    = CPU_ARCH_ARM8,
+    #elif defined(ARCH_ARM7)
+        CPU_ARCH_CURRENT    = CPU_ARCH_ARM7,
+    #elif defined(ARCH_ARM6)
+        CPU_ARCH_CURRENT    = CPU_ARCH_ARM6,
+    #elif defined(ARCH_PPC64)
+        CPU_ARCH_CURRENT    = CPU_ARCH_PPC64,
+    #elif defined(ARCH_PPC)
+        CPU_ARCH_CURRENT    = CPU_ARCH_PPC,
+    #elif defined(ARCH_S390)
+        CPU_ARCH_CURRENT    = CPU_ARCH_S390,
+    #elif defined(ARCH_MIPS32)
+        CPU_ARCH_CURRENT    = CPU_ARCH_MIPS32,
+    #elif defined(ARCH_MIPS64)
+        CPU_ARCH_CURRENT    = CPU_ARCH_MIPS64,
+    #elif defined(ARCH_SPARC)
+        CPU_ARCH_CURRENT    = SPARC,
+    #elif defined(ARCH_RISCV64)
+        CPU_ARCH_CURRENT    = CPU_ARCH_RISCV64,
+    #elif defined(ARCH_RISCV64)
+        CPU_ARCH_CURRENT    = CPU_ARCH_RISCV32,
+    #elif defined(ARCH_LOONGARCH32)
+        CPU_ARCH_CURRENT    = CPU_ARCH_LOONGARCH32,
+    #elif defined(ARCH_LOONGARCH64)
+        CPU_ARCH_CURRENT    = CPU_ARCH_LOONGARCH32,
+    #else
+        CPU_ARCH_CURRENT    = CPU_ARCH_UKNNOWN,
+    #endif
     };
 
     enum cpu_micro_t

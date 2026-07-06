@@ -136,6 +136,22 @@ namespace lsp
         "ARMv7",
         "ARMv8",
         "ARMv9",
+
+        "RISCV32",
+        "RISCV64",
+        "RISCV128",
+
+        "LoongArch32",
+        "LoongArch64",
+
+        "PPC",
+        "PPC64",
+
+        "MIPS32",
+        "MIPS64",
+
+        "S390",
+        "SPARC",
     };
 
     static const char * const cpu_micros[] =
