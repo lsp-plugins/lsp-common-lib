@@ -250,9 +250,9 @@ namespace lsp
 
         // Sync cache state and result
         if (force)
-            memcpy(&cpuid_cache, features, sizeof(cpuid_state));
+            memcpy(&cpuid_cache, features, sizeof(cpuid_t));
         else
-            memcpy(features, &cpuid_cache, sizeof(cpuid_state));
+            memcpy(features, &cpuid_cache, sizeof(cpuid_t));
     }
 
     const char *cpu_vendor(cpu_vendor_t vendor)
