@@ -20,5 +20,49 @@
  */
 
 
+#include <lsp-plug.in/common/types.h>
+#include <lsp-plug.in/common/cpuid.h>
+#include <lsp-plug.in/stdlib/string.h>
+
+#ifdef ARCH_X86
+    // Test framework
+    #ifdef LSP_TESTING
+        #include <lsp-plug.in/test-fw/test.h>
+    #else
+        #define TEST_EXPORT(...)
+    #endif /* LSP_TESTING */
+
+    #define PRIVATE_COMMON_ARCH_X86_AVX512_IMPL
+        #include <private/common/arch/x86/avx512/memswap.h>
+    #undef PRIVATE_COMMON_ARCH_X86_AVX512_IMPL
+
+    namespace lsp
+    {
+        namespace avx512
+        {
+            #define EXPORT2(function, export) \
+            { \
+                lsp::function                       = avx512::export; \
+                TEST_EXPORT(avx512::export); \
+            }
+            #define EXPORT1(function)                   EXPORT2(function, function);
+
+            LSP_HIDDEN_MODIFIER
+            void init_common_lib(const cpuid_t & f)
+            {
+                if ((f.hwcap[0] & (CPU_HWCAP0_AVX512F | CPU_HWCAP0_AVX512VL)) !=
+                    (CPU_HWCAP0_AVX512F | CPU_HWCAP0_AVX512VL))
+                    return;
+
+                EXPORT1(memswap);
+            }
+
+            #undef EXPORT1
+            #undef EXPORT2
+        } /* namespace avx512 */
+    } /* namespace lsp */
+
+#endif /* ARCH_X86 */
+
 
 

@@ -50,6 +50,18 @@
             void init_common_lib(const cpuid_t & f);
         } /* namespace sse */
 
+        namespace avx
+        {
+            LSP_HIDDEN_MODIFIER
+            void init_common_lib(const cpuid_t & f);
+        } /* namespace avx */
+
+        namespace avx512
+        {
+            LSP_HIDDEN_MODIFIER
+            void init_common_lib(const cpuid_t & f);
+        } /* namespace avx512 */
+
         namespace x86
         {
             // Common library initialization function
@@ -58,8 +70,10 @@
             {
                 EXPORT1(memswap);
 
-                // Initialize library
+                // Initialize SIMD
                 sse::init_common_lib(f);
+                avx::init_common_lib(f);
+                avx512::init_common_lib(f);
             }
         } /* namespace x86 */
     } /* namespace lsp */

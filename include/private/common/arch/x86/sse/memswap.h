@@ -41,6 +41,7 @@ namespace lsp
                 // 64-byte blocks
                 __ASM_EMIT("sub         $0x30, %[count]")
                 __ASM_EMIT("jb          2f")
+                __ASM_EMIT(".p2align    4")
                 __ASM_EMIT("1:")
                 __ASM_EMIT("movups      0x00(%[a]), %%xmm0")
                 __ASM_EMIT("movups      0x10(%[a]), %%xmm1")

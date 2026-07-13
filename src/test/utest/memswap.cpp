@@ -42,15 +42,15 @@ namespace lsp
             void memswap(void *a, void *b, size_t count);
         }
 
-//        namespace avx
-//        {
-//            void memswap(void *a, void *b, size_t count);
-//        }
+        namespace avx
+        {
+            void memswap(void *a, void *b, size_t count);
+        }
 
-//        namespace avx512
-//        {
-//            void memswap(void *a, void *b, size_t count);
-//        }
+        namespace avx512
+        {
+            void memswap(void *a, void *b, size_t count);
+        }
     )
 
 //    IF_ARCH_ARM(
@@ -136,8 +136,8 @@ UTEST_BEGIN("common", memswap)
 
         IF_ARCH_X86(CALL(x86::memswap, sizeof(umword_t)));
         IF_ARCH_X86(CALL(sse::memswap, 16));
-//        IF_ARCH_X86(CALL(avx::memswap, 32));
-//        IF_ARCH_X86(CALL(avx512::memswap, 64));
+        IF_ARCH_X86(CALL(avx::memswap, 32));
+        IF_ARCH_X86(CALL(avx512::memswap, 64));
 
 //        IF_ARCH_ARM(CALL(arm::memswap, sizeof(umword_t)));
 //        IF_ARCH_ARM(CALL(neon_d32::memswap, 16));
