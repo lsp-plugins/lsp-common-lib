@@ -24,22 +24,6 @@
 
 namespace lsp
 {
-    constexpr size_t block_size = 0x1000;
-
-    static inline void memswap(uint8_t *a, uint8_t *b, size_t count)
-    {
-        uint8_t block[block_size];
-        for (size_t offset = 0; offset < count; )
-        {
-            const size_t to_do  = lsp_min(count - offset, block_size);
-            memcpy(block, a, to_do);
-            memcpy(a, b, to_do);
-            memcpy(b, block, to_do);
-
-            offset += to_do;
-        }
-    }
-
     static void memreverse(uint8_t *data, size_t count)
     {
         uint8_t *last = &data[count];

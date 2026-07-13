@@ -58,6 +58,14 @@
 
 namespace lsp
 {
+    /**
+     * Memory swap function
+     * @param a pointer to first non-interleaving chunk of memory
+     * @param b pointer to second non-interleaving chunk of memory
+     * @param count number of bytes to swap
+     */
+    typedef void (* memswap_t)(void *a, void *b, size_t count);
+
     inline void *memdup(const void *src, size_t count)
     {
         void *dst = ::malloc(count);
@@ -86,6 +94,11 @@ namespace lsp
         }
         return dst;
     }
+
+    extern "C" {
+        LSP_COMMON_LIB_PUBLIC
+        extern memswap_t memswap;
+    } /* extern "C" */
 } /* namespace lsp */
 
 #endif /* LSP_PLUG_IN_STDLIB_STRING_H_ */

@@ -27,8 +27,8 @@
 							<builder buildPath="${workspace_loc:/lsp-common-lib}/Debug" id="cdt.managedbuild.target.gnu.builder.so.debug.1954711495" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.so.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.237883360" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug">
-								<option id="gnu.cpp.compiler.so.debug.option.optimization.level.1003852355" name="Optimization Level" superClass="gnu.cpp.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
-								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.so.debug.option.debugging.level.732212642" name="Debug Level" superClass="gnu.cpp.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.so.debug.option.optimization.level.1003852355" name="Optimization level" superClass="gnu.cpp.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.so.debug.option.debugging.level.732212642" name="Debug level" superClass="gnu.cpp.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.831649943" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/modules/lsp-test-fw/include}&quot;"/>
@@ -42,8 +42,8 @@
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1177739938" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.906221488" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug">
-								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.1001321776" name="Optimization Level" superClass="gnu.c.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
-								<option defaultValue="gnu.c.debugging.level.max" id="gnu.c.compiler.so.debug.option.debugging.level.1096037207" name="Debug Level" superClass="gnu.c.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.1001321776" name="Optimization level" superClass="gnu.c.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option defaultValue="gnu.c.debugging.level.max" id="gnu.c.compiler.so.debug.option.debugging.level.1096037207" name="Debug level" superClass="gnu.c.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.1963493117" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/modules/lsp-test-fw/include}&quot;"/>
@@ -72,6 +72,42 @@
 							</tool>
 						</toolChain>
 					</folderInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.so.debug.401418814.2135299644" name="avx.cpp" rcbsApplicability="disable" resourcePath="src/arch/x86/avx.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177.1214238539">
+						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177.1214238539" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177">
+							<option id="gnu.cpp.compiler.option.other.other.1393686891" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mavx -mvzeroupper" valueType="string"/>
+							<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.202192488" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+						</tool>
+						<tool customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.167574083" name="Resource Custom Build Step">
+							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.606811816" name="Resource Custom Build Step Input Type">
+								<additionalInput kind="additionalinputdependency" paths=""/>
+							</inputType>
+							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.1094693474" name="Resource Custom Build Step Output Type"/>
+						</tool>
+					</fileInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.so.debug.401418814.743125906" name="avx512.cpp" rcbsApplicability="disable" resourcePath="src/arch/x86/avx512.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177.39161147">
+						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177.39161147" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177">
+							<option id="gnu.cpp.compiler.option.other.other.1459000163" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -mavx512f -mavx512vl" valueType="string"/>
+							<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.231222869" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+						</tool>
+						<tool customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.431915045" name="Resource Custom Build Step">
+							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.1979831170" name="Resource Custom Build Step Input Type">
+								<additionalInput kind="additionalinputdependency" paths=""/>
+							</inputType>
+							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.131077228" name="Resource Custom Build Step Output Type"/>
+						</tool>
+					</fileInfo>
+					<fileInfo id="cdt.managedbuild.config.gnu.so.debug.401418814.1517692033" name="sse.cpp" rcbsApplicability="disable" resourcePath="src/arch/x86/sse.cpp" toolsToInvoke="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177.722656277">
+						<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177.722656277" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.643474177">
+							<option id="gnu.cpp.compiler.option.other.other.706768982" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0 -msse" valueType="string"/>
+							<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.191303688" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
+						</tool>
+						<tool customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.241823647" name="Resource Custom Build Step">
+							<inputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.inputtype.290007218" name="Resource Custom Build Step Input Type">
+								<additionalInput kind="additionalinputdependency" paths=""/>
+							</inputType>
+							<outputType id="org.eclipse.cdt.managedbuilder.ui.rcbs.outputtype.731717540" name="Resource Custom Build Step Output Type"/>
+						</tool>
+					</fileInfo>
 					<sourceEntries>
 						<entry excluding="modules/lsp-test-fw/src/test/main.cpp" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
@@ -105,8 +141,8 @@
 							<builder buildPath="${workspace_loc:/lsp-common-lib}/Release" id="cdt.managedbuild.target.gnu.builder.so.release.352635777" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="cdt.managedbuild.target.gnu.builder.so.release"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.1532473534" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.release.1334866101" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.release">
-								<option id="gnu.cpp.compiler.so.release.option.optimization.level.393492025" name="Optimization Level" superClass="gnu.cpp.compiler.so.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
-								<option defaultValue="gnu.cpp.compiler.debugging.level.none" id="gnu.cpp.compiler.so.release.option.debugging.level.419259538" name="Debug Level" superClass="gnu.cpp.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.so.release.option.optimization.level.393492025" name="Optimization level" superClass="gnu.cpp.compiler.so.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option defaultValue="gnu.cpp.compiler.debugging.level.none" id="gnu.cpp.compiler.so.release.option.debugging.level.419259538" name="Debug level" superClass="gnu.cpp.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.preprocessor.def.333125071" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="LSP_TESTING"/>
 									<listOptionValue builtIn="false" value="LSP_IDE_DEBUG"/>
@@ -120,8 +156,8 @@
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.325982852" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.so.release.1149886544" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.release">
-								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.so.release.option.optimization.level.1506334338" name="Optimization Level" superClass="gnu.c.compiler.so.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.none" valueType="enumerated"/>
-								<option defaultValue="gnu.c.debugging.level.none" id="gnu.c.compiler.so.release.option.debugging.level.1968064013" name="Debug Level" superClass="gnu.c.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.so.release.option.optimization.level.1506334338" name="Optimization level" superClass="gnu.c.compiler.so.release.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.none" valueType="enumerated"/>
+								<option defaultValue="gnu.c.debugging.level.none" id="gnu.c.compiler.so.release.option.debugging.level.1968064013" name="Debug level" superClass="gnu.c.compiler.so.release.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.preprocessor.def.symbols.2046025048" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="LSP_TESTING"/>
 									<listOptionValue builtIn="false" value="LSP_IDE_DEBUG"/>
@@ -178,8 +214,8 @@
 							<builder buildPath="${workspace_loc:/lsp-common-lib}/Debug" id="cdt.managedbuild.target.gnu.builder.so.debug.407077936" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="cdt.managedbuild.target.gnu.builder.so.debug"/>
 							<tool id="cdt.managedbuild.tool.gnu.archiver.base.317061943" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug.1161966909" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.so.debug">
-								<option id="gnu.cpp.compiler.so.debug.option.optimization.level.649748827" name="Optimization Level" superClass="gnu.cpp.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
-								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.so.debug.option.debugging.level.1958205194" name="Debug Level" superClass="gnu.cpp.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option id="gnu.cpp.compiler.so.debug.option.optimization.level.649748827" name="Optimization level" superClass="gnu.cpp.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.so.debug.option.debugging.level.1958205194" name="Debug level" superClass="gnu.cpp.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.1222330454" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/modules/lsp-test-fw/include}&quot;"/>
@@ -193,8 +229,8 @@
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.560708487" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.so.debug.1097881720" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.so.debug">
-								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.2030015687" name="Optimization Level" superClass="gnu.c.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
-								<option defaultValue="gnu.c.debugging.level.max" id="gnu.c.compiler.so.debug.option.debugging.level.1046839056" name="Debug Level" superClass="gnu.c.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.so.debug.option.optimization.level.2030015687" name="Optimization level" superClass="gnu.c.compiler.so.debug.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option defaultValue="gnu.c.debugging.level.max" id="gnu.c.compiler.so.debug.option.debugging.level.1046839056" name="Debug level" superClass="gnu.c.compiler.so.debug.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.1846462051" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/modules/lsp-test-fw/include}&quot;"/>

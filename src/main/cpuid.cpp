@@ -70,13 +70,13 @@ namespace lsp
 } /* namespace lsp */
 
 #if defined(ARCH_I386) || defined(ARCH_X86_64)
-    #include <private/arch/x86/cpuid.h>
+    #include <private/common/arch/x86/cpuid.h>
 #elif defined(ARCH_AARCH64)
-    #include <private/arch/aarch64/cpuid.h>
+    #include <private/common/arch/aarch64/cpuid.h>
 #elif defined(ARCH_ARM)
-    #include <private/arch/arm/cpuid.h>
+    #include <private/common/arch/arm/cpuid.h>
 #else
-    #include <private/arch/generic/cpuid.h>
+    #include <private/common/arch/generic/cpuid.h>
 #endif
 
 namespace lsp
