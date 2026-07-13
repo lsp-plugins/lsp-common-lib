@@ -62,7 +62,9 @@ namespace lsp
     void qsort_r(void *data, size_t count, size_t szof, sort_compar_t compar, void *arg);
 
     /**
-     * Perform stable sort of the data using the comparison function that accepts an argument
+     * Perform in-place stable sort of the data using the comparison function that accepts an argument.
+     * This function is RT-safe because it uses stack recursion for effective combination of insertion
+     * sort and symmerge algorithms and does not consume any dynamic memory.
      *
      * @param data array to sort
      * @param count number of elements in array

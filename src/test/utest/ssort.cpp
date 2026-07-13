@@ -86,6 +86,28 @@ UTEST_BEGIN("common", ssort)
         }
     }
 
+    void test_large_ssort()
+    {
+        printf("Testing large ssort...\n");
+        FloatBuffer src(0x10000);
+        src.randomize_sign();
+        FloatBuffer res(src);
+        ssort_r(res.data(), src.size(), sizeof(float), cmp_func, NULL);
+
+        UTEST_ASSERT(!src.corrupted());
+        UTEST_ASSERT(!res.corrupted());
+
+        for (size_t i=1; i<src.size(); ++i)
+        {
+            if (res[i] < res[i-1])
+            {
+                src.dump("src");
+                res.dump("res");
+                UTEST_FAIL_MSG("Invalid sort order");
+            }
+        }
+    }
+
     UTEST_MAIN
     {
     #define CALL(array) \
@@ -96,6 +118,8 @@ UTEST_BEGIN("common", ssort)
         CALL(test3);
         CALL(test4);
         CALL(test5);
+
+        test_large_ssort();
     }
 UTEST_END;
 

@@ -95,6 +95,18 @@ namespace lsp
         return dst;
     }
 
+    /**
+     * Rotate memory buffer left by specified number of bytes.
+     * Example:
+     *   buffer:          0 1 2 3 4 5 6 7
+     *   memrotate by 3:  3 4 5 6 7 0 1 2
+     *
+     * @param ptr pointer to memory buffer
+     * @param length the overall buffer length
+     * @param count number of bytes to perform rotation
+     */
+    void memrotate(void *ptr, size_t length, size_t count);
+
     extern "C" {
         LSP_COMMON_LIB_PUBLIC
         extern memswap_t memswap;
