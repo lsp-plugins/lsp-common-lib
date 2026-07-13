@@ -74,28 +74,22 @@ namespace lsp
                     return;
             }
 
-            uint8_t *ta         = b;
-            memswap(a, b, szof);
-            b                  += szof;
-            a                  += szof;
-
-            while ((a < ta) && (b < end))
+            // Now count all b's less than current a
+            uint8_t * const old_b   = b;
+            while (compar(a, b, arg) > 0)
             {
-                if (compar(ta, b, arg) <= 0)
-                {
-                    // Put current 'a' at the beginning of queue and rotate
-                    memswap(ta, a, szof);
-                    memrotate(ta, b - ta, szof);
-                }
-                else
-                {
-                    // Put current 'a' at the end of queue
-                    memswap(b, a, szof);
-                    b              += szof;
-                }
-                a              += szof;
+                b      += szof;
+                if (b >= end)
+                    break;
             }
-            memrotate(a, b - a, ta - a);
+
+            // Place all b's before current a
+            const ptrdiff_t count   = b - a;
+            const ptrdiff_t diff    = b - old_b;
+            memrotate(a, count, count - diff);
+
+            // Update current position of a
+            a                      += diff;
         }
     }
 
