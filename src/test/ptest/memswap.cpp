@@ -56,17 +56,17 @@ namespace lsp
         }
     )
 
-//    IF_ARCH_ARM(
-//        namespace arm
-//        {
-//            void memswap(void *a, void *b, size_t count);
-//        }
+    IF_ARCH_ARM(
+        namespace arm
+        {
+            void memswap(void *a, void *b, size_t count);
+        }
 
-//        namespace neon_d32
-//        {
-//            void memswap(void *a, void *b, size_t count);
-//        }
-//    )
+        namespace neon_d32
+        {
+            void memswap(void *a, void *b, size_t count);
+        }
+    )
 
 //    IF_ARCH_AARCH64(
 //        namespace aarch64
@@ -121,7 +121,9 @@ PTEST_BEGIN("common", memswap, 2, 1000)
             IF_ARCH_X86(CALL(sse::memswap));
             IF_ARCH_X86(CALL(avx::memswap));
             IF_ARCH_X86(CALL(avx512::memswap));
-//            IF_ARCH_ARM(CALL(neon_d32::memswap));
+            IF_ARCH_ARM(CALL(arm::memswap));
+            IF_ARCH_ARM(CALL(neon_d32::memswap));
+//            IF_ARCH_AARCH64(CALL(aarch64::memswap));
 //            IF_ARCH_AARCH64(CALL(asimd::memswap));
             PTEST_SEPARATOR;
 

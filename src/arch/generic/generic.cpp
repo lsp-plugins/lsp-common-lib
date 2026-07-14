@@ -47,6 +47,14 @@ namespace lsp
     } /* namespace x86 */
 #endif
 
+#if defined(ARCH_ARM)
+    namespace arm
+    {
+        LSP_HIDDEN_MODIFIER
+        void init_common_lib(const cpuid_t & f);
+    } /* namespace arm */
+#endif
+
     LSP_HIDDEN_MODIFIER
     void init_common_lib()
     {
@@ -56,6 +64,7 @@ namespace lsp
         TEST_EXPORT(generic::memswap);
 
         IF_ARCH_X86(x86::init_common_lib(info));
+        IF_ARCH_ARM(arm::init_common_lib(info));
     }
 
     static StaticInitializer common_lib_initializer(init_common_lib);
