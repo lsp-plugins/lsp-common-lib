@@ -65,17 +65,17 @@ namespace lsp
         }
     )
 
-//    IF_ARCH_AARCH64(
-//        namespace aarch64
-//        {
-//            void memswap(void *a, void *b, size_t count);
-//        }
+    IF_ARCH_AARCH64(
+        namespace aarch64
+        {
+            void memswap(void *a, void *b, size_t count);
+        }
 
-//        namespace asimd
-//        {
-//            void memswap(void *a, void *b, size_t count);
-//        }
-//    )
+        namespace asimd
+        {
+            void memswap(void *a, void *b, size_t count);
+        }
+    )
 }
 
 //-----------------------------------------------------------------------------
@@ -142,8 +142,8 @@ UTEST_BEGIN("common", memswap)
         IF_ARCH_ARM(CALL(arm::memswap, sizeof(umword_t)));
         IF_ARCH_ARM(CALL(neon_d32::memswap, 16));
 
-//        IF_ARCH_AARCH64(CALL(aarch64::memswap, sizeof(umword_t)));
-//        IF_ARCH_AARCH64(CALL(asimd::memswap, 16));
+        IF_ARCH_AARCH64(CALL(aarch64::memswap, sizeof(umword_t)));
+        IF_ARCH_AARCH64(CALL(asimd::memswap, 16));
     }
 UTEST_END
 

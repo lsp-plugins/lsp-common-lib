@@ -55,6 +55,14 @@ namespace lsp
     } /* namespace arm */
 #endif
 
+#if defined(ARCH_AARCH64)
+    namespace aarch64
+    {
+        LSP_HIDDEN_MODIFIER
+        void init_common_lib(const cpuid_t & f);
+    } /* namespace aarch64 */
+#endif
+
     LSP_HIDDEN_MODIFIER
     void init_common_lib()
     {
@@ -65,6 +73,7 @@ namespace lsp
 
         IF_ARCH_X86(x86::init_common_lib(info));
         IF_ARCH_ARM(arm::init_common_lib(info));
+        IF_ARCH_AARCH64(aarch64::init_common_lib(info));
     }
 
     static StaticInitializer common_lib_initializer(init_common_lib);
