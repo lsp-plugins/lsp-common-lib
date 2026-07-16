@@ -113,7 +113,7 @@ UTEST_BEGIN("common", ssort)
     #define CALL(array) \
         test_ssort(#array, array, sizeof(array)/sizeof(array[0]));
 
-//        CALL(test1);
+        CALL(test1);
         CALL(test2);
         CALL(test3);
         CALL(test4);

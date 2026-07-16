@@ -95,6 +95,13 @@ namespace lsp
         return dst;
     }
 
+#if defined(PLATFORM_MACOSX)
+    inline void *mempcpy(void *dest, const void *src, size_t n)
+    {
+        return static_cast<uint8_t *>(memcpy(dest, src, n)) + n;
+    }
+#endif /* PLATFORM_MACOSX */
+
     /**
      * Rotate memory buffer left by specified number of bytes.
      * Example:
