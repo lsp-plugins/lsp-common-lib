@@ -57,7 +57,14 @@ const float test5[] =
 
 UTEST_BEGIN("common", ssort)
 
-    static int cmp_func(const void *a, const void *b, void *arg)
+    static int cmp_func(const void *a, const void *b)
+    {
+        const float *fa = static_cast<const float *>(a);
+        const float *fb = static_cast<const float *>(b);
+        return (*fa < *fb) ? -1 : (*fa > *fb) ? 1 : 0;
+    }
+
+    static int cmp_func_r(const void *a, const void *b, void *arg)
     {
         const float *fa = static_cast<const float *>(a);
         const float *fb = static_cast<const float *>(b);
@@ -70,7 +77,29 @@ UTEST_BEGIN("common", ssort)
         FloatBuffer src(length);
         memcpy(src.data(), array, length * sizeof(float));
         FloatBuffer res(src);
-        ssort_r(res.data(), length, sizeof(float), cmp_func, NULL);
+        ssort(res.data(), length, sizeof(float), cmp_func);
+
+        UTEST_ASSERT(!src.corrupted());
+        UTEST_ASSERT(!res.corrupted());
+
+        for (size_t i=1; i<length; ++i)
+        {
+            if (res[i] < res[i-1])
+            {
+                src.dump("src");
+                res.dump("res");
+                UTEST_FAIL_MSG("Invalid sort order");
+            }
+        }
+    }
+
+    void test_ssort_r(const char *name, const float *array, size_t length)
+    {
+        printf("Testing ssort_r '%s'...\n", name);
+        FloatBuffer src(length);
+        memcpy(src.data(), array, length * sizeof(float));
+        FloatBuffer res(src);
+        ssort_r(res.data(), length, sizeof(float), cmp_func_r, NULL);
 
         UTEST_ASSERT(!src.corrupted());
         UTEST_ASSERT(!res.corrupted());
@@ -88,22 +117,52 @@ UTEST_BEGIN("common", ssort)
 
     void test_large_ssort()
     {
-        printf("Testing large ssort...\n");
-        FloatBuffer src(0x10000);
-        src.randomize_sign();
-        FloatBuffer res(src);
-        ssort_r(res.data(), src.size(), sizeof(float), cmp_func, NULL);
-
-        UTEST_ASSERT(!src.corrupted());
-        UTEST_ASSERT(!res.corrupted());
-
-        for (size_t i=1; i<src.size(); ++i)
+        UTEST_FOREACH(count,
+            0xff0, 0xfff, 0x1000, 0x10000)
         {
-            if (res[i] < res[i-1])
+            printf("Testing large ssort_r for %d elements...\n", int(count));
+            FloatBuffer src(count);
+            src.randomize_sign();
+            FloatBuffer res(src);
+            ssort(res.data(), src.size(), sizeof(float), cmp_func);
+
+            UTEST_ASSERT(!src.corrupted());
+            UTEST_ASSERT(!res.corrupted());
+
+            for (size_t i=1; i<src.size(); ++i)
             {
-                src.dump("src");
-                res.dump("res");
-                UTEST_FAIL_MSG("Invalid sort order");
+                if (res[i] < res[i-1])
+                {
+                    src.dump("src");
+                    res.dump("res");
+                    UTEST_FAIL_MSG("Invalid sort order");
+                }
+            }
+        }
+    }
+
+    void test_large_ssort_r()
+    {
+        UTEST_FOREACH(count,
+            0xff0, 0xfff, 0x1000, 0x10000)
+        {
+            printf("Testing large ssort_r for %d elements...\n", int(count));
+            FloatBuffer src(count);
+            src.randomize_sign();
+            FloatBuffer res(src);
+            ssort_r(res.data(), src.size(), sizeof(float), cmp_func_r, NULL);
+
+            UTEST_ASSERT(!src.corrupted());
+            UTEST_ASSERT(!res.corrupted());
+
+            for (size_t i=1; i<src.size(); ++i)
+            {
+                if (res[i] < res[i-1])
+                {
+                    src.dump("src");
+                    res.dump("res");
+                    UTEST_FAIL_MSG("Invalid sort order");
+                }
             }
         }
     }
@@ -111,7 +170,8 @@ UTEST_BEGIN("common", ssort)
     UTEST_MAIN
     {
     #define CALL(array) \
-        test_ssort(#array, array, sizeof(array)/sizeof(array[0]));
+        test_ssort(#array, array, sizeof(array)/sizeof(array[0])); \
+        test_ssort_r(#array, array, sizeof(array)/sizeof(array[0]));
 
         CALL(test1);
         CALL(test2);
@@ -120,6 +180,7 @@ UTEST_BEGIN("common", ssort)
         CALL(test5);
 
         test_large_ssort();
+        test_large_ssort_r();
     }
 UTEST_END;
 
