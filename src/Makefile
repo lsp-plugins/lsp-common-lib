@@ -131,7 +131,7 @@ CXX_ASIMD_CFLAGS      	= -march=armv8-a+simd
 BUILD_ALL               = $(ARTIFACT_LIB) $(ARTIFACT_SLIB) $(ARTIFACT_PC)
 
 .DEFAULT_GOAL = all
-.PHONY: compile all install uninstall
+.PHONY: all bundle compile install uninstall
 .PHONY: $(ARTIFACT_DEPS)
 
 # Compile dependencies
@@ -196,6 +196,12 @@ install: all
 	ln -sf $(notdir $(ARTIFACT_LIB)) "$(DESTDIR)$(LIBDIR)/$(ARTIFACT_LIBLINK)"
 	ln -sf $(notdir $(ARTIFACT_SLIB)) "$(DESTDIR)$(LIBDIR)/$(ARTIFACT_SLIBLINK)"
 	echo "Install OK"
+
+bundle: all
+	echo "Make bundle $($(ARTIFACT_ID)_NAME)"
+	$(if $(strip $(DESTDIR)),,echo "The destination directory DESTDIR should be defined" && exit 1)
+	$(INSTALL) $(ARTIFACT_LIB) "$(DESTDIR)/$(LIBRARY_PREFIX)$(ARTIFACT_NAME)$(LIBRARY_EXT)"
+	echo "Bundle OK"
 
 uninstall:
 	echo "Uninstalling $($(ARTIFACT_ID)_NAME)"
