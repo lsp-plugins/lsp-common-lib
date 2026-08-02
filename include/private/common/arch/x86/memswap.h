@@ -105,7 +105,8 @@ namespace lsp
         void memswap(void *a, void *b, size_t count)
         {
             IF_ARCH_X86(
-                size_t ta, tb;
+                register size_t ta __asm__("eax");
+                register size_t tb __asm__("edx");
             );
             ARCH_X86_ASM
             (
@@ -137,9 +138,9 @@ namespace lsp
                 __ASM_EMIT("jge         11b")
                 // End
                 __ASM_EMIT("4:")
-                : [a] "+A" (a), [b] "+B" (b),
-                  [count] "+r" (count),
-                  [ta] "=&r" (ta), [tb] "=&r" (tb)
+                : [a] "+D" (a), [b] "+S" (b),
+                  [count] "+c" (count),
+                  [ta] "=&a" (ta), [tb] "=&d" (tb)
                 :
                 : "cc", "memory"
             );

@@ -139,7 +139,8 @@ namespace lsp
                 // End
                 __ASM_EMIT("14:")
                 : [a] "+r" (a), [b] "+r" (b),
-                  [ta] "=&R" (ta), [tb] "=&R" (tb),
+                  __IF_32([ta] "=&a" (ta), [tb] "=&d" (tb), )
+                  __IF_64([ta] "=&r" (ta), [tb] "=&r" (tb), )
                   [count] "+r" (count)
                 :
                 : "cc", "memory",
