@@ -110,7 +110,6 @@ namespace lsp
             ARCH_X86_ASM
             (
                 // Small block size checks
-                __ASM_EMIT("xor         %[off]")
                 __ASM_EMIT("sub         $0x04, %[count]")
                 __ASM_EMIT("jb          2f")
                 // 4-byte blocks
