@@ -137,7 +137,7 @@ namespace lsp
                 __ASM_EMIT("jge         11b")
                 // End
                 __ASM_EMIT("4:")
-                : [a] "+r" (a), [b] "+r" (b),
+                : [a] "+A" (a), [b] "+B" (b),
                   [count] "+r" (count),
                   [ta] "=&r" (ta), [tb] "=&r" (tb)
                 :
