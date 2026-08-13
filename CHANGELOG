@@ -7,6 +7,7 @@
 * Implemented optimized for x86, s86_64, ARMv7 and AArch64 memswap function.
 * Implemented RT-safe stable sort algorithm that uses symmerge algorithm.
 * Updated build scripts.
+* Updated module versions in dependencies.
 
 === 1.0.47 ===
 * Updated build system: ASAN, CROSS_COMPILE, DEBUG, DEVEL, PROFILE, STRICT,
