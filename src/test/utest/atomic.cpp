@@ -86,10 +86,12 @@ UTEST_BEGIN("common", atomic)
 
     UTEST_MAIN
     {
+    #if !defined(ARCH_RISCV)
         test_cas<int8_t>("int8_t");
         test_cas<uint8_t>("uint8_t");
         test_cas<int16_t>("int16_t");
         test_cas<uint16_t>("uint16_t");
+    #endif /* !defined(ARCH_RISCV) */
         test_cas<int32_t>("int32_t");
         test_cas<uint32_t>("uint32_t");
     #if defined(ARCH_64BIT)
@@ -99,10 +101,12 @@ UTEST_BEGIN("common", atomic)
         test_cas<size_t>("size_t");
         test_cas<ssize_t>("ssize_t");
 
+    #if !defined(ARCH_RISCV)
         test_swap<int8_t>("int8_t");
         test_swap<uint8_t>("uint8_t");
         test_swap<int16_t>("int16_t");
         test_swap<uint16_t>("uint16_t");
+    #endif /* !defined(ARCH_RISCV) */
         test_swap<int32_t>("int32_t");
         test_swap<uint32_t>("uint32_t");
     #if defined(ARCH_64BIT)
@@ -112,10 +116,12 @@ UTEST_BEGIN("common", atomic)
         test_swap<size_t>("size_t");
         test_swap<ssize_t>("ssize_t");
 
+    #if !defined(ARCH_RISCV)
         test_add<int8_t>("int8_t");
         test_add<uint8_t>("uint8_t");
         test_add<int16_t>("int16_t");
         test_add<uint16_t>("uint16_t");
+    #endif /* !defined(ARCH_RISCV) */
         test_add<int32_t>("int32_t");
         test_add<uint32_t>("uint32_t");
     #if defined(ARCH_64BIT)

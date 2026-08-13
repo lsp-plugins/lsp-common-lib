@@ -65,7 +65,7 @@ ARTIFACT_OBJFILES       = $(call query, OBJ, $(ARTIFACT_DEPENDENCIES) $(HOST)$(A
 ARTIFACT_TARGETS        = $(ARTIFACT_LIB) $(ARTIFACT_SLIB) $(ARTIFACT_PC)
 
 # Source code
-CXX_SRC_MAIN            = $(call rwildcard, main, *.cpp)
+CXX_SRC_MAIN            = $(call rwildcard, main, *.cpp) arch/generic/generic.cpp
 CXX_SRC_EXPORT          = $(call rwildcard, export, *.cpp)
 CXX_SRC_TEST            = $(call rwildcard, test, *.cpp)
 CXX_SRC_NOTEST          =
@@ -77,6 +77,14 @@ CXX_OBJ_EXPORT          = $(patsubst %.cpp, $(ARTIFACT_BIN)/%.o, $(CXX_SRC_EXPOR
 CXX_OBJ_TEST            = $(patsubst %.cpp, $(ARTIFACT_BIN)/%.o, $(CXX_SRC_TEST))
 CXX_OBJ_NOTEST          = $(patsubst %.cpp, $(ARTIFACT_BIN)/%.o, $(CXX_SRC_NOTEST))
 CXX_OBJ_EXT             = $(patsubst %.cpp, $(ARTIFACT_BIN)/%.o, $(CXX_SRC_EXT))
+CXX_OBJ_X86             = $(ARTIFACT_BIN)/arch/x86/x86.o
+CXX_OBJ_SSE             = $(ARTIFACT_BIN)/arch/x86/sse.o
+CXX_OBJ_AVX             = $(ARTIFACT_BIN)/arch/x86/avx.o
+CXX_OBJ_AVX512          = $(ARTIFACT_BIN)/arch/x86/avx512.o
+CXX_OBJ_ARM             = $(ARTIFACT_BIN)/arch/arm/arm.o
+CXX_OBJ_NEON_D32        = $(ARTIFACT_BIN)/arch/arm/neon-d32.o
+CXX_OBJ_AARCH64         = $(ARTIFACT_BIN)/arch/aarch64/aarch64.o
+CXX_OBJ_ASIMD           = $(ARTIFACT_BIN)/arch/aarch64/asimd.o
 CXX_OBJ                 = $(CXX_OBJ_MAIN) $(CXX_OBJ_EXT)
 CXX_OBJ_ALL             = \
   $(CXX_OBJ_MAIN) \
@@ -85,14 +93,22 @@ CXX_OBJ_ALL             = \
   $(CXX_OBJ_TEST) \
   $(CXX_OBJ_NOTEST)
 
+ifeq ($($(HOST)ARCHITECTURE_FAMILY),ia32)
+  CXX_OBJ_EXT            += $(CXX_OBJ_X86) $(CXX_OBJ_SSE) $(CXX_OBJ_AVX) $(CXX_OBJ_AVX512)
+else ifeq ($($(HOST)ARCHITECTURE_FAMILY),x86_64)
+  CXX_OBJ_EXT            += $(CXX_OBJ_X86) $(CXX_OBJ_SSE) $(CXX_OBJ_AVX) $(CXX_OBJ_AVX512)
+else ifeq ($($(HOST)ARCHITECTURE_FAMILY),arm32)
+  CXX_OBJ_EXT            += $(CXX_OBJ_ARM) $(CXX_OBJ_NEON_D32)
+else ifeq ($($(HOST)ARCHITECTURE_FAMILY),aarch64)
+  CXX_OBJ_EXT            += $(CXX_OBJ_AARCH64) $(CXX_OBJ_ASIMD)
+endif
+
 ALL_HEADERS             = $(call rwildcard, $(ARTIFACT_INC), *.h)
 CXX_FILE                = $(patsubst $(ARTIFACT_BIN)/%.o,%.cpp, $(@))
 CXX_HDR_PATHS           = $(foreach hdr,$(ARTIFACT_HEADERS),$(ARTIFACT_INC)/$(hdr))
 CXX_HEADERS             = $(foreach path,$(CXX_HDR_PATHS),$(call rwildcard, $(path), *.h))
 CXX_INSTHEADERS         = $(patsubst $(ARTIFACT_INC)/%,$(DESTDIR)$(INCDIR)/%,$(CXX_HEADERS))
 DEP_FILE                = $(patsubst %.o,%.d, $(@))
-
-BUILD_ALL               = $(ARTIFACT_LIB) $(ARTIFACT_SLIB) $(ARTIFACT_PC)
 
 ifeq ($($(ARTIFACT_ID)_TESTING),1)
   ARTIFACT_TARGETS       += $(ARTIFACT_TEST_BIN)
@@ -102,8 +118,20 @@ DEP_CXX                 = $(foreach src,$(CXX_SRC_MAIN) $(CXX_SRC_EXPORT) $(CXX_
 DEP_CXX_FILE            = $(patsubst $(ARTIFACT_BIN)/%.d,%.cpp,$(@))
 DEP_DEP_FILE            = $(patsubst $(ARTIFACT_BIN)/%.d,%.o,$(@))
 
+CXX_SSE_CFLAGS          = -mmmx -msse
+CXX_SSE2_CFLAGS         = $(CXX_SSE_CFLAGS) -msse2
+CXX_SSE3_CFLAGS         = $(CXX_SSE2_CFLAGS) -msse3 -mssse3
+CXX_SSE4_CFLAGS         = $(CXX_SSE3_CFLAGS) -msse4 -msse4a -msse4.1 -msse4.2
+CXX_AVX_CFLAGS          = -mavx -mvzeroupper
+CXX_AVX2_CFLAGS         = $(CXX_AVX_CFLAGS) -mavx2
+CXX_AVX512_CFLAGS       = -mavx512f -mavx512vl
+CXX_NEON_D32_CFLAGS     = -mfpu=neon-vfpv4
+CXX_ASIMD_CFLAGS      	= -march=armv8-a+simd
+
+BUILD_ALL               = $(ARTIFACT_LIB) $(ARTIFACT_SLIB) $(ARTIFACT_PC)
+
 .DEFAULT_GOAL = all
-.PHONY: compile all install uninstall
+.PHONY: all bundle compile install uninstall
 .PHONY: $(ARTIFACT_DEPS)
 
 # Compile dependencies
@@ -169,6 +197,12 @@ install: all
 	ln -sf $(notdir $(ARTIFACT_SLIB)) "$(DESTDIR)$(LIBDIR)/$(ARTIFACT_SLIBLINK)"
 	echo "Install OK"
 
+bundle: all
+	echo "Make bundle $($(ARTIFACT_ID)_NAME)"
+	$(if $(strip $(DESTDIR)),,echo "The destination directory DESTDIR should be defined" && exit 1)
+	$(INSTALL) $(ARTIFACT_LIB) "$(DESTDIR)/$(LIBRARY_PREFIX)$(ARTIFACT_NAME)$(LIBRARY_EXT)"
+	echo "Bundle OK"
+
 uninstall:
 	echo "Uninstalling $($(ARTIFACT_ID)_NAME)"
 	-rm -f "$(DESTDIR)$(LIBDIR)/$(notdir $(ARTIFACT_LIB))"
@@ -178,6 +212,13 @@ uninstall:
 	-rm -f "$(DESTDIR)$(LIBDIR)/pkgconfig/$(notdir $(ARTIFACT_PC))"
 	-rm -f $(CXX_INSTHEADERS)
 	echo "Uninstall OK"
+
+# Additional extended rules:
+$(CXX_OBJ_SSE):        $(HOST)EXT_FLAGS=$(CXX_SSE_CFLAGS)
+$(CXX_OBJ_AVX):        $(HOST)EXT_FLAGS=$(CXX_AVX_CFLAGS)
+$(CXX_OBJ_AVX512):     $(HOST)EXT_FLAGS=$(CXX_AVX512_CFLAGS)
+$(CXX_OBJ_NEON_D32):   $(HOST)EXT_FLAGS=$(CXX_NEON_D32_CFLAGS)
+$(CXX_OBJ_ASIMD):      $(HOST)EXT_FLAGS=$(CXX_ASIMD_CFLAGS)
 
 # Dependencies
 -include $(foreach objfile,$(CXX_OBJ_ALL),$(patsubst %.o,%.d,$(objfile)))
