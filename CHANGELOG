@@ -3,7 +3,7 @@
 *******************************************************************************
 
 === 1.0.49 ===
-
+* Fixed compilation for MS Windows.
 
 === 1.0.48 ===
 * Added cpuid.h header for processor feature identification.
