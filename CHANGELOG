@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.50 ===
+
+
 === 1.0.49 ===
 * Fixed compilation for MS Windows.
 * Updated build scripts.
