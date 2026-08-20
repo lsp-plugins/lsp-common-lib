@@ -23,7 +23,12 @@
 #include <lsp-plug.in/common/cpuid.h>
 #include <lsp-plug.in/stdlib/string.h>
 
-#include <sched.h>
+#ifdef PLATFORM_WINDOWS
+    #include <windows.h>
+    #include <processthreadsapi.h>
+#else
+    #include <sched.h>
+#endif /* PLATFORM_WINDOWS */
 
 namespace lsp
 {
@@ -81,6 +86,18 @@ namespace lsp
 
 namespace lsp
 {
+#ifdef PLATFORM_WINDOWS
+    static void thread_yield()
+    {
+        SwitchToThread();
+    }
+#else
+    static void thread_yield()
+    {
+        sched_yield();
+    }
+#endif /* PLATFORM_WINDOWS */
+
     static const char * const cpu_vendors[] =
     {
         "Unknown",
@@ -231,7 +248,7 @@ namespace lsp
             state               = atomic_load(&cpuid_state);
             if (state & CPUID_LOCK)
             {
-                sched_yield();
+                thread_yield();
                 continue;
             }
 
@@ -244,7 +261,7 @@ namespace lsp
                 state               = atomic_load(&cpuid_state);
                 if (atomic_cas(&cpuid_state, state, state & (~CPUID_LOCK)))
                     break;
-                sched_yield();
+                thread_yield();
             }
         };
 

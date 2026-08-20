@@ -2,6 +2,11 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.49 ===
+* Fixed compilation for MS Windows.
+* Updated build scripts.
+* Updated module versions in dependencies.
+
 === 1.0.48 ===
 * Added cpuid.h header for processor feature identification.
 * Implemented optimized for x86, s86_64, ARMv7 and AArch64 memswap function.
