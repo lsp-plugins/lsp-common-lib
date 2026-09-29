@@ -83,7 +83,7 @@ namespace lsp
     }
 
     template <class T, class P>
-    inline T *add_ptr_bytes(P * &ptr, size_t count)
+    inline T *add_ptr_bytes(P * ptr, size_t count)
     {
         const uintptr_t x   = uintptr_t(ptr);
         return reinterpret_cast<T *>(x + count);

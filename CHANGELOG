@@ -3,7 +3,8 @@
 *******************************************************************************
 
 === 1.0.50 ===
-
+* Updated add_ptr_bytes function signature: no need to take a reference to
+  a pointer.
 
 === 1.0.49 ===
 * Fixed compilation for MS Windows.
