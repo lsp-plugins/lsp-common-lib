@@ -2,6 +2,9 @@
 * RECENT CHANGES
 *******************************************************************************
 
+=== 1.0.51 ===
+
+
 === 1.0.50 ===
 * Updated add_ptr_bytes function signature: no need to take a reference to
   a pointer.
