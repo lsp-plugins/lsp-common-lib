@@ -6,6 +6,7 @@
 * Updated add_ptr_bytes function signature: no need to take a reference to
   a pointer.
 * Updated build scripts.
+* Updated module versions in dependencies.
 
 === 1.0.49 ===
 * Fixed compilation for MS Windows.
