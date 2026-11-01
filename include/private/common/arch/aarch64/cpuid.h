@@ -524,12 +524,20 @@ namespace lsp
         size_t len = sizeof(val);
         uint32_t hwcap = 0;
 
-        if ((sysctlbyname("hw.optional.AdvSIMD", &val, &len, NULL, 0) == 0) ||
-            (sysctlbyname("hw.optional.arm.AdvSIMD", &val, &len, NULL, 0) == 0) ||
-            (sysctlbyname("hw.optional.neon", &val, &len, NULL, 0) == 0))
+        static const char * const options[] =
         {
-            if (val != 0)
-                hwcap          |= CPU_HWCAP0_FP | CPU_HWCAP0_ASIMD;
+            "hw.optional.AdvSIMD",
+            "hw.optional.arm.AdvSIMD",
+            "hw.optional.neon"
+        };
+
+        for (size_t i=0; i<sizeof(options)/sizeof(options[0]); ++i)
+        {
+            if ((sysctlbyname(options[i], &val, &len, NULL, 0) == 0))
+            {
+                if (val != 0)
+                    hwcap          |= CPU_HWCAP0_FP | CPU_HWCAP0_ASIMD;
+            }
         }
 
         return hwcap;
